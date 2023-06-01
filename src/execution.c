@@ -6,23 +6,25 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/01 13:47:20 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:22:21 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	change_dir(char **arr)
+void	change_dir(char **arr, char **env)
 {
 	char	*pwd;
 	char	*buf;
+	char	*home;
 	int		len;
 
 	buf = NULL;
 	pwd = NULL;
+	home = create_vars("HOME", env);
 	if (!arr[1])
 	{
-		chdir("~");
+		chdir(home);
 		return ;
 	}
 	if (access(arr[1], F_OK) == 0)
@@ -109,7 +111,7 @@ void	execute_one(char **comms, char **paths, char **env)
 	}
 	arr = create_arrays(comms, name);
 	if (ft_strncmp(comms[0], "cd", 2) == 0)
-		return (change_dir(arr));
+		return (change_dir(arr, env));
 	id = fork();
 	if (id == 0)
 	{

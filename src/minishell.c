@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/01 13:16:28 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:14:42 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,3 @@ int	main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
-
-
-

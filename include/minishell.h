@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/01 13:16:44 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:15:13 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@
 void	signal_handler(int sig);
 void	execution(char *input, char **comms, char **env);
 char	**create_arrays(char **comms, char *name);
+char	*create_vars(char *origin, char **env);
 
 #endif
