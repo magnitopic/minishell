@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/01 13:47:20 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:16:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,25 @@ void	change_dir(char **arr)
 	char	*pwd;
 	char	*buf;
 	int		len;
+	char	path[PATH_MAX];
 
 	buf = NULL;
 	pwd = NULL;
 	if (!arr[1])
 	{
 		chdir("~");
+		g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
+		ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 		return ;
 	}
 	if (access(arr[1], F_OK) == 0)
 	{
 		chdir(arr[1]);
+		g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
+		ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 		return ;
 	}
-	buf = getcwd(buf, 900);
+	buf = getcwd(path, sizeof(path));
 	if (ft_strncmp(arr[1], "..", 2) == 0)
 	{
 		len = ft_strlen(ft_strrchr(buf, '/'));
@@ -48,6 +53,8 @@ void	change_dir(char **arr)
 		else
 			perror("cd");
 	}
+	g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
+	ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 }
 
 char	*check_param(char *argv)
