@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/01 16:22:21 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:37:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	change_dir(char **arr, char **env)
 	char	*buf;
 	char	*home;
 	int		len;
+	char	path[PATH_MAX];
 
 	buf = NULL;
 	pwd = NULL;
@@ -25,14 +26,18 @@ void	change_dir(char **arr, char **env)
 	if (!arr[1])
 	{
 		chdir(home);
+		g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
+		ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 		return ;
 	}
 	if (access(arr[1], F_OK) == 0)
 	{
 		chdir(arr[1]);
+		g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
+		ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 		return ;
 	}
-	buf = getcwd(buf, 900);
+	buf = getcwd(path, sizeof(path));
 	if (ft_strncmp(arr[1], "..", 2) == 0)
 	{
 		len = ft_strlen(ft_strrchr(buf, '/'));
@@ -50,6 +55,8 @@ void	change_dir(char **arr, char **env)
 		else
 			perror("cd");
 	}
+	g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
+	ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 }
 
 char	*check_param(char *argv)
@@ -77,7 +84,7 @@ char	*find_command(char *argv, char **paths)
 	argv = check_param(argv);
 	if (access(argv, F_OK) == 0)
 		return (argv);
-	while (*paths != '\0')
+	while (*paths != NULL)
 	{
 		aux = ft_strjoin(*paths, "/");
 		temp = ft_strjoin(aux, argv);
