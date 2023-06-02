@@ -20,7 +20,7 @@ char	**put_path(char **paths, char **env)
 	int		y;
 
 	y = 0;
-	while (env[y] != '\0' && ft_strncmp("PATH=", env[y], 5) != 0)
+	while (env[y] != NULL && ft_strncmp("PATH=", env[y], 5) != 0)
 		y++;
 	line = ft_calloc(ft_strlen(env[y]) - 4, sizeof(char));
 	if (!line)

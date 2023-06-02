@@ -82,7 +82,7 @@ char	*find_command(char *argv, char **paths)
 	argv = check_param(argv);
 	if (access(argv, F_OK) == 0)
 		return (argv);
-	while (*paths != '\0')
+	while (*paths != NULL)
 	{
 		aux = ft_strjoin(*paths, "/");
 		temp = ft_strjoin(aux, argv);
