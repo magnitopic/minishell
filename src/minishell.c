@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/02 11:36:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/04 16:40:44 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int argc, char **argv, char **env)
 	paths = NULL;
 	paths = put_path(paths, env);
 	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
 	g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
 	ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 	while (1)
@@ -62,7 +63,7 @@ int	main(int argc, char **argv, char **env)
 		if (ft_strlen(ft_strtrim(input, " \n\t\r\v\f")) != 0)
 		{
 			add_history(ft_strtrim(input, " \n\t\r\v\f"));
-			execution(input, paths, env);
+			parsing(input, paths, env);
 		}
 	}
 	return (0);

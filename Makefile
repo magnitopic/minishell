@@ -5,7 +5,8 @@ SHELL_SRC	=	src/minishell.c \
 				src/signals.c \
 				src/execution.c \
 				src/create_arrays.c \
-				src/create_vars.c
+				src/create_vars.c \
+				src/parsing.c
 
 OBJS			= $(SHELL_SRC:.c=.o)
 

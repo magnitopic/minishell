@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/02 11:37:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/04 16:51:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	change_dir(char **arr, char **env)
+static void	change_dir(char **arr, char **env)
 {
 	char	*pwd;
 	char	*buf;
@@ -59,7 +59,7 @@ void	change_dir(char **arr, char **env)
 	ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 }
 
-char	*check_param(char *argv)
+static char	*check_param(char *argv)
 {
 	char	*str;
 	char	**aux;
@@ -75,7 +75,7 @@ char	*check_param(char *argv)
 	return (str);
 }
 
-char	*find_command(char *argv, char **paths)
+static char	*find_command(char *argv, char **paths)
 {
 	char	*str;
 	char	*temp;
@@ -104,12 +104,13 @@ char	*find_command(char *argv, char **paths)
 	return (NULL);
 }
 
-void	execute_one(char **comms, char **paths, char **env)
+static void	execute_one(char **comms, char **paths, char **env)
 {
 	char	**arr;
 	char	*name;
 	int		id;
 
+	// TODO: Check for built-in commands
 	name = find_command(comms[0], paths);
 	if (!name)
 	{
@@ -136,7 +137,10 @@ void	execution(char *input, char **paths, char **env)
 
 	if ((!ft_strncmp(input, "exit", ft_strlen(input))
 			|| !(ft_strncmp(input, "exit ", 5))) && input[0] != 0)
+	{
+		printf("exit\n");
 		exit(0);
+	}
 	comms = ft_split(input, '|');
 	if (!comms[1])
 		execute_one(comms, paths, env);

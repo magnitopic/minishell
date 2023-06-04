@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/31 15:17:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/04 16:39:28 by alaparic         ###   ########.fr       */
+/*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
+/*   Updated: 2023/06/04 16:54:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	signal_handler(int sig)
+void	parsing(char *input, char **paths, char **env)
 {
-	if (sig == SIGQUIT)
-	{
-		printf("exit");
-		exit (0);
-	}
+	char	**commands;
+
+	commands = ft_split(input, '|');
+	while (*commands)
+		execution(*commands++, paths, env);
 }
