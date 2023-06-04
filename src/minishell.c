@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/04 16:40:44 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/04 18:17:43 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ char	**put_path(char **paths, char **env)
 	ft_strlcpy(line, env[y] + 5, ft_strlen(env[y]) - 4);
 	paths = ft_split(line, ':');
 	if (!paths)
-	{
-		perror("split");
-		exit (EXIT_FAILURE);
-	}
+		(perror("split"), exit (EXIT_FAILURE));
 	free(line);
 	return (paths);
+}
+
+void	ft_leaks(void)
+{
+	system("Leaks minishell");
 }
 
 int	main(int argc, char **argv, char **env)
@@ -46,6 +48,7 @@ int	main(int argc, char **argv, char **env)
 	char	path[PATH_MAX];
 
 	((void)argv, (void)argc);
+	atexit(ft_leaks);
 	if (!env)
 	{
 		perror("environment");
@@ -66,5 +69,6 @@ int	main(int argc, char **argv, char **env)
 			parsing(input, paths, env);
 		}
 	}
+	free_matrix(paths);
 	return (0);
 }

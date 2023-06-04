@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/04 16:51:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/04 18:20:21 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static char	*check_param(char *argv)
 	if (!aux)
 	{
 		str = ft_substr(argv, 0, ft_strlen(argv));
+		free_matrix(aux);
 		return (str);
 	}
 	str = ft_substr(aux[0], 0, ft_strlen(aux[0]));
@@ -144,4 +145,5 @@ void	execution(char *input, char **paths, char **env)
 	comms = ft_split(input, '|');
 	if (!comms[1])
 		execute_one(comms, paths, env);
+	free_matrix(comms);
 }
