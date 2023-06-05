@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/05 11:52:24 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/05 16:59:49 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,12 @@ static void	change_dir(char **arr, char **env)
 	if (!arr[1])
 	{
 		chdir(home);
-		g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
-		ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
+		free(home);
 		return ;
 	}
 	if (access(arr[1], F_OK) == 0)
 	{
 		chdir(arr[1]);
-		g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
-		ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 		return ;
 	}
 	buf = getcwd(path, sizeof(path));
@@ -43,6 +40,7 @@ static void	change_dir(char **arr, char **env)
 		len = ft_strlen(ft_strrchr(buf, '/'));
 		pwd = ft_substr(buf, 0, ft_strlen(buf) - len);
 		chdir(pwd);
+		free(pwd);
 		if (ft_strlen(arr[1]) == 2)
 			return ;
 	}
@@ -51,12 +49,14 @@ static void	change_dir(char **arr, char **env)
 		pwd = ft_strjoin(buf, "/");
 		buf = ft_strjoin(pwd, arr[1]);
 		if (access(buf, F_OK) == 0)
+		{
 			chdir(buf);
+			free(pwd);
+			free(buf);
+		}
 		else
 			perror("cd");
 	}
-	g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
-	ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 }
 
 static char	*check_param(char *argv)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 12:30:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:03:10 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,20 @@ int	main(int argc, char **argv, char **env)
 	paths = put_path(paths, env);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
-	g_prompt = ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
-	ft_strjoin(getcwd(path, sizeof(path)), "\033[0m$ "));
 	while (1)
 	{
-		input = readline(g_prompt);
+		g_prompt = ft_fstrjoin(ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
+		getcwd(path, sizeof(path))), "\033[0m$ ");
+		input = ft_strtrim(readline(g_prompt), " \n\t\r\v\f");
 		if (input == 0)
 			exit_program("\nexit\n");
-		if (ft_strlen(ft_strtrim(input, " \n\t\r\v\f")) != 0)
+		if (ft_strlen(input) != 0)
 		{
-			add_history(ft_strtrim(input, " \n\t\r\v\f"));
+			add_history(input);
 			parsing(input, paths, env);
 		}
 		free(input);
+		free(g_prompt);
 	}
 	free_matrix(paths);
 	return (0);

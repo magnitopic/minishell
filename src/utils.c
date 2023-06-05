@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 11:55:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/05 16:55:31 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 void	exit_program(char *message)
 {
 	printf("%s", message);
+	free(g_prompt);
 	exit (0);
 }
