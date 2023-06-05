@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 17:28:46 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:37:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,24 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <errno.h>
-#include <string.h>
+# include <errno.h>
+# include <string.h>
 
+/* Enums */
 enum e_quotes{
 	NONE,
 	SINGLES,
 	DOUBLE
 };
 
-extern char	*g_prompt;
+/* Structs */
+typedef struct s_shell
+{
+	char	*prompt;
+}	t_shell;
+
+/* Global variable */
+t_shell	*g_shell;
 
 /* Functions */
 void	signal_handler(int sig);

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 17:03:10 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:48:00 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-char	*g_prompt;
 
 char	**put_path(char **paths, char **env)
 {
@@ -48,6 +46,7 @@ int	main(int argc, char **argv, char **env)
 	char	path[PATH_MAX];
 
 	atexit(ft_leaks);
+	g_shell = malloc(sizeof(g_shell));
 	if (!env[0])
 	{
 		perror("environment");
@@ -60,9 +59,9 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGQUIT, signal_handler);
 	while (1)
 	{
-		g_prompt = ft_fstrjoin(ft_strjoin("\033[0;34mMiniShell\033[0m:\033[0;32m", \
-		getcwd(path, sizeof(path))), "\033[0m$ ");
-		input = ft_strtrim(readline(g_prompt), " \n\t\r\v\f");
+		g_shell->prompt = ft_fstrjoin(ft_strjoin("\033[0;34mMiniShell🐚\033[0;32m" \
+		, getcwd(path, sizeof(path))), "\033[0m$ ");
+		input = ft_strtrim(readline(g_shell->prompt), " \n\t\r\v\f");
 		if (input == 0)
 			exit_program("\nexit\n");
 		if (ft_strlen(input) != 0)
@@ -71,7 +70,7 @@ int	main(int argc, char **argv, char **env)
 			parsing(input, paths, env);
 		}
 		free(input);
-		free(g_prompt);
+		free(g_shell->prompt);
 	}
 	free_matrix(paths);
 	return (0);
