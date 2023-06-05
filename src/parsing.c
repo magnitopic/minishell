@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 17:30:37 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:13:02 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static int	check_quotes(char *input)
 	char			*str;
 
 	flag = NONE;
-	if (ft_strchr(input, 39) == NULL && ft_strchr(input, 34) == NULL)
-		return (0);
 	while (*input)
 	{
 		if (*input == 34 && flag == NONE)
@@ -85,6 +83,7 @@ void	parsing(char *input, char **paths, char **env)
 {
 	char	**commands;
 	int		flag;
+	int		n;
 
 	flag = check_quotes(input);
 	if (flag == -1)
@@ -92,6 +91,12 @@ void	parsing(char *input, char **paths, char **env)
 		perror("unclosed quotes");
 		return ;
 	}
+	n = 0;
+	/*while (input[n])
+	{
+		if (input[n] == 34 || input[n] == 39)
+			quotes(input);
+	}*/
 	quotes(input);
 	commands = ft_split(input, '|');
 	while (*commands)
