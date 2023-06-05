@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/04 18:17:43 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:30:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ int	main(int argc, char **argv, char **env)
 	char	**paths;
 	char	path[PATH_MAX];
 
-	((void)argv, (void)argc);
 	atexit(ft_leaks);
-	if (!env)
+	if (!env[0])
 	{
 		perror("environment");
 		exit(EXIT_FAILURE);
 	}
+	((void)argv, (void)argc);
 	paths = NULL;
 	paths = put_path(paths, env);
 	signal(SIGINT, signal_handler);
@@ -63,11 +63,14 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		input = readline(g_prompt);
+		if (input == 0)
+			exit_program("\nexit\n");
 		if (ft_strlen(ft_strtrim(input, " \n\t\r\v\f")) != 0)
 		{
 			add_history(ft_strtrim(input, " \n\t\r\v\f"));
 			parsing(input, paths, env);
 		}
+		free(input);
 	}
 	free_matrix(paths);
 	return (0);

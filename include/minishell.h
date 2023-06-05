@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/04 12:33:25 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/05 11:51:44 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	execution(char *input, char **comms, char **env);
 char	**create_arrays(char **comms, char *name);
 char	*create_vars(char *origin, char **env);
 void	parsing(char *input, char **paths, char **env);
+void	exit_program(char *message);
 
 #endif

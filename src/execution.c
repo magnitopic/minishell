@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/04 18:20:21 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/05 11:52:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ static void	execute_one(char **comms, char **paths, char **env)
 		exit(EXIT_FAILURE);
 	}
 	waitpid(id, NULL, 0);
+	free(name);
 }
 
 void	execution(char *input, char **paths, char **env)
@@ -138,10 +139,7 @@ void	execution(char *input, char **paths, char **env)
 
 	if ((!ft_strncmp(input, "exit", ft_strlen(input))
 			|| !(ft_strncmp(input, "exit ", 5))) && input[0] != 0)
-	{
-		printf("exit\n");
-		exit(0);
-	}
+		exit_program("exit\n");
 	comms = ft_split(input, '|');
 	if (!comms[1])
 		execute_one(comms, paths, env);
