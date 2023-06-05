@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 13:29:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:28:46 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <errno.h>
+#include <string.h>
 
 enum e_quotes{
 	NONE,

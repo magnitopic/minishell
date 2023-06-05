@@ -6,15 +6,19 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 16:32:32 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:30:37 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*static int	check_quotes(char *input)
+static int	check_quotes(char *input)
 {
-	if (ft_strchr(input, 39) == NULL || ft_strchr(input, 34) == NULL)
+	enum e_quotes	flag;
+	char			*str;
+
+	flag = NONE;
+	if (ft_strchr(input, 39) == NULL && ft_strchr(input, 34) == NULL)
 		return (0);
 	while (*input)
 	{
@@ -28,15 +32,18 @@
 			flag = SINGLES;
 			str = ++input;
 		}
-		if ((flag == SINGLES && *input == 39) || (flag == DOUBLE && *input == 34))
+		if ((flag == SINGLES && *input == 39)
+			|| (flag == DOUBLE && *input == 34))
 		{
 			flag = NONE;
 			str = NULL;
-			j++;
 		}
 		input++;
 	}
-}*/
+	if (flag == NONE)
+		return (1);
+	return (-1);
+}
 
 static void	quotes(char *input)
 {
@@ -77,9 +84,14 @@ static void	quotes(char *input)
 void	parsing(char *input, char **paths, char **env)
 {
 	char	**commands;
-	//int		flag;
+	int		flag;
 
-	//flag = check_quotes(input);
+	flag = check_quotes(input);
+	if (flag == -1)
+	{
+		perror("unclosed quotes");
+		return ;
+	}
 	quotes(input);
 	commands = ft_split(input, '|');
 	while (*commands)
