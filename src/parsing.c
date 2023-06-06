@@ -3,16 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 18:13:02 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:53:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 static int	check_quotes(char *input)
+{
+	enum e_quotes	flag;
+
+	flag = NONE;
+	while (*input)
+	{
+		if (*input == 34 && flag == NONE)
+		{
+			flag = DOUBLE;
+			input++;
+		}
+		else if (*input == 39 && flag == NONE)
+		{
+			flag = SINGLES;
+			input++;
+		}
+		if ((flag == SINGLES && *input == 39)
+			|| (flag == DOUBLE && *input == 34))
+			flag = NONE;
+		input++;
+	}
+	if (flag != NONE)
+		return (-1);
+	return (0);
+}
+
+/* static void	quotes(char *input)
 {
 	enum e_quotes	flag;
 	char			*str;
@@ -34,71 +61,68 @@ static int	check_quotes(char *input)
 			|| (flag == DOUBLE && *input == 34))
 		{
 			flag = NONE;
+			printf("%s\n", ft_substr(str, 0, ft_strlen(str) - ft_strlen(input)));
 			str = NULL;
 		}
 		input++;
 	}
-	if (flag == NONE)
-		return (1);
-	return (-1);
-}
+} */
 
-static void	quotes(char *input)
+static void	get_commands(char *input, t_list **com)
 {
-	//char			**tokens;
 	enum e_quotes	flag;
-	int				j;
 	char			*str;
+	char			*temp;
 
-	j = 0;
-	flag = NONE;
-	//tokens = no sabemos, habría que ver cómo lo gestionamos;
+	str = input;
 	while (*input)
 	{
 		if (*input == 34 && flag == NONE)
-		{
 			flag = DOUBLE;
-			str = ++input;
-		}
 		else if (*input == 39 && flag == NONE)
-		{
 			flag = SINGLES;
-			str = ++input;
-		}
-		if ((flag == SINGLES && *input == 39) || (flag == DOUBLE && *input == 34))
-		{
+		else if ((flag == SINGLES && *input == 39)
+			|| (flag == DOUBLE && *input == 34))
 			flag = NONE;
-			//tokens[j] = ft_substr(str, 1, ft_strlen(str) - ft_strlen(input));
-			printf("cosas: %s\n", ft_substr(str, 0, ft_strlen(str) - ft_strlen(input)));
-			str = NULL;
-			j++;
+		if (flag == NONE && *input == 124)
+		{
+			temp = ft_substr(str, 0, ft_strlen(str) - ft_strlen(input));
+			if (*com == NULL)
+				*com = ft_lstnew(temp);
+			else
+				ft_lstadd_back(com, ft_lstnew(temp));
+			str = input;
+			printf("str: %s\n", temp);
 		}
 		input++;
 	}
-	/* if (flag != NONE)
-		return (-1); */
+	printf("str: %s\n", str);
+	ft_lstadd_back(com, ft_lstnew(str));
 }
 
 void	parsing(char *input, char **paths, char **env)
 {
-	char	**commands;
+	t_list	*commands;
 	int		flag;
-	int		n;
 
+	((void)paths, (void)env);
+	commands = NULL;
 	flag = check_quotes(input);
 	if (flag == -1)
 	{
 		perror("unclosed quotes");
 		return ;
 	}
-	n = 0;
-	/*while (input[n])
+	get_commands(input, &commands);
+	//quotes(input, commands);
+	/* while (*input)
 	{
-		if (input[n] == 34 || input[n] == 39)
+		if (*input == 34 || *input == 39)
 			quotes(input);
-	}*/
-	quotes(input);
-	commands = ft_split(input, '|');
+		if (*input == 124 )
+		input++;
+	} */
+	/* commands = ft_split(input, '|');
 	while (*commands)
-		execution(*commands++, paths, env);
+		execution(*commands++, paths, env); */
 }

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 18:48:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:22:56 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGQUIT, signal_handler);
 	while (1)
 	{
-		g_shell->prompt = ft_fstrjoin(ft_strjoin("\033[0;34mMiniShell🐚\033[0;32m" \
+		g_shell->prompt = ft_fstrjoin(ft_strjoin("\033[0;34mMiniShell:\033[0;32m" \
 		, getcwd(path, sizeof(path))), "\033[0m$ ");
 		input = ft_strtrim(readline(g_shell->prompt), " \n\t\r\v\f");
 		if (input == 0)
