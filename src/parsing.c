@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/06 17:25:33 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/06 19:13:33 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	parsing(char *input, char **paths, char **env)
 {
 	t_list	*commands;
 	int		flag;
-	char	**arr;
+	//char	**arr;
 
 	((void)paths, (void)env);
 	commands = NULL;
@@ -124,10 +124,11 @@ void	parsing(char *input, char **paths, char **env)
 		return ;
 	}
 	get_commands(input, &commands);
-	arr = parse_words(commands->content);
+	// commented to avoid parse_words not getting it's params
+	/* arr = parse_words(commands->content);
 	int i = 0;
 	while (arr[i])
-		printf("|%s|\n", arr[i++]);
+		printf("|%s|\n", arr[i++]); */
 	while (commands)
 	{
 		printf("%s\n", commands->content);

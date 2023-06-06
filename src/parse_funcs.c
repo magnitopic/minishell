@@ -3,26 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   parse_funcs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/06 17:24:51 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/06 19:07:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*char	*parse_quotes(char *input)
+char	*parse_quotes(char *input)
 {
 	char	*parsed;
 	int		i;
+	int		j;
 
 	i = 0;
-	while(input)
+	j = 0;
+	while (input[i])
 	{
-
+		if (input[i] != '"' && input[i] != '\'')
+			j++;
+		i++;
 	}
-}*/
+	parsed = malloc(sizeof(char) * (j + 1));
+	i = 0;
+	j = 0;
+	while (input[i])
+	{
+		if (input[i] != '"' && input[i] != '\'')
+			parsed[j] = input[i];
+		i++;
+	}
+	parsed[i] = '\0';
+	return (parsed);
+}
 
 enum e_quotes	check_flag(char *str, int n, enum e_quotes flag)
 {
