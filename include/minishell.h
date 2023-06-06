@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/05 18:37:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:25:45 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ char	**create_arrays(char **comms, char *name);
 char	*create_vars(char *origin, char **env);
 void	parsing(char *input, char **paths, char **env);
 void	exit_program(char *message);
+char	**parse_words(char *str, char **arr);
 
 #endif

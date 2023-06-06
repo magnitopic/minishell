@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/06 15:31:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:25:33 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ static void	get_commands(char *input, t_list **com)
 		if (flag == NONE && ((*input == 62 && *(input + 1) == 62)
 				|| (*input == 60 && *(input + 1) == 60)))
 		{
-			printf("str: %s\n", str);
 			temp = ft_substr(str, 0, ft_strlen(str) - ft_strlen(input));
 			if (*com == NULL)
 				*com = ft_lstnew(temp);
@@ -114,6 +113,7 @@ void	parsing(char *input, char **paths, char **env)
 {
 	t_list	*commands;
 	int		flag;
+	char	**arr;
 
 	((void)paths, (void)env);
 	commands = NULL;
@@ -124,6 +124,10 @@ void	parsing(char *input, char **paths, char **env)
 		return ;
 	}
 	get_commands(input, &commands);
+	arr = parse_words(commands->content);
+	int i = 0;
+	while (arr[i])
+		printf("|%s|\n", arr[i++]);
 	while (commands)
 	{
 		printf("%s\n", commands->content);
