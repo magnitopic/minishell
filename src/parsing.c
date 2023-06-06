@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/06 14:53:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:31:07 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,19 @@ static void	get_commands(char *input, t_list **com)
 		else if ((flag == SINGLES && *input == 39)
 			|| (flag == DOUBLE && *input == 34))
 			flag = NONE;
-		if (flag == NONE && *input == 124)
+		if (flag == NONE && ((*input == 62 && *(input + 1) == 62)
+				|| (*input == 60 && *(input + 1) == 60)))
+		{
+			printf("str: %s\n", str);
+			temp = ft_substr(str, 0, ft_strlen(str) - ft_strlen(input));
+			if (*com == NULL)
+				*com = ft_lstnew(temp);
+			else
+				ft_lstadd_back(com, ft_lstnew(temp));
+			str = input;
+			input++;
+		}
+		else if (flag == NONE && (*input == 124 || *input == 62 || *input == 60))
 		{
 			temp = ft_substr(str, 0, ft_strlen(str) - ft_strlen(input));
 			if (*com == NULL)
@@ -92,11 +104,9 @@ static void	get_commands(char *input, t_list **com)
 			else
 				ft_lstadd_back(com, ft_lstnew(temp));
 			str = input;
-			printf("str: %s\n", temp);
 		}
 		input++;
 	}
-	printf("str: %s\n", str);
 	ft_lstadd_back(com, ft_lstnew(str));
 }
 
@@ -114,6 +124,11 @@ void	parsing(char *input, char **paths, char **env)
 		return ;
 	}
 	get_commands(input, &commands);
+	while (commands)
+	{
+		printf("%s\n", commands->content);
+		commands = commands->next;
+	}
 	//quotes(input, commands);
 	/* while (*input)
 	{
