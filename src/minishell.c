@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/06 20:13:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:33:17 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char	*input;
 	char	**paths;
-	char	path[PATH_MAX];
+	char	*aux;
 
 	atexit(ft_leaks);
 	g_shell = malloc(sizeof(g_shell));
@@ -59,9 +59,11 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGQUIT, signal_handler);
 	while (1)
 	{
-		g_shell->prompt = ft_fstrjoin(ft_strjoin(\
-		PROMPT1, getcwd(path, sizeof(path))), PROMPT2);
-		input = ft_strtrim(readline(g_shell->prompt), " \n\t\r\v\f");
+		set_prompt();
+		input = readline(g_shell->prompt);
+		aux = input;
+		input = ft_strtrim(input, " \n\t\r\v\f");
+		free(aux);
 		if (input == 0)
 			exit_program("\nexit\n");
 		if (ft_strlen(input) != 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/05 16:59:49 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:33:25 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,11 @@ static void	execute_one(char **comms, char **paths, char **env)
 	if (id == 0)
 	{
 		execve(name, arr, env);
-		free_matrix(arr);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
 	waitpid(id, NULL, 0);
+	free_matrix(arr);
 	free(name);
 }
 

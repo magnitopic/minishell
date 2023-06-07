@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/06 19:13:33 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:32:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ static void	get_commands(char *input, t_list **com)
 			str = input;
 			input++;
 		}
-		else if (flag == NONE && (*input == 124 || *input == 62 || *input == 60))
+		else if (flag == NONE && (*input == 124
+				|| *input == 62 || *input == 60))
 		{
 			temp = ft_substr(str, 0, ft_strlen(str) - ft_strlen(input));
 			if (*com == NULL)
@@ -112,6 +113,7 @@ static void	get_commands(char *input, t_list **com)
 void	parsing(char *input, char **paths, char **env)
 {
 	t_list	*commands;
+	char	**test;
 	int		flag;
 	//char	**arr;
 
@@ -129,11 +131,11 @@ void	parsing(char *input, char **paths, char **env)
 	int i = 0;
 	while (arr[i])
 		printf("|%s|\n", arr[i++]); */
-	while (commands)
+	/* while (commands)
 	{
-		printf("%s\n", commands->content);
+		printf("%d\n", commands->content);
 		commands = commands->next;
-	}
+	} */
 	//quotes(input, commands);
 	/* while (*input)
 	{
@@ -142,7 +144,10 @@ void	parsing(char *input, char **paths, char **env)
 		if (*input == 124 )
 		input++;
 	} */
-	/* commands = ft_split(input, '|');
-	while (*commands)
-		execution(*commands++, paths, env); */
+	free_stacks(&commands);
+	test = ft_split(input, '|');
+	int i = 0;
+	while (test[i])
+		execution(test[i++], paths, env);
+	free_matrix(test);
 }

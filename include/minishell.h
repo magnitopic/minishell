@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/06 20:12:21 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:14:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,7 @@ char	*create_vars(char *origin, char **env);
 void	parsing(char *input, char **paths, char **env);
 void	exit_program(char *message);
 char	**parse_words(char *str, char **arr);
+void	set_prompt(void);
+void	free_stacks(t_list **list);
 
 #endif
