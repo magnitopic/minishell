@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/06 19:07:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:40:02 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*parse_quotes(char *input)
 	j = 0;
 	while (input[i])
 	{
-		if (input[i] != '"' && input[i] != '\'')
+		if (input[i] != 39 && input[i] != 34)
 			j++;
 		i++;
 	}
@@ -31,8 +31,8 @@ char	*parse_quotes(char *input)
 	j = 0;
 	while (input[i])
 	{
-		if (input[i] != '"' && input[i] != '\'')
-			parsed[j] = input[i];
+		if (input[i] != 34 && input[i] != 39)
+			parsed[j++] = input[i];
 		i++;
 	}
 	parsed[i] = '\0';
@@ -95,8 +95,9 @@ char	**parse_words(char *str, char **arr)
 	while (str[n])
 	{
 		flag = check_flag(str, n, flag);
-		if ((str[n] == ' ' && flag == NONE && index == 0)
-			|| (!str[n + 1] && str[n] != ' '))
+		if (!str[n + 1] && str[n] != ' ')
+			arr[j] = ft_substr(str, aux, n - aux + 1);
+		if (str[n] == ' ' && flag == NONE && index == 0)
 		{
 			arr[j] = ft_substr(str, aux, n - aux);
 			aux = n;
@@ -111,3 +112,5 @@ char	**parse_words(char *str, char **arr)
 	}
 	return (arr);
 }
+
+

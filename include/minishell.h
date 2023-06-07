@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/07 11:49:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:18:04 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@ typedef struct s_shell
 t_shell	*g_shell;
 
 /* Functions */
-void	signal_handler(int sig);
-void	execution(char *input, char **comms, char **env);
-char	**create_arrays(char **comms, char *name);
-char	*create_vars(char *origin, char **env);
-void	parsing(char *input, char **paths, char **env);
-void	exit_program(char *message);
-char	**parse_words(char *str, char **arr);
-void	set_prompt(void);
-void	free_stacks(t_list **list);
+void			set_prompt(void);
+void			signal_handler(int sig);
+char			**create_arrays(char **comms, char *name);
+char			*create_vars(char *origin, char **env);
+void			parsing(char *input, char **paths, char **env);
+void			exit_program(char *message);
+char			**parse_words(char *str, char **arr);
+void			free_stacks(t_list **list);
+char			*parse_quotes(char *input);
+void			execution(char *input, char **comms, char **env);
+enum e_quotes	check_flag(char *str, int n, enum e_quotes flag);
 
 #endif

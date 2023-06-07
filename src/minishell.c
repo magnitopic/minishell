@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/07 11:56:19 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:18:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static char	**put_path(char **paths, char **env)
 	return (paths);
 }
 
-void	ft_leaks(void)
+/* void	ft_leaks(void)
 {
 	system("Leaks minishell");
-}
+} */
 
 static void	user_input(char **paths, char **env)
 {
@@ -49,8 +49,8 @@ static void	user_input(char **paths, char **env)
 	aux = input;
 	input = ft_strtrim(input, " \n\t\r\v\f");
 	free(aux);
-	if (input[0] == 0)
-		exit_program("\nexit\n");
+	if (input == 0)
+		exit_program("exit\n");
 	if (ft_strlen(input) != 0)
 	{
 		add_history(input);
@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char	**paths;
 
-	atexit(ft_leaks);
+	//atexit(ft_leaks);
 	((void)argv, (void)argc);
 	g_shell = malloc(sizeof(g_shell));
 	if (!env[0])
