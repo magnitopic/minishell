@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/07 13:46:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:22:28 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,10 @@ static int	check_quotes(char *input)
 	while (*input)
 	{
 		if (*input == 34 && flag == NONE)
-		{
 			flag = DOUBLE;
-			input++;
-		}
 		else if (*input == 39 && flag == NONE)
-		{
 			flag = SINGLES;
-			input++;
-		}
-		if ((flag == SINGLES && *input == 39)
+		else if ((flag == SINGLES && *input == 39)
 			|| (flag == DOUBLE && *input == 34))
 			flag = NONE;
 		input++;
@@ -74,7 +68,7 @@ void	parsing(char *input, char **paths, char **env)
 
 	((void)paths, (void)env);
 	commands = NULL;
-	if (check_quotes(input) < 0)
+	if (check_quotes(input) == -1)
 	{
 		perror("unclosed quotes");
 		return ;
@@ -85,8 +79,11 @@ void	parsing(char *input, char **paths, char **env)
 		printf("command: %s\n", commands->content);
 		char **arr = parse_words(commands->content, commands->content);
 		int i = 0;
-		while (arr[i])
-			printf("|%s|\n", arr[i++]);
+		while (arr[i]){
+			printf("|%s|\n", arr[i]);
+			expand_var(arr[i], env);
+			i++;
+		}
 		commands = commands->next;
 	}
 	free_stacks(&commands);

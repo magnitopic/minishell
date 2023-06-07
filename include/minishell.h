@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/07 13:18:04 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:22:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ void			free_stacks(t_list **list);
 char			*parse_quotes(char *input);
 void			execution(char *input, char **comms, char **env);
 enum e_quotes	check_flag(char *str, int n, enum e_quotes flag);
+char			*expand_var(char *var, char **env);
 
 #endif

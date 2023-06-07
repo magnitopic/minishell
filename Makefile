@@ -8,7 +8,8 @@ SHELL_SRC	=	src/minishell.c \
 				src/create_vars.c \
 				src/parsing.c \
 				src/utils.c \
-				src/parse_funcs.c
+				src/parse_funcs.c \
+				src/handle_dollar.c
 
 OBJS			= $(SHELL_SRC:.c=.o)
 
@@ -19,7 +20,7 @@ LIBFT_SRC		=	./libft/
 # Compiler
 CC				=	gcc
 RM				=	rm -f
-CFLAGS			=	-Wall -Werror -Wextra
+CFLAGS			=	-Wall -Werror -Wextra -g3 -fsanitize=address
 EXTRAFLAGS		=	-lreadline
 
 # Colours
