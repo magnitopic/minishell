@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/07 11:33:25 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:10:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ static void	change_dir(char **arr, char **env)
 	{
 		chdir(home);
 		free(home);
+		free(arr);
 		return ;
 	}
+	free(home);
 	if (access(arr[1], F_OK) == 0)
 	{
 		chdir(arr[1]);
+		free(arr);
 		return ;
 	}
 	buf = getcwd(path, sizeof(path));
@@ -57,6 +60,9 @@ static void	change_dir(char **arr, char **env)
 		else
 			perror("cd");
 	}
+	free(arr);
+	free(pwd);
+	free(buf);
 }
 
 static char	*check_param(char *argv)
@@ -120,7 +126,10 @@ static void	execute_one(char **comms, char **paths, char **env)
 	}
 	arr = create_arrays(comms, name);
 	if (ft_strncmp(comms[0], "cd", 2) == 0)
+	{
+		free(name);
 		return (change_dir(arr, env));
+	}
 	id = fork();
 	if (id == 0)
 	{

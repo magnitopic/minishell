@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/07 11:14:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:49:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <string.h>
 
 /* Defines */
-# define PROMPT1 "\033[0;34mMiniShell:\033[0;32m"
+# define PROMPT1 "\033[0;32mMiniShell\033[0m:\033[0;34m"
 # define PROMPT2 "\033[0m$ "
 
 /* Enums */
