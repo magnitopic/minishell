@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 13:19:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:01:07 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,39 @@ static void	get_commands(char *input, t_list **com)
 	ft_lstadd_back(com, ft_lstnew(str));
 }
 
+static char	*add_values(char *command, char *var_name)
+{
+	
+}
+
+static char	*expand_values(char **command, char **env)
+{
+	t_list	*variables;
+	t_list	*aux;
+	static int index = 0;
+
+	while (*command)
+	{
+		variables = find_name_vars(*command);
+		aux = variables;
+		while (**command)
+		{
+			// guardar variables con boolean de simples
+			// quitar comillas
+			// desarrollar variables
+			if (index == 0)
+				
+			if (ft_strncmp(ft_strchr(**command, '$') + 1, variables, \
+				ft_strlen(variables->content)) && check_flag != SINGLES)
+				*command = add_values(*command, variables->content);
+			*command++;
+			variables = variables->next;
+		}
+		free(aux);
+		command++;
+	}
+}
+
 void	parsing(char *input, char **paths, char **env)
 {
 	t_list	*commands;
@@ -59,20 +92,15 @@ void	parsing(char *input, char **paths, char **env)
 	aux = commands;
 	while (aux)
 	{
-		printf("command: %s\n", aux->content);
-		aux->content = parse_words(aux->content);
-		int i = 0;
-		while (((char **)aux->content)[i]){
-			printf("|%s|\n", ((char **)aux->content)[i]);
-			expand_var(((char **)aux->content)[i], env);
-			i++;
-		}
+		aux->content = parse_words(aux->content, env);
+		expand_values(aux->content, env);
 		aux = aux->next;
 	}
+	aux = commands;
 	while (commands)
 	{
 		execution(commands->content, paths, env);
 		commands = commands->next;
 	}
-	//free_stacks(&commands);
+	free_stacks(&aux);
 }

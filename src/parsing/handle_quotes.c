@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 11:50:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:22:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,16 @@ char	*parse_quotes(char *input)
 	}
 	parsed[i] = '\0';
 	return (parsed);
+}
+
+enum e_quotes	check_flag(char *str, int n, enum e_quotes flag)
+{
+	if (*(str + n) == 34 && flag == NONE)
+		flag = DOUBLE;
+	else if (*(str + n) == 39 && flag == NONE)
+		flag = SINGLES;
+	else if ((flag == SINGLES && *(str + n) == 39)
+		|| (flag == DOUBLE && *(str + n) == 34))
+		flag = NONE;
+	return (flag);
 }

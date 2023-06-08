@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 12:52:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:35:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,3 @@ char	*return_variable(char *name, char **env)
 		ft_strlen(env[y]) - ft_strlen(name));
 	return (line);
 }
-
-char	*expand_var(char *var, char **env)
-{
-	t_list	*variables;
-	int		num_vars;
-
-	variables = find_name_vars(var);
-	num_vars = ft_lstsize(variables);
-	while (variables)
-	{
-		printf("%s\n", return_variable(variables->content, env));
-		variables = variables->next;
-	}
-	printf("paco: %d\n", num_vars);
-	return (NULL);
-}
-
-

@@ -6,23 +6,11 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 13:08:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:22:04 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-enum e_quotes	check_flag(char *str, int n, enum e_quotes flag)
-{
-	if (*(str + n) == 34 && flag == NONE)
-		flag = DOUBLE;
-	else if (*(str + n) == 39 && flag == NONE)
-		flag = SINGLES;
-	else if ((flag == SINGLES && *(str + n) == 39)
-		|| (flag == DOUBLE && *(str + n) == 34))
-		flag = NONE;
-	return (flag);
-}
 
 int	num_words(char *str)
 {
@@ -60,7 +48,6 @@ char	**parse_words(char *str)
 	enum e_quotes	flag;
 	char			**arr;
 
-	flag = NONE;
 	n = 0;
 	aux = 0;
 	index = 0;

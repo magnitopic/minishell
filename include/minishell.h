@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 13:18:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:04:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ typedef struct s_shell
 	char	*prompt;
 }	t_shell;
 
+typedef struct s_vars
+{
+	char	*value;
+	int		flag;
+}	t_vars;
+
 /* Global variable */
 t_shell	*g_shell;
 
@@ -48,6 +54,7 @@ char			**parse_words(char *str);
 int				check_quotes(char *input);
 char			*parse_quotes(char *input);
 void			free_stacks(t_list **list);
+t_list			*find_name_vars(char *var);
 void			exit_program(char *message);
 char			*expand_var(char *var, char **env);
 char			*create_vars(char *origin, char **env);
