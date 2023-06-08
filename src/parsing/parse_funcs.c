@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 11:50:41 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:08:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ int	num_words(char *str)
 	return (cont);
 }
 
-char	**parse_words(char *str, char **arr)
+char	**parse_words(char *str)
 {
 	int				n;
 	int				aux;
 	int				index;
 	int				j;
 	enum e_quotes	flag;
+	char			**arr;
 
 	flag = NONE;
 	n = 0;

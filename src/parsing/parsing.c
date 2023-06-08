@@ -6,14 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 12:41:47 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:19:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
- * This function separates the different commands in a list
+ * This function separates the different commands on to a list
 */
 static void	get_commands(char *input, t_list **com)
 {
@@ -46,7 +46,7 @@ static void	get_commands(char *input, t_list **com)
 void	parsing(char *input, char **paths, char **env)
 {
 	t_list	*commands;
-	char	**test;
+	t_list	*aux;
 
 	((void)paths, (void)env);
 	commands = NULL;
@@ -56,22 +56,23 @@ void	parsing(char *input, char **paths, char **env)
 		return ;
 	}
 	get_commands(input, &commands);
-	while (commands)
+	aux = commands;
+	while (aux)
 	{
-		printf("command: %s\n", commands->content);
-		char **arr = parse_words(commands->content, (char **)commands->content);
+		printf("command: %s\n", aux->content);
+		aux->content = parse_words(aux->content);
 		int i = 0;
-		while (arr[i]){
-			printf("|%s|\n", arr[i]);
-			expand_var(arr[i], env);
+		while (((char **)aux->content)[i]){
+			printf("|%s|\n", ((char **)aux->content)[i]);
+			expand_var(((char **)aux->content)[i], env);
 			i++;
 		}
+		aux = aux->next;
+	}
+	while (commands)
+	{
+		execution(commands->content, paths, env);
 		commands = commands->next;
 	}
-	free_stacks(&commands);
-	test = ft_split(input, '|');
-	int i = 0;
-	while (test[i])
-		execution(test[i++], paths, env);
-	free_matrix(test);
+	//free_stacks(&commands);
 }

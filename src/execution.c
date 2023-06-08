@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/08 12:24:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:23:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,15 +141,15 @@ static void	execute_one(char **comms, char **paths, char **env)
 	free(name);
 }
 
-void	execution(char *input, char **paths, char **env)
+void	execution(char **input, char **paths, char **env)
 {
-	char	**comms;
-
-	if ((!ft_strncmp(input, "exit", ft_strlen(input))
-			|| !(ft_strncmp(input, "exit ", 5))) && input[0] != 0)
+	// TODO: Fix this ->
+	if ((!ft_strncmp(*input, "exit", ft_strlen(*input))
+			|| !(ft_strncmp(*input, "exit ", 5))) && *input[0] != 0)
 		exit_program("exit\n");
-	comms = ft_split(input, '|');
-	if (!comms[1])
-		execute_one(comms, paths, env);
-	free_matrix(comms);
+	if (!input[1])
+		execute_one(input, paths, env);
+	char *name = find_command(*input, paths);
+	execve(name, input, env);
+	free_matrix(input);
 }
