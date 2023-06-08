@@ -45,10 +45,11 @@ $(NAME):	$(OBJS)
 			@$(CC) $(CFLAGS) $(OBJS) $(EXTRAFLAGS) $(LIBFT_SRC)$(LIBFT) -o $(NAME)
 
 clean:
-			@$(RM) $(NAME) $(OBJS) $(OBJSBNS) $(NAME_BONUS)
+			@$(RM) $(OBJS)
 			@printf "\n$(BLUE)==> $(RED)Removed Minishell 🗑️\n$(RESET)"
 
 fclean:		clean
+			@$(RM) $(OBJS) $(NAME)
 			@make -C libft fclean
 
 re:			fclean all
