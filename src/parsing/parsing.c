@@ -6,32 +6,11 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/07 16:22:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:50:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-static int	check_quotes(char *input)
-{
-	enum e_quotes	flag;
-
-	flag = NONE;
-	while (*input)
-	{
-		if (*input == 34 && flag == NONE)
-			flag = DOUBLE;
-		else if (*input == 39 && flag == NONE)
-			flag = SINGLES;
-		else if ((flag == SINGLES && *input == 39)
-			|| (flag == DOUBLE && *input == 34))
-			flag = NONE;
-		input++;
-	}
-	if (flag != NONE)
-		return (-1);
-	return (0);
-}
+#include "../../include/minishell.h"
 
 static void	get_commands(char *input, t_list **com)
 {
@@ -77,7 +56,7 @@ void	parsing(char *input, char **paths, char **env)
 	while (commands)
 	{
 		printf("command: %s\n", commands->content);
-		char **arr = parse_words(commands->content, commands->content);
+		char **arr = parse_words(commands->content, (char **)commands->content);
 		int i = 0;
 		while (arr[i]){
 			printf("|%s|\n", arr[i]);

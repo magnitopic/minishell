@@ -6,38 +6,11 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/07 13:40:02 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:50:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-char	*parse_quotes(char *input)
-{
-	char	*parsed;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (input[i])
-	{
-		if (input[i] != 39 && input[i] != 34)
-			j++;
-		i++;
-	}
-	parsed = malloc(sizeof(char) * (j + 1));
-	i = 0;
-	j = 0;
-	while (input[i])
-	{
-		if (input[i] != 34 && input[i] != 39)
-			parsed[j++] = input[i];
-		i++;
-	}
-	parsed[i] = '\0';
-	return (parsed);
-}
+#include "../../include/minishell.h"
 
 enum e_quotes	check_flag(char *str, int n, enum e_quotes flag)
 {
@@ -112,5 +85,3 @@ char	**parse_words(char *str, char **arr)
 	}
 	return (arr);
 }
-
-
