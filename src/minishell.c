@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/07 12:18:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:43:42 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,14 @@ int	main(int argc, char **argv, char **env)
 	g_shell = malloc(sizeof(g_shell));
 	if (!env[0])
 	{
-		perror("environment");
+		ft_putstr_fd("\033[0;31mError: No environment provided\033[0;\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	paths = put_path(NULL, env);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
 	while (1)
-	{
 		user_input(paths, env);
-	}
 	free_matrix(paths);
 	return (0);
 }

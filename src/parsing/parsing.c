@@ -6,12 +6,15 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 11:50:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:41:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * This function separates the different commands in a list
+*/
 static void	get_commands(char *input, t_list **com)
 {
 	enum e_quotes	flag;
@@ -49,7 +52,7 @@ void	parsing(char *input, char **paths, char **env)
 	commands = NULL;
 	if (check_quotes(input) == -1)
 	{
-		perror("unclosed quotes");
+		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
 		return ;
 	}
 	get_commands(input, &commands);

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 11:50:17 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:52:22 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,10 @@ t_list	*find_name_vars(char *var)
 	{
 		if (var[n] == '$')
 		{
-			start = ++n;
-			while (var[n + 1] && var[n + 1] != ' ' && var[n + 1] != 34
+			start = n + 1;
+			while (var[++n + 1] && var[n + 1] != ' ' && var[n + 1] != 34
 				&& var[n + 1] != 39 && var[n + 1] != '$')
-			{
 				len++;
-				n++;
-			}
 			if (!vars)
 				vars = ft_lstnew(ft_substr(var, start, len + 1));
 			else

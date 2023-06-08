@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/07 12:10:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:24:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,14 @@ static void	change_dir(char **arr, char **env)
 
 	buf = NULL;
 	pwd = NULL;
-	home = create_vars("HOME", env);
 	if (!arr[1])
 	{
+		home = create_vars("HOME", env);
 		chdir(home);
 		free(home);
 		free(arr);
 		return ;
 	}
-	free(home);
 	if (access(arr[1], F_OK) == 0)
 	{
 		chdir(arr[1]);
