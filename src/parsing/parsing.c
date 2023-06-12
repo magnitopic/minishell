@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/12 16:35:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:10:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	expand_values(char **command, char **env)
 			if (ft_strncmp(ft_strchr(command[j], '$') + 1, variables->content, \
 				ft_strlen(variables->content)) == 0 && check_flag(command[j], i, flag) != SINGLES)
 				command[j] = add_values(command[j], variables->content, i, env);
-			printf("no-quotes: %s\n", parse_quotes(command[j]));
+			printf("no-quotes: %s, flag: %d\n", parse_quotes(command[j]), check_flag(command[j], i, flag));
 			//i++;
 			variables = variables->next;
 		}
