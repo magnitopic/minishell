@@ -6,14 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 17:01:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:45:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
- * This function separates the different commands on to a list
+ * This function separates the different commands onto a list
 */
 static void	get_commands(char *input, t_list **com)
 {
@@ -43,36 +43,59 @@ static void	get_commands(char *input, t_list **com)
 	ft_lstadd_back(com, ft_lstnew(str));
 }
 
-static char	*add_values(char *command, char *var_name)
+static char	*add_values(char *command, char *var_name, int i, char **env)
 {
-	
+	char	*str;
+	char	*path;
+	char	*temp;
+	char	*other_aux;
+	int		len;
+
+	path = return_variable(var_name, env);
+	len = ft_strlen(command) - ft_strlen(var_name) + ft_strlen(path);
+	temp = ft_substr(command, 0, i);
+	other_aux = ft_strjoin(temp, path);
+	free(temp);
+	temp = ft_substr(command, i + 1 + ft_strlen(var_name), len);
+	str = ft_strjoin(other_aux, temp);
+	printf("hola amigo: %s\n", str);
+	free(path);
+	free(command);
+	free(temp);
+	free(other_aux);
+	return (str);
 }
 
-static char	*expand_values(char **command, char **env)
+static void	expand_values(char **command, char **env)
 {
-	t_list	*variables;
-	t_list	*aux;
-	static int index = 0;
+	t_list		*variables;
+	int				j;
+	int				i;
+	enum e_quotes	flag;
 
-	while (*command)
+	flag = NONE;
+	i = 0;
+	j = 0;
+	while (command[j])
 	{
-		variables = find_name_vars(*command);
-		aux = variables;
-		while (**command)
+		variables = find_name_vars(command[j]);
+		while (command[j][i] && variables)
 		{
 			// guardar variables con boolean de simples
 			// quitar comillas
 			// desarrollar variables
-			if (index == 0)
-				
-			if (ft_strncmp(ft_strchr(**command, '$') + 1, variables, \
-				ft_strlen(variables->content)) && check_flag != SINGLES)
-				*command = add_values(*command, variables->content);
-			*command++;
+			while (command[j][i] != '$' && command[j][i])
+				flag = check_flag(command[j], i++, flag);
+			//printf("charo: %s\n", *command + i);
+			if (ft_strncmp(ft_strchr(command[j], '$') + 1, variables->content, \
+				ft_strlen(variables->content)) == 0 && check_flag(command[j], i, flag) != SINGLES)
+				command[j] = add_values(command[j], variables->content, i, env);
+			//i++;
 			variables = variables->next;
 		}
-		free(aux);
-		command++;
+		//free(aux);
+		j++;
+		i = 0;
 	}
 }
 
@@ -92,7 +115,7 @@ void	parsing(char *input, char **paths, char **env)
 	aux = commands;
 	while (aux)
 	{
-		aux->content = parse_words(aux->content, env);
+		aux->content = parse_words(aux->content);
 		expand_values(aux->content, env);
 		aux = aux->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 16:35:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:58:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_list	*find_name_vars(char *var)
 	n = 0;
 	len = 0;
 	vars = NULL;
+	printf("%s\n", var);
 	while (var[n])
 	{
 		if (var[n] == '$')

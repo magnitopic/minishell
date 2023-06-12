@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 16:22:04 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/12 12:21:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	**parse_words(char *str)
 	aux = 0;
 	index = 0;
 	j = 0;
+	flag = NONE;
 	arr = ft_calloc(num_words(str) + 1, sizeof(char *));
 	while (str[n])
 	{

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/08 13:23:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/12 12:22:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	execution(char **input, char **paths, char **env)
 		exit_program("exit\n");
 	if (!input[1])
 		execute_one(input, paths, env);
-	char *name = find_command(*input, paths);
-	execve(name, input, env);
+	/* char *name = find_command(*input, paths);
+	execve(name, input, env); */
 	free_matrix(input);
 }
