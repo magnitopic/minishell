@@ -6,16 +6,17 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/12 18:10:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:09:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
- * This function separates the different commands onto a list
+ * This function separates the raw user input onto a list where each element is
+ * a command
 */
-static void	get_commands(char *input, t_list **com)
+static void	split_commands(char *input, t_list **com)
 {
 	enum e_quotes	flag;
 	char			*str;
@@ -43,7 +44,7 @@ static void	get_commands(char *input, t_list **com)
 	ft_lstadd_back(com, ft_lstnew(str));
 }
 
-static char	*add_values(char *command, char *var_name, int i, char **env)
+/* static char	*add_values(char *command, char *var_name, int i, char **env)
 {
 	char	*str;
 	char	*path;
@@ -59,12 +60,11 @@ static char	*add_values(char *command, char *var_name, int i, char **env)
 	temp = ft_substr(command, i + 1 + ft_strlen(var_name), len);
 	str = ft_strjoin(other_aux, temp);
 	printf("hola amigo: %s\n", str);
-	//free(path);
-	//free(command);
-	//free(temp);
-	//free(other_aux);
+	free(path);
+	free(command);
+	free(temp);
 	return (str);
-}
+} */
 
 static void	expand_values(char **command, char **env)
 {
@@ -81,20 +81,14 @@ static void	expand_values(char **command, char **env)
 		variables = find_name_vars(command[j]);
 		while (command[j][i] && variables)
 		{
-			// guardar variables con boolean de simples
-			// quitar comillas
-			// desarrollar variables
 			while (command[j][i] != '$' && command[j][i])
 				flag = check_flag(command[j], i++, flag);
-			//printf("charo: %s\n", *command + i);
 			if (ft_strncmp(ft_strchr(command[j], '$') + 1, variables->content, \
 				ft_strlen(variables->content)) == 0 && check_flag(command[j], i, flag) != SINGLES)
 				command[j] = add_values(command[j], variables->content, i, env);
 			printf("no-quotes: %s, flag: %d\n", parse_quotes(command[j]), check_flag(command[j], i, flag));
-			//i++;
 			variables = variables->next;
 		}
-		//free(aux);
 		j++;
 		i = 0;
 	}
@@ -105,18 +99,17 @@ void	parsing(char *input, char **paths, char **env)
 	t_list	*commands;
 	t_list	*aux;
 
-	((void)paths, (void)env);
 	commands = NULL;
 	if (check_quotes(input) == -1)
 	{
 		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
 		return ;
 	}
-	get_commands(input, &commands);
+	split_commands(input, &commands);
 	aux = commands;
 	while (aux)
 	{
-		aux->content = parse_words(aux->content);
+		aux->content = split_words(aux->content);
 		expand_values(aux->content, env);
 		aux = aux->next;
 	}

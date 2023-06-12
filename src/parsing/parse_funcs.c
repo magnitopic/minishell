@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/12 12:21:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:12:28 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ int	num_words(char *str)
 	return (cont);
 }
 
-char	**parse_words(char *str)
+/**
+ * Receives a command as in input. It separates the different words
+ * of the command. The command itself and it's parameters.
+*/
+char	**split_words(char *str)
 {
 	int				n;
 	int				aux;
