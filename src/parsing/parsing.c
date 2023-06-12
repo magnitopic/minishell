@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/12 14:45:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:35:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ static char	*add_values(char *command, char *var_name, int i, char **env)
 	temp = ft_substr(command, i + 1 + ft_strlen(var_name), len);
 	str = ft_strjoin(other_aux, temp);
 	printf("hola amigo: %s\n", str);
-	free(path);
-	free(command);
-	free(temp);
-	free(other_aux);
+	//free(path);
+	//free(command);
+	//free(temp);
+	//free(other_aux);
 	return (str);
 }
 
@@ -90,6 +90,7 @@ static void	expand_values(char **command, char **env)
 			if (ft_strncmp(ft_strchr(command[j], '$') + 1, variables->content, \
 				ft_strlen(variables->content)) == 0 && check_flag(command[j], i, flag) != SINGLES)
 				command[j] = add_values(command[j], variables->content, i, env);
+			printf("no-quotes: %s\n", parse_quotes(command[j]));
 			//i++;
 			variables = variables->next;
 		}
