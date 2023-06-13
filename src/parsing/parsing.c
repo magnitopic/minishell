@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/12 18:10:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:18:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,46 +58,60 @@ static char	*add_values(char *command, char *var_name, int i, char **env)
 	free(temp);
 	temp = ft_substr(command, i + 1 + ft_strlen(var_name), len);
 	str = ft_strjoin(other_aux, temp);
-	printf("hola amigo: %s\n", str);
-	//free(path);
-	//free(command);
-	//free(temp);
-	//free(other_aux);
+	free(path);
+	free(command);
+	free(temp);
 	return (str);
 }
 
-static void	expand_values(char **command, char **env)
+t_vars	find_pos(char *str, t_vars pos)
 {
-	t_list		*variables;
+	int		j;
+	int		i;
+	char	c;
+
+	j = 0;
+	i = 0;
+	c = 1;
+	while (command[j][i])
+		{
+			if ((command[j][i] == '\'' || command[j][i] == '"') && c == 1)
+			{
+				c = command[j][i];
+				pos.in = i++;
+				while ((command[j][i] != c)
+					i++;
+				
+				c = 1;
+			}
+			else if (command[j][i] == '$')
+		}
+}
+// recibe un char ** con los 
+static char	**expand_values(char **command, char **env)
+{
 	int				j;
 	int				i;
+	char			c;
+	char			*temp;
+	t_vars			pos;
 	enum e_quotes	flag;
 
 	flag = NONE;
 	i = 0;
 	j = 0;
+	c = 1;
 	while (command[j])
 	{
-		variables = find_name_vars(command[j]);
-		while (command[j][i] && variables)
+		while (pos.end != ft_strlen(command[j]) - 1)
 		{
-			// guardar variables con boolean de simples
-			// quitar comillas
-			// desarrollar variables
-			while (command[j][i] != '$' && command[j][i])
-				flag = check_flag(command[j], i++, flag);
-			//printf("charo: %s\n", *command + i);
-			if (ft_strncmp(ft_strchr(command[j], '$') + 1, variables->content, \
-				ft_strlen(variables->content)) == 0 && check_flag(command[j], i, flag) != SINGLES)
-				command[j] = add_values(command[j], variables->content, i, env);
-			printf("no-quotes: %s, flag: %d\n", parse_quotes(command[j]), check_flag(command[j], i, flag));
-			//i++;
-			variables = variables->next;
+			pos = find_pos()
 		}
 		//free(aux);
 		j++;
 		i = 0;
 	}
+	return (command);
 }
 
 void	parsing(char *input, char **paths, char **env)
@@ -116,8 +130,11 @@ void	parsing(char *input, char **paths, char **env)
 	aux = commands;
 	while (aux)
 	{
-		aux->content = parse_words(aux->content);
-		expand_values(aux->content, env);
+		aux->content = split_words(aux->content);
+		aux->content = expand_values(aux->content, env);
+		int i = 0;
+		while (((char **)aux->content)[i])
+			printf("no-quotes: %s\n", ((char **)aux->content)[i++]);
 		aux = aux->next;
 	}
 	aux = commands;
