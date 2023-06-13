@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/12 18:09:14 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:12:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	*count_quotes(char c, int n, int j, char *input)
 	return (ft_calloc(sizeof(char), (j + 1)));
 }
 
-char	*parse_quotes(char *input)
+char	*split_quotes(char *input)
 {
 	char	c;
 	int		n;
