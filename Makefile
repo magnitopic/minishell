@@ -10,7 +10,8 @@ SHELL_SRC	=	src/minishell.c \
 				src/parsing/parsing.c \
 				src/parsing/parse_funcs.c \
 				src/parsing/handle_dollar.c \
-				src/parsing/handle_quotes.c
+				src/parsing/handle_quotes.c \
+				src/parsing/handle_args.c
 
 OBJS			= $(SHELL_SRC:.c=.o)
 

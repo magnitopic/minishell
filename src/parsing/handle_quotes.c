@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/13 13:12:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:14:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	check_quotes(char *input)
+int	check_unclosed_quotes(char *input)
 {
 	enum e_quotes	flag;
 
@@ -29,7 +29,7 @@ int	check_quotes(char *input)
 		input++;
 	}
 	if (flag != NONE)
-		return (-1);
+		return (1);
 	return (0);
 }
 
