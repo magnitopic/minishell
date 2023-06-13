@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/13 13:12:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:33:21 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ static char	*count_quotes(char c, int n, int j, char *input)
 	return (ft_calloc(sizeof(char), (j + 1)));
 }
 
-char	*split_quotes(char *input)
+char	*split_quotes(char *input, char **env)
 {
 	char	c;
 	int		n;
 	int		j;
+	int		aux;
 	char	*parsed;
 
 	c = 1;
@@ -67,29 +68,44 @@ char	*split_quotes(char *input)
 		if ((input[n] == '\'' || input[n] == '"') && c == 1)
 		{
 			c = input[n];
-			n++;
+			aux = n++;
 		}
 		if (input[n] != c)
 			parsed[j++] = input[n];
-		if (input[n] == c)
-			c = 1;
 		n++;
+		if (input[n] == c)
+		{
+			if (c == '"')
+			{
+				printf("before: %s\n", parsed);
+				parsed = add_values(parsed, env);
+				printf("after: %s\n", parsed);
+			}
+			break ;
+		}
 	}
+	if (ft_strchr(parsed, '$') != NULL && c != '\'')
+		parsed = add_values(parsed, env);
 	return (parsed);
 }
 
 enum e_quotes	check_flag(char *str, int n, enum e_quotes flag)
 {
-	int	doub;
-	int	findoub;
-	int	sing;
-	int	finsing;
+	static int	doub = 0;
+	static int	findoub = 0;
+	static int	sing = 0;
+	static int	finsing = 0;
 
-	findoub = 0;
-	finsing = 0;
-	sing = 0;
-	doub = 0;
-	if (*(str + n) == 34)
+	if ((flag == SINGLES && *(str + n - 1) == 39 && n - 1 != sing)
+		|| (flag == DOUBLE && *(str + n - 1) == 34 && n - 1 != doub))
+	{
+		if (str[n] == 34)
+			findoub = n;
+		else if (str[n] == 39)
+			finsing = n;
+		flag = NONE;
+	}
+	else if (*(str + n) == 34)
 	{
 		doub = n;
 		if (flag == NONE || (flag == SINGLES && finsing == n - 1))
@@ -100,15 +116,6 @@ enum e_quotes	check_flag(char *str, int n, enum e_quotes flag)
 		sing = n;
 		if (flag == NONE || (flag == DOUBLE && findoub == n - 1))
 			flag = SINGLES;
-	}
-	else if ((flag == SINGLES && *(str + n - 1) == 39 && n - 1 != sing)
-		|| (flag == DOUBLE && *(str + n - 1) == 34 && n - 1 != doub))
-	{
-		if (str[n] == 34)
-			findoub = n;
-		else if (str[n] == 39)
-			finsing = n;
-		flag = NONE;
 	}
 	return (flag);
 }

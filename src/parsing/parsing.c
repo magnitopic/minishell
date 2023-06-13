@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/13 14:18:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:55:58 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,73 +43,110 @@ static void	get_commands(char *input, t_list **com)
 	ft_lstadd_back(com, ft_lstnew(str));
 }
 
-static char	*add_values(char *command, char *var_name, int i, char **env)
+char	*add_values(char *command, char **env)
 {
 	char	*str;
 	char	*path;
 	char	*temp;
 	char	*other_aux;
-	int		len;
+	int		i;
+	t_list	*vars;
 
-	path = return_variable(var_name, env);
-	len = ft_strlen(command) - ft_strlen(var_name) + ft_strlen(path);
-	temp = ft_substr(command, 0, i);
-	other_aux = ft_strjoin(temp, path);
-	free(temp);
-	temp = ft_substr(command, i + 1 + ft_strlen(var_name), len);
-	str = ft_strjoin(other_aux, temp);
-	free(path);
-	free(command);
-	free(temp);
+	vars = find_name_vars(command);
+	i = 0;
+	if (!vars)
+	{
+		str = ft_substr(command, 0, ft_strlen(command));
+		free(command);
+	}
+	while (vars)
+	{
+		path = return_variable(vars->content, env);
+		i = find_dollar_pos(command, i);
+		temp = ft_substr(command, 0, i);
+		if (!path)
+			return (temp);
+		other_aux = ft_strjoin(temp, path);
+		free(temp);
+		temp = ft_substr(command, i + 1 + ft_strlen(vars->content),
+				ft_strlen(command) - ft_strlen(vars->content) + ft_strlen(path));
+		str = ft_strjoin(other_aux, temp);
+		free(command);
+		command = str;
+		i += ft_strlen(vars->content);
+		free(path);
+		free(temp);
+		vars = vars->next;
+	}
 	return (str);
 }
 
 t_vars	find_pos(char *str, t_vars pos)
 {
-	int		j;
 	int		i;
 	char	c;
 
-	j = 0;
-	i = 0;
+	i = pos.end;
 	c = 1;
-	while (command[j][i])
+	while (str[i])
+	{
+		if ((str[i] == '\'' || str[i] == '"') && c == 1 && str[i + 1])
 		{
-			if ((command[j][i] == '\'' || command[j][i] == '"') && c == 1)
-			{
-				c = command[j][i];
-				pos.in = i++;
-				while ((command[j][i] != c)
-					i++;
-				
-				c = 1;
-			}
-			else if (command[j][i] == '$')
+			c = str[i];
+			pos.in = i++;
+			while (str[i] != c)
+				i++;
+			pos.end = i;
+			return (pos);
 		}
+		else if (str[i] == '$')
+		{
+			pos.in = i;
+			pos.end = ft_strlen(str) - 1;
+			return (pos);
+		}
+		i++;
+	}
+	pos.end = ft_strlen(str) - 1;
+	return (pos);
 }
-// recibe un char ** con los 
+// recibe un char ** con los
+
 static char	**expand_values(char **command, char **env)
 {
 	int				j;
-	int				i;
 	char			c;
-	char			*temp;
 	t_vars			pos;
 	enum e_quotes	flag;
 
 	flag = NONE;
-	i = 0;
 	j = 0;
 	c = 1;
+	pos.in = 0;
+	pos.end = 0;
 	while (command[j])
 	{
-		while (pos.end != ft_strlen(command[j]) - 1)
+		while (pos.end != (int)ft_strlen(command[j]) - 1)
 		{
-			pos = find_pos()
+			if (pos.in == 0)
+			{
+				pos = find_pos(command[j], pos);
+				pos.str = ft_substr(command[j], 0, pos.end + 1);
+			}
+			pos = find_pos(command[j], pos);
+			pos.temp = ft_substr(command[j], pos.in, pos.end - pos.in + 1);
+			pos.temp = split_quotes(pos.temp, env);
+			pos.aux = ft_substr(pos.str, 0, ft_strlen(pos.str));
+			free(pos.str);
+			pos.str = ft_strjoin(pos.aux, pos.temp);
+			free(pos.aux);
+			free(pos.temp);
 		}
-		//free(aux);
+		free(command[j]);
+		command[j] = ft_substr(pos.str, 0, ft_strlen(pos.str));
+		pos.in = 0;
+		pos.end = 0;
 		j++;
-		i = 0;
 	}
 	return (command);
 }
@@ -130,7 +167,7 @@ void	parsing(char *input, char **paths, char **env)
 	aux = commands;
 	while (aux)
 	{
-		aux->content = split_words(aux->content);
+		aux->content = parse_words(aux->content);
 		aux->content = expand_values(aux->content, env);
 		int i = 0;
 		while (((char **)aux->content)[i])

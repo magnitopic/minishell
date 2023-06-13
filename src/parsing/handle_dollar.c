@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/12 13:58:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:22:44 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_list	*find_name_vars(char *var)
 	n = 0;
 	len = 0;
 	vars = NULL;
-	printf("%s\n", var);
 	while (var[n])
 	{
 		if (var[n] == '$')
@@ -64,4 +63,18 @@ char	*return_variable(char *name, char **env)
 	ft_strlcpy(line, env[y] + ft_strlen(name) + 1, \
 		ft_strlen(env[y]) - ft_strlen(name));
 	return (line);
+}
+
+
+int	find_dollar_pos(char *str, int pos)
+{
+	if (!pos)
+		pos = 0;
+	while (str[pos])
+	{
+		if (str[pos] == '$')
+			return (pos);
+		pos++;
+	}
+	return (pos);
 }

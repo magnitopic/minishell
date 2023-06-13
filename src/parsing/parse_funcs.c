@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_funcs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/12 12:21:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:13:59 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	**parse_words(char *str)
 	while (str[n])
 	{
 		flag = check_flag(str, n, flag);
+		printf("%c, %d\n", str[n], flag);
 		if (!str[n + 1] && str[n] != ' ')
 			arr[j] = ft_substr(str, aux, n - aux + 1);
 		if (str[n] == ' ' && flag == NONE && index == 0)

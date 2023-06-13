@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/13 14:18:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:18:12 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_vars
 	int		flag;
 	int		in;
 	int		end;
+	char	c;
 	char	*temp;
 	char	*aux;
 	char	*str;
@@ -57,7 +58,7 @@ void			set_prompt(void);
 void			signal_handler(int sig);
 char			**parse_words(char *str);
 int				check_quotes(char *input);
-char			*split_quotes(char *input);
+char			*split_quotes(char *input, char **env);
 void			free_stacks(t_list **list);
 t_list			*find_name_vars(char *var);
 void			exit_program(char *message);
@@ -68,5 +69,7 @@ void			parsing(char *input, char **paths, char **env);
 enum e_quotes	check_flag(char *str, int n, enum e_quotes flag);
 void			execution(char **input, char **paths, char **env);
 char			*return_variable(char *name, char **env);
+char			*add_values(char *command, char **env);
+int				find_dollar_pos(char *str, int pos);
 
 #endif
