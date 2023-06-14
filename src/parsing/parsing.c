@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 13:06:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:43:42 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	parsing(char *input, char **paths, char **env)
 		aux->content = split_words(aux->content);
 		aux->content = expand_values(aux->content, env);
 		int i = 0;
-		printf("Parsed:\n");
+		printf("\033[0;35mParsed:\033[0m\n");
 		while (((char **)aux->content)[i])
 			printf("%s\n", ((char **)aux->content)[i++]);
 		aux = aux->next;

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 13:11:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:29:58 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,13 @@ static void	quote_split(char *str, t_list **splitted)
 static void	parse_phrase(t_list **list, char **env)
 {
 	t_list			*aux;
-	enum e_quotes	flag;
+	//enum e_quotes	flag;
 
 	aux = *list;
 	while (aux)
 	{
-		flag = check_flag(aux->content, 0, NONE);
-		aux->content = remove_quotes(aux->content);
-		if (flag != SINGLE)
-			expand_vars(aux->content, env);
+		aux->content = split_quotes(aux->content, env);
+		printf("spliteao: %s\n", aux->content);
 		aux = aux->next;
 	}
 }
@@ -58,14 +56,17 @@ static char	*join_phrases(t_list	*list)
 {
 	char	*str;
 	char	*aux;
-	t_list	*list_aux;
 
-	list_aux = list;
-	while ()
+	str = "";
+	while (list)
 	{
-		
+		aux =  ft_substr(str, 0, ft_strlen(str));
+		if (ft_strlen(str) > 0)
+			free(str);
+		str = ft_strjoin(str, list->content);
+		free(aux);
+		list = list->next;
 	}
-	
 	return (str);
 }
 
@@ -82,12 +83,8 @@ char	**expand_values(char **args, char **env)
 	{
 		quote_split(ft_strtrim(*aux, " 	"), &splitted);
 		parse_phrase(&splitted, env);
-		//*aux = join_phrases(splitted);
-		while (splitted)
-		{
-			printf("splitted: %s\n", splitted->content);
-			splitted = splitted->next;
-		}
+		*aux = join_phrases(splitted);
+		printf("Aux: %s\n", *aux);
 		(free_stacks(&splitted), splitted = NULL);
 		aux++;
 	}

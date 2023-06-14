@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 12:18:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:16:26 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static t_list	*find_name_vars(char *var)
+t_list	*find_name_vars(char *var)
 {
 	int		n;
 	int		len;
@@ -42,7 +42,7 @@ static t_list	*find_name_vars(char *var)
 	return (vars);
 }
 
-static char	*get_var_value(char *name, char **env)
+char	*get_var_value(char *name, char **env)
 {
 	char	*line;
 	char	*temp;
@@ -66,7 +66,7 @@ static char	*get_var_value(char *name, char **env)
 	return (line);
 }
 
-char	*expand_vars(char *str, char **env)
+/* char	*expand_vars(char *str, char **env)
 {
 	t_list	*commands;
 	t_list	*aux;
@@ -83,4 +83,4 @@ char	*expand_vars(char *str, char **env)
 	free_stacks(&commands);
 
 	return (str);
-}
+} */
