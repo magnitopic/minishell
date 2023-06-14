@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/13 16:08:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 09:04:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 enum e_quotes
 {
 	NONE,
-	SINGLES,
+	SINGLE,
 	DOUBLE
 };
 

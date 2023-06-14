@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/13 16:14:23 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 09:04:22 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	check_unclosed_quotes(char *input)
 		if (*input == 34 && flag == NONE)
 			flag = DOUBLE;
 		else if (*input == 39 && flag == NONE)
-			flag = SINGLES;
-		else if ((flag == SINGLES && *input == 39)
+			flag = SINGLE;
+		else if ((flag == SINGLE && *input == 39)
 			|| (flag == DOUBLE && *input == 34))
 			flag = NONE;
 		input++;
@@ -92,16 +92,16 @@ enum e_quotes	check_flag(char *str, int n, enum e_quotes flag)
 	if (*(str + n) == 34)
 	{
 		doub = n;
-		if (flag == NONE || (flag == SINGLES && finsing == n - 1))
+		if (flag == NONE || (flag == SINGLE && finsing == n - 1))
 			flag = DOUBLE;
 	}
 	else if (*(str + n) == 39)
 	{
 		sing = n;
 		if (flag == NONE || (flag == DOUBLE && findoub == n - 1))
-			flag = SINGLES;
+			flag = SINGLE;
 	}
-	else if ((flag == SINGLES && *(str + n - 1) == 39 && n - 1 != sing)
+	else if ((flag == SINGLE && *(str + n - 1) == 39 && n - 1 != sing)
 		|| (flag == DOUBLE && *(str + n - 1) == 34 && n - 1 != doub))
 	{
 		if (str[n] == 34)
