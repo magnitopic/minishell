@@ -6,47 +6,70 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 09:31:43 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:11:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	quote_split(char *str, t_list *splitted)
+// TODO: Finish function for all use cases
+static void	quote_split(char *str, t_list **splitted)
 {
 	char			len;
 	int				i;
 	enum e_quotes	flag;
+	enum e_quotes	old_flag;
 
 	i = 0;
-	flag = NONE;
-	(void)splitted;
+	flag = 0;
+	old_flag = check_flag(str, i, flag);
 	while (str[i])
 	{
 		len = 0;
-		printf("flag: %d\n", check_flag(str, i + len, flag));
-		while (check_flag(str, i + len, flag) != 0)
-		{
-			printf("%c\n", str[i + len]);
-			len++;
-		}
-		printf("test: %s\n", ft_substr(str, len, ft_strlen(str) - len));
-		printf("str: %s\n", ft_substr(str, 0, i));
-		i += len;
-		i++;
+		flag = check_flag(str, i + len, flag);
+		while (flag == old_flag && str[i + len])
+			flag = check_flag(str, i + ++len, flag);
+		if (!*splitted)
+			*splitted = ft_lstnew(ft_substr(str, i, len + 1));
+		else
+			ft_lstadd_back(splitted, ft_lstnew(ft_substr(str, i, len + 1)));
+		i = i + len + 1;
+		old_flag = flag;
 	}
 }
 
-/* static void	parse_phrase(t_list *list)
+static void	parse_phrase(t_list **list, char **env)
 {
-	while (**list)
+	t_list			*aux;
+	enum e_quotes	flag;
+
+	aux = *list;
+	while (aux)
+	{
+		flag = check_flag(aux->content, 0, NONE);
+		aux->content = remove_quotes(aux->content);
+		if (flag != SINGLE)
+			expand_vars(aux->content, env);
+		aux = aux->next;
+	}
+}
+
+static char	*join_phrases(t_list	*list)
+{
+	char	*str;
+	char	*aux;
+	t_list	*list_aux;
+
+	list_aux = list;
+	while ()
 	{
 		
-		list = list->next;
 	}
 	
-} */
+	return (str);
+}
 
+// TODO: 1. quote_split 2. parse_phrase -> remove quotes -> expand $ 3. join_phrases
 char	**expand_values(char **args, char **env)
 {
 	char	**aux;
@@ -57,10 +80,15 @@ char	**expand_values(char **args, char **env)
 	(void)env;
 	while (*aux)
 	{
-		quote_split(*aux, splitted);
-		printf("----------------\n");
-		/* parse_phrase(&splitted);
-		*aux = join_phrases(splitted); */
+		quote_split(ft_strtrim(*aux, " 	"), &splitted);
+		parse_phrase(&splitted, env);
+		//*aux = join_phrases(splitted);
+		while (splitted)
+		{
+			printf("splitted: %s\n", splitted->content);
+			splitted = splitted->next;
+		}
+		(free_stacks(&splitted), splitted = NULL);
 		aux++;
 	}
 	return (args);

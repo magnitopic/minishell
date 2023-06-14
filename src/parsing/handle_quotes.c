@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 09:04:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 11:21:26 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	*count_quotes(char c, int n, int j, char *input)
 	return (ft_calloc(sizeof(char), (j + 1)));
 }
 
-char	*split_quotes(char *input)
+char	*remove_quotes(char *input)
 {
 	char	c;
 	int		n;
@@ -80,35 +80,12 @@ char	*split_quotes(char *input)
 
 enum e_quotes	check_flag(char *str, int n, enum e_quotes flag)
 {
-	int	doub;
-	int	findoub;
-	int	sing;
-	int	finsing;
-
-	findoub = 0;
-	finsing = 0;
-	sing = 0;
-	doub = 0;
-	if (*(str + n) == 34)
-	{
-		doub = n;
-		if (flag == NONE || (flag == SINGLE && finsing == n - 1))
-			flag = DOUBLE;
-	}
-	else if (*(str + n) == 39)
-	{
-		sing = n;
-		if (flag == NONE || (flag == DOUBLE && findoub == n - 1))
-			flag = SINGLE;
-	}
-	else if ((flag == SINGLE && *(str + n - 1) == 39 && n - 1 != sing)
-		|| (flag == DOUBLE && *(str + n - 1) == 34 && n - 1 != doub))
-	{
-		if (str[n] == 34)
-			findoub = n;
-		else if (str[n] == 39)
-			finsing = n;
+	if (*(str + n) == 34 && flag == NONE)
+		flag = DOUBLE;
+	else if (*(str + n) == 39 && flag == NONE)
+		flag = SINGLE;
+	else if ((flag == SINGLE && *(str + n) == 39)
+		|| (flag == DOUBLE && *(str + n) == 34))
 		flag = NONE;
-	}
 	return (flag);
 }

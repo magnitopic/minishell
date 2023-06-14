@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 09:05:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:06:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,6 @@ static void	split_commands(char *input, t_list **com)
 	}
 	ft_lstadd_back(com, ft_lstnew(str));
 }
-
-
-// TODO: 1. quote_split 2. parse_phrases -> remove quotes -> expand $ 3. join phrases
-/* static char	**expand_values(char **command, char **env)
-{
-	int				j;
-	int				i;
-	char			c;
-	char			*temp;
-	t_vars			pos;
-	enum e_quotes	flag;
-
-	flag = NONE;
-	while (command[j])
-	{
-		
-	}
-	return (command);
-} */
 
 void	parsing(char *input, char **paths, char **env)
 {
