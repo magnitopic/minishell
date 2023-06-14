@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/13 17:22:44 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:13:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_list	*find_name_vars(char *var)
 	return (vars);
 }
 
-char	*return_variable(char *name, char **env)
+char	*get_var_value(char *name, char **env)
 {
 	char	*line;
 	char	*temp;
@@ -65,16 +65,21 @@ char	*return_variable(char *name, char **env)
 	return (line);
 }
 
-
-int	find_dollar_pos(char *str, int pos)
+/* char	*expand_vars(char *str, char **env)
 {
-	if (!pos)
-		pos = 0;
-	while (str[pos])
+	t_list	*commands;
+	t_list	*aux;
+	char	*path;
+
+	commands = find_name_vars(str);
+	aux = commands;
+	while (aux)
 	{
-		if (str[pos] == '$')
-			return (pos);
-		pos++;
+		path = get_var_value(aux->content, env);
+		printf("%s\n", path);
+		aux = aux->next;
 	}
-	return (pos);
-}
+	free_stacks(&commands);
+
+	return (str);
+} */

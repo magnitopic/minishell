@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/13 17:18:12 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:12:49 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 enum e_quotes
 {
 	NONE,
-	SINGLES,
+	SINGLE,
 	DOUBLE
 };
 
@@ -54,22 +54,23 @@ typedef struct s_vars
 t_shell	*g_shell;
 
 /* Functions */
+char			**expand_values(char **args, char **env);
 void			set_prompt(void);
 void			signal_handler(int sig);
-char			**parse_words(char *str);
-int				check_quotes(char *input);
-char			*split_quotes(char *input, char **env);
+char			**split_words(char *str);
+int				check_unclosed_quotes(char *input);
+char			*remove_quotes(char *input);
 void			free_stacks(t_list **list);
-t_list			*find_name_vars(char *var);
 void			exit_program(char *message);
-char			*expand_var(char *var, char **env);
+char			*expand_vars(char *var, char **env);
 char			*create_vars(char *origin, char **env);
 char			**create_arrays(char **comms, char *name);
 void			parsing(char *input, char **paths, char **env);
 enum e_quotes	check_flag(char *str, int n, enum e_quotes flag);
 void			execution(char **input, char **paths, char **env);
-char			*return_variable(char *name, char **env);
+char			*split_quotes(char *input, char **env);
 char			*add_values(char *command, char **env);
-int				find_dollar_pos(char *str, int pos);
+t_list			*find_name_vars(char *var);
+char			*get_var_value(char *name, char **env);
 
 #endif

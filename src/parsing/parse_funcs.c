@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parse_funcs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/13 16:13:59 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:13:21 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	num_words(char *str)
+/**
+ * Counts the number of words for `split_words`
+ */
+static int	num_words(char *str)
 {
 	int				n;
 	int				cont;
@@ -39,7 +42,11 @@ int	num_words(char *str)
 	return (cont);
 }
 
-char	**parse_words(char *str)
+/**
+ * Receives a command as in input. It separates the different words
+ * of the command. The command itself and it's parameters.
+*/
+char	**split_words(char *str)
 {
 	int				n;
 	int				aux;
