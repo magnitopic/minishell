@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 16:29:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/15 14:58:14 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	quote_split(char *str, t_list **splitted)
 	int				i;
 	enum e_quotes	flag;
 	enum e_quotes	old_flag;
+	t_list			*new_element;
 
 	i = 0;
 	flag = 0;
@@ -29,11 +30,21 @@ static void	quote_split(char *str, t_list **splitted)
 		flag = check_flag(str, i + len, flag);
 		while (flag == old_flag && str[i + len])
 			flag = check_flag(str, i + ++len, flag);
-		if (!*splitted)
-			*splitted = ft_lstnew(ft_substr(str, i, len + 1));
+		if (old_flag != NONE)
+		{
+			new_element = ft_lstnew(ft_substr(str, i, len + 1));
+			i = i + len + 1;
+		}
 		else
-			ft_lstadd_back(splitted, ft_lstnew(ft_substr(str, i, len + 1)));
-		i = i + len + 1;
+		{
+			new_element = ft_lstnew(ft_substr(str, i, len));
+			i = i + len + 1;
+		}
+		if (!*splitted)
+			*splitted = new_element;
+		else
+			ft_lstadd_back(splitted, new_element);
+		printf("Splitted: %s\n", new_element->content);
 		old_flag = flag;
 	}
 }
