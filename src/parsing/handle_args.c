@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/15 14:58:14 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:05:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	parse_phrase(t_list **list, char **env)
 	while (aux)
 	{
 		aux->content = split_quotes(aux->content, env);
-		printf("spliteao: %s\n", aux->content);
+		printf("spliteao: %s\n", (char *)aux->content);
 		aux = aux->next;
 	}
 }
@@ -89,7 +89,6 @@ char	**expand_values(char **args, char **env)
 
 	aux = args;
 	splitted = NULL;
-	(void)env;
 	while (*aux)
 	{
 		quote_split(ft_strtrim(*aux, " 	"), &splitted);
