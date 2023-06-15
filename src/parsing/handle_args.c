@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 16:29:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:20:21 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	parse_phrase(t_list **list, char **env)
 	while (aux)
 	{
 		aux->content = split_quotes(aux->content, env);
-		printf("spliteao: %s\n", aux->content);
+		printf("spliteao: %s\n", (char *)aux->content);
 		aux = aux->next;
 	}
 }
@@ -78,7 +78,6 @@ char	**expand_values(char **args, char **env)
 
 	aux = args;
 	splitted = NULL;
-	(void)env;
 	while (*aux)
 	{
 		quote_split(ft_strtrim(*aux, " 	"), &splitted);

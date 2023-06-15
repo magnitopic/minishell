@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 16:15:54 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:25:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ char	*remove_quotes(char *input)
 	return (parsed);
 }
 
-enum e_quotes	check_flag(char *str, int n, enum e_quotes flag)
+enum e_quotes	check_flag(char *str, int pos, enum e_quotes flag)
 {
-	if (*(str + n) == 34 && flag == NONE)
+	if (*(str + pos) == '"' && flag == NONE)
 		flag = DOUBLE;
-	else if (*(str + n) == 39 && flag == NONE)
+	else if (*(str + pos) == '\'' && flag == NONE)
 		flag = SINGLE;
-	else if ((flag == SINGLE && *(str + n) == 39)
-		|| (flag == DOUBLE && *(str + n) == 34))
+	else if ((flag == SINGLE && *(str + pos) == '\'')
+		|| (flag == DOUBLE && *(str + pos) == '"'))
 		flag = NONE;
 	return (flag);
 }
@@ -145,8 +145,8 @@ char    *split_quotes(char *input, char **env)
     char    c;
     int     n;
     int     j;
-    int     aux;
     char    *parsed;
+
     c = 1;
     n = 0;
     j = 0;
@@ -156,7 +156,6 @@ char    *split_quotes(char *input, char **env)
         if ((input[n] == '\'' || input[n] == '"') && c == 1)
         {
             c = input[n];
-            aux = n++;
         }
         if (input[n] != c)
             parsed[j++] = input[n];

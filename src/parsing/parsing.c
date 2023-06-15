@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 16:43:42 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:44:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	parsing(char *input, char **paths, char **env)
 	t_list	*aux;
 
 	commands = NULL;
-	if (check_unclosed_quotes(input) == 1)
+	if (check_unclosed_quotes(input))
 	{
 		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
 		return ;
