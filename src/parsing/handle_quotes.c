@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/15 15:06:05 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:08:14 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,24 @@ char	*remove_quotes(char *input)
 	return (parsed);
 }
 
-enum e_quotes	check_flag(char *str, int pos, enum e_quotes flag)
+enum e_quotes	check_flag(char *str, int pos)
 {
-	if (*(str + pos) == '"' && flag == NONE)
-		flag = DOUBLE;
-	else if (*(str + pos) == '\'' && flag == NONE)
-		flag = SINGLE;
-	else if ((flag == SINGLE && *(str + pos) == '\'')
-		|| (flag == DOUBLE && *(str + pos) == '"'))
-		flag = NONE;
+	enum e_quotes	flag;
+	int				i;
+
+	flag = NONE;
+	i = 0;
+	while (i <= pos)
+	{
+		if (str[i] == '"' && flag == NONE)
+			flag = DOUBLE;
+		else if (str[i] == '\'' && flag == NONE)
+			flag = SINGLE;
+		else if ((flag == SINGLE && str[i] == '\'')
+			|| (flag == DOUBLE && str[i] == '"'))
+			flag = NONE;
+		i++;
+	}
 	return (flag);
 }
 
@@ -103,14 +112,14 @@ int	find_dollar_pos(char *str, int pos)
 	return (pos);
 }
 
-char    *add_values(char *command, char **env)
+char	*add_values(char *command, char **env)
 {
-	char    *str;
-	char    *path;
-	char    *temp;
-	char    *other_aux;
-	int     i;
-	t_list  *vars;
+	char	*str;
+	char	*path;
+	char	*temp;
+	char	*other_aux;
+	int		i;
+	t_list	*vars;
 
 	vars = find_name_vars(command);
 	i = 0;
@@ -155,7 +164,7 @@ char	*split_quotes(char *input, char **env)
 	{
 		if ((input[n] == '\'' || input[n] == '"') && c == 1)
 		{
-			c = input[n];¡
+			c = input[n];
 		}
 		if (input[n] != c)
 			parsed[j++] = input[n];

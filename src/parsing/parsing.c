@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 21:44:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:10:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	split_commands(char *input, t_list **com)
 	str = input;
 	while (*input)
 	{
-		flag = check_flag(input, 0, flag);
+		flag = check_flag(input, 0);
 		if (flag == NONE && (*input == 124
 				|| *input == 62 || *input == 60))
 		{

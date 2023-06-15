@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 13:05:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:12:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	num_words(char *str)
 	index = 0;
 	while (str[n])
 	{
-		flag = check_flag(str, n, flag);
+		flag = check_flag(str, n);
 		if (str[n] != ' ' || flag != NONE)
 			index = 0;
 		if ((str[n] == ' ' && flag == NONE && index == 0)
@@ -63,7 +63,7 @@ char	**split_words(char *str)
 	arr = ft_calloc(num_words(str) + 1, sizeof(char *));
 	while (str[n])
 	{
-		flag = check_flag(str, n, flag);
+		flag = check_flag(str, n);
 		if (!str[n + 1] && str[n] != ' ')
 			arr[j] = ft_substr(str, aux, n - aux + 1);
 		if (str[n] == ' ' && flag == NONE && index == 0)
