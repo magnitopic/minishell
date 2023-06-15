@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/15 18:08:14 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:28:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,12 @@ char	*add_values(char *command, char **env)
 				ft_strlen(command) - ft_strlen(vars->content) + ft_strlen(path));
 		str = ft_strjoin(other_aux, temp);
 		free(command);
+		free(other_aux);
 		command = str;
 		i += ft_strlen(vars->content);
 		free(temp);
 		vars = vars->next;
+		free(path);
 	}
 	return (str);
 }
