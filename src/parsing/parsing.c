@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 17:22:07 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:53:22 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_list	*split_commands(char *input, t_list *com)
 		if (check_flag(input, i) == NONE && (input[i] == 124
 				|| input[i] == 62 || input[i] == 60))
 		{
-			temp = ft_substr(str, old_pos, ft_strlen(str) - i);
+			temp = ft_substr(str, old_pos, i - old_pos);
 			if (com == NULL)
 				com = ft_lstnew(temp);
 			else

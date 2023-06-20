@@ -6,13 +6,12 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 15:44:29 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:31:16 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// TODO: Finish function for all use cases
 static void	quote_split(char *str, t_list **splitted)
 {
 	char			len;
@@ -43,13 +42,11 @@ static void	quote_split(char *str, t_list **splitted)
 static void	parse_phrase(t_list **list, char **env)
 {
 	t_list			*aux;
-	//enum e_quotes	flag;
 
 	aux = *list;
 	while (aux)
 	{
 		aux->content = split_quotes(aux->content, env);
-		printf("spliteao: %s\n", (char *)aux->content);
 		aux = aux->next;
 	}
 }
@@ -62,7 +59,7 @@ static char	*join_phrases(t_list	*list)
 	str = "";
 	while (list)
 	{
-		aux =  ft_substr(str, 0, ft_strlen(str));
+		aux = ft_substr(str, 0, ft_strlen(str));
 		if (ft_strlen(str) > 0)
 			free(str);
 		str = ft_strjoin(str, list->content);
@@ -72,7 +69,6 @@ static char	*join_phrases(t_list	*list)
 	return (str);
 }
 
-// TODO: 1. quote_split 2. parse_phrase -> remove quotes -> expand $ 3. join_phrases
 char	**expand_values(char **args, char **env)
 {
 	char	**aux;
@@ -85,10 +81,8 @@ char	**expand_values(char **args, char **env)
 		quote_split(ft_strtrim(*aux, " 	"), &splitted);
 		parse_phrase(&splitted, env);
 		*aux = join_phrases(splitted);
-		printf("Aux: %s\n", *aux);
 		(free_stacks(&splitted), splitted = NULL);
 		aux++;
 	}
 	return (args);
 }
-

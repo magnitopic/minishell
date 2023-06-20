@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 16:29:55 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:25:32 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,27 @@
 
 t_list	*find_name_vars(char *var)
 {
+	t_vars	i;
 	int		n;
-	int		len;
-	int		start;
 	t_list	*vars;
 
 	n = 0;
-	len = 0;
+	i.len = 0;
 	vars = NULL;
 	while (var[n])
 	{
 		if (var[n] == '$' && var[n + 1] && var[n + 1] != 39 && var[n + 1] != 34)
 		{
-			start = n + 1;
+			i.st = n + 1;
 			while (var[++n + 1] && var[n + 1] != ' ' && var[n + 1] != 34
-				&& var[n + 1] != 39 && var[n + 1] != '$' && var[n + 1] != '|'
-				&& var[n + 1] != '<' && var[n + 1] != '>')
-				len++;
+				&& var[n + 1] != 39 && var[n + 1] != '$' && var[n + 1]
+				!= '|' && var[n + 1] != '<' && var[n + 1] != '>')
+				i.len++;
 			if (!vars)
-				vars = ft_lstnew(ft_substr(var, start, len + 1));
+				vars = ft_lstnew(ft_substr(var, i.st, i.len + 1));
 			else
-				ft_lstadd_back(&vars, ft_lstnew(ft_substr(var, start, ++len)));
-			len = 0;
+				ft_lstadd_back(&vars, ft_lstnew(ft_substr(var, i.st, ++i.len)));
+			i.len = 0;
 		}
 		n++;
 	}
@@ -66,21 +65,61 @@ char	*get_var_value(char *name, char **env)
 	return (line);
 }
 
-/* char	*expand_vars(char *str, char **env)
+int	find_dollar_pos(char *str, int pos)
 {
-	t_list	*commands;
-	t_list	*aux;
-	char	*path;
-
-	commands = find_name_vars(str);
-	aux = commands;
-	while (aux)
+	if (!pos)
+		pos = 0;
+	while (str[pos])
 	{
-		path = get_var_value(aux->content, env);
-		printf("%s\n", path);
-		aux = aux->next;
+		if (str[pos] == '$')
+			return (pos);
+		pos++;
 	}
-	free_stacks(&commands);
+	return (pos);
+}
 
-	return (str);
-} */
+static char	*get_string(char *command, char **env, t_vars v, t_list *vars)
+{
+	int	i;
+
+	i = 0;
+	while (vars)
+	{
+		v.path = get_var_value(vars->content, env);
+		i = find_dollar_pos(command, i);
+		v.temp = ft_substr(command, 0, i);
+		if (ft_strlen(v.path) < 1)
+			return (v.temp);
+		v.other_aux = ft_strjoin(v.temp, v.path);
+		free(v.temp);
+		v.temp = ft_substr(command, i + 1 + ft_strlen(vars->content),
+				ft_strlen(command) - ft_strlen(vars->content)
+				+ ft_strlen(v.path));
+		v.str = ft_strjoin(v.other_aux, v.temp);
+		free(command);
+		free(v.other_aux);
+		command = v.str;
+		i += ft_strlen(vars->content);
+		free(v.temp);
+		vars = vars->next;
+		free(v.path);
+	}
+	return (v.str);
+}
+
+char	*add_values(char *command, char **env)
+{
+	t_vars	v;
+	t_list	*vars;
+
+	v.path = NULL;
+	vars = find_name_vars(command);
+	if (!vars)
+	{
+		v.str = ft_substr(command, 0, ft_strlen(command));
+		free(command);
+		return (NULL);
+	}
+	v.str = get_string(command, env, v, vars);
+	return (v.str);
+}

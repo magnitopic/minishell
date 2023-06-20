@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/15 17:12:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:31:26 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,22 @@ typedef struct s_shell
 
 typedef struct s_vars
 {
-	char	*value;
 	int		flag;
 	int		in;
 	int		end;
+	int		n;
+	int		len;
+	int		st;
+	int		i;
+	int		index;
+	int		j;
+	char	*value;
 	char	*temp;
 	char	*aux;
 	char	*str;
+	char	*path;
+	char	*other_aux;
+	char	**arr;
 }	t_vars;
 
 /* Global variable */

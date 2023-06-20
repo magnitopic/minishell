@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 16:24:18 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:34:35 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,29 @@ static int	num_words(char *str)
 */
 char	**split_words(char *str)
 {
-	int				i;
-	int				aux;
-	int				index;
-	int				j;
-	enum e_quotes	flag;
-	char			**arr;
+	t_vars			a;
 
-	i = 0;
-	aux = 0;
-	index = 0;
-	j = 0;
-	arr = ft_calloc(num_words(str) + 1, sizeof(char *));
-	while (str[i])
+	a.i = 0;
+	a.st = 0;
+	a.index = 0;
+	a.j = 0;
+	a.arr = ft_calloc(num_words(str) + 1, sizeof(char *));
+	while (str[a.i])
 	{
-		flag = check_flag(str, i);
-		if (!str[i + 1] && str[i] != ' ')
-			arr[j] = ft_substr(str, aux, i - aux + 1);
-		if (str[i] == ' ' && flag == NONE && index == 0)
+		if (!str[a.i + 1] && str[a.i] != ' ')
+			a.arr[a.j] = ft_substr(str, a.st, a.i - a.st + 1);
+		if (str[a.i] == ' ' && check_flag(str, a.i) == NONE && a.index == 0)
 		{
-			arr[j] = ft_substr(str, aux, i - aux);
-			aux = i;
-			j++;
-			index = 1;
+			a.arr[a.j] = ft_substr(str, a.st, a.i - a.st);
+			a.st = a.i;
+			a.j++;
+			a.index = 1;
 		}
-		if (str[i] != ' ' || flag != NONE)
-			index = 0;
-		if (str[i] == ' ' && index == 1)
-			aux = i;
-		i++;
+		if (str[a.i] != ' ' || check_flag(str, a.i) != NONE)
+			a.index = 0;
+		if (str[a.i] == ' ' && a.index == 1)
+			a.st = a.i;
+		a.i++;
 	}
-	//free(str);
-	return (arr);
+	return (a.arr);
 }

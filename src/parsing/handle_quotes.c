@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 16:07:34 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:15:08 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,79 +99,24 @@ enum e_quotes	check_flag(char *str, int pos)
 	return (flag);
 }
 
-int	find_dollar_pos(char *str, int pos)
-{
-	if (!pos)
-		pos = 0;
-	while (str[pos])
-	{
-		if (str[pos] == '$')
-			return (pos);
-		pos++;
-	}
-	return (pos);
-}
-
-char	*add_values(char *command, char **env)
-{
-	char	*str;
-	char	*path;
-	char	*temp;
-	char	*other_aux;
-	int		i;
-	t_list	*vars;
-
-	vars = find_name_vars(command);
-	i = 0;
-	if (!vars)
-	{
-		str = ft_substr(command, 0, ft_strlen(command));
-		free(command);
-	}
-	while (vars)
-	{
-		path = get_var_value(vars->content, env);
-		i = find_dollar_pos(command, i);
-		temp = ft_substr(command, 0, i);
-		if (ft_strlen(path) < 1)
-			return (temp);
-		other_aux = ft_strjoin(temp, path);
-		free(temp);
-		temp = ft_substr(command, i + 1 + ft_strlen(vars->content),
-				ft_strlen(command) - ft_strlen(vars->content) + ft_strlen(path));
-		str = ft_strjoin(other_aux, temp);
-		free(command);
-		free(other_aux);
-		command = str;
-		i += ft_strlen(vars->content);
-		free(temp);
-		vars = vars->next;
-		free(path);
-	}
-	return (str);
-}
-
 char	*split_quotes(char *input, char **env)
 {
 	char	c;
-	int		n;
-	int		j;
+	t_vars	v;
 	char	*parsed;
 
 	c = 1;
-	n = 0;
-	j = 0;
-	parsed = count_quotes(c, n, j, input);
-	while (input[n])
+	v.n = 0;
+	v.st = 0;
+	parsed = count_quotes(c, v.n, v.st, input);
+	while (input[v.n])
 	{
-		if ((input[n] == '\'' || input[n] == '"') && c == 1)
-		{
-			c = input[n];
-		}
-		if (input[n] != c)
-			parsed[j++] = input[n];
-		n++;
-		if (input[n] == c)
+		if ((input[v.n] == '\'' || input[v.n] == '"') && c == 1)
+			c = input[v.n];
+		if (input[v.n] != c)
+			parsed[v.st++] = input[v.n];
+		v.n++;
+		if (input[v.n] == c)
 		{
 			if (c == '"')
 				parsed = add_values(parsed, env);
