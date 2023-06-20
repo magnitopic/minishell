@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/15 18:10:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:58:44 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ static void	split_commands(char *input, t_list **com)
 	enum e_quotes	flag;
 	char			*str;
 	char			*temp;
+	int				i;
 
 	str = input;
-	while (*input)
+	i = 0;
+	while (input[i])
 	{
-		flag = check_flag(input, 0);
-		if (flag == NONE && (*input == 124
-				|| *input == 62 || *input == 60))
+		flag = check_flag(input, i);
+		if (flag == NONE && (input[i] == 124
+				|| input[i] == 62 || input[i] == 60))
 		{
 			temp = ft_substr(str, 0, ft_strlen(str) - ft_strlen(input));
 			if (*com == NULL)
@@ -35,11 +37,11 @@ static void	split_commands(char *input, t_list **com)
 			else
 				ft_lstadd_back(com, ft_lstnew(temp));
 			str = input;
-			if (flag == NONE && (*input == 124
-					|| *input == 62 || *input == 60))
-				input++;
+			/* if (flag == NONE && (input[i] == 124
+					|| input[i] == 62 || input[i] == 60))
+				i++; */
 		}
-		input++;
+		i++;
 	}
 	ft_lstadd_back(com, ft_lstnew(str));
 }
