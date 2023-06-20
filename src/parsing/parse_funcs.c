@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/15 17:12:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:48:25 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,36 @@ static int	num_words(char *str)
 */
 char	**split_words(char *str)
 {
-	int				n;
+	int				i;
 	int				aux;
 	int				index;
 	int				j;
 	enum e_quotes	flag;
 	char			**arr;
 
-	n = 0;
+	i = 0;
 	aux = 0;
 	index = 0;
 	j = 0;
-	flag = NONE;
 	arr = ft_calloc(num_words(str) + 1, sizeof(char *));
-	while (str[n])
+	while (str[i])
 	{
-		flag = check_flag(str, n);
-		if (!str[n + 1] && str[n] != ' ')
-			arr[j] = ft_substr(str, aux, n - aux + 1);
-		if (str[n] == ' ' && flag == NONE && index == 0)
+		flag = check_flag(str, i);
+		if (!str[i + 1] && str[i] != ' ')
+			arr[j] = ft_substr(str, aux, i - aux + 1);
+		if (str[i] == ' ' && flag == NONE && index == 0)
 		{
-			arr[j] = ft_substr(str, aux, n - aux);
-			aux = n;
+			arr[j] = ft_substr(str, aux, i - aux);
+			aux = i;
 			j++;
 			index = 1;
 		}
-		if (str[n] != ' ' || flag != NONE)
+		if (str[i] != ' ' || flag != NONE)
 			index = 0;
-		if (str[n] == ' ' && index == 1)
-			aux = n;
-		n++;
+		if (str[i] == ' ' && index == 1)
+			aux = i;
+		i++;
 	}
+	free(str);
 	return (arr);
 }
