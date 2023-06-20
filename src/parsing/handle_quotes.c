@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 18:15:08 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:56:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,54 +51,6 @@ static char	*count_quotes(char c, int n, int j, char *input)
 	return (ft_calloc(sizeof(char), (j + 1)));
 }
 
-char	*remove_quotes(char *input)
-{
-	char	c;
-	int		n;
-	int		j;
-	char	*parsed;
-
-	c = 1;
-	n = 0;
-	j = 0;
-	parsed = count_quotes(c, n, j, input);
-	while (input[n])
-	{
-		if ((input[n] == '\'' || input[n] == '"') && c == 1)
-		{
-			c = input[n];
-			n++;
-		}
-		if (input[n] != c)
-			parsed[j++] = input[n];
-		if (input[n] == c)
-			c = 1;
-		n++;
-	}
-	return (parsed);
-}
-
-enum e_quotes	check_flag(char *str, int pos)
-{
-	enum e_quotes	flag;
-	int				i;
-
-	flag = NONE;
-	i = 0;
-	while (i <= pos)
-	{
-		if (str[i] == '"' && flag == NONE)
-			flag = DOUBLE;
-		else if (str[i] == '\'' && flag == NONE)
-			flag = SINGLE;
-		else if ((flag == SINGLE && str[i] == '\'')
-			|| (flag == DOUBLE && str[i] == '"'))
-			flag = NONE;
-		i++;
-	}
-	return (flag);
-}
-
 char	*split_quotes(char *input, char **env)
 {
 	char	c;
@@ -126,4 +78,25 @@ char	*split_quotes(char *input, char **env)
 	if (ft_strchr(parsed, '$') != NULL && c != '\'')
 		parsed = add_values(parsed, env);
 	return (parsed);
+}
+
+enum e_quotes	check_flag(char *str, int pos)
+{
+	enum e_quotes	flag;
+	int				i;
+
+	flag = NONE;
+	i = 0;
+	while (i <= pos)
+	{
+		if (str[i] == '"' && flag == NONE)
+			flag = DOUBLE;
+		else if (str[i] == '\'' && flag == NONE)
+			flag = SINGLE;
+		else if ((flag == SINGLE && str[i] == '\'')
+			|| (flag == DOUBLE && str[i] == '"'))
+			flag = NONE;
+		i++;
+	}
+	return (flag);
 }

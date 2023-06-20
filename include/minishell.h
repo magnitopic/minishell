@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 18:31:26 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:55:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void			set_prompt(void);
 void			signal_handler(int sig);
 char			**split_words(char *str);
 int				check_unclosed_quotes(char *input);
-char			*remove_quotes(char *input);
 void			free_stacks(t_list **list);
 void			exit_program(char *message);
 char			*expand_vars(char *var, char **env);
