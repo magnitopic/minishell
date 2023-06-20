@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_funcs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 15:48:25 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:24:18 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ char	**split_words(char *str)
 			aux = i;
 		i++;
 	}
-	free(str);
+	//free(str);
 	return (arr);
 }

@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 16:05:27 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:07:34 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,11 +174,7 @@ char	*split_quotes(char *input, char **env)
 		if (input[n] == c)
 		{
 			if (c == '"')
-			{
-				printf("before: %s\n", parsed);
 				parsed = add_values(parsed, env);
-				printf("after: %s\n", parsed);
-			}
 			break ;
 		}
 	}
