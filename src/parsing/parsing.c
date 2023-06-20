@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 16:23:59 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:22:07 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,33 @@
  * This function separates the raw user input onto a list where each element is
  * a command
 */
-static void	split_commands(char *input, t_list **com)
+t_list	*split_commands(char *input, t_list *com)
 {
-	enum e_quotes	flag;
 	char			*str;
 	char			*temp;
 	int				i;
+	int				old_pos;
 
 	str = input;
 	i = 0;
+	old_pos = 0;
 	while (input[i])
 	{
-		flag = check_flag(input, i);
-		if (flag == NONE && (input[i] == 124
+		if (check_flag(input, i) == NONE && (input[i] == 124
 				|| input[i] == 62 || input[i] == 60))
 		{
-			temp = ft_substr(str, 0, ft_strlen(str) - ft_strlen(input));
-			if (*com == NULL)
-				*com = ft_lstnew(temp);
+			temp = ft_substr(str, old_pos, ft_strlen(str) - i);
+			if (com == NULL)
+				com = ft_lstnew(temp);
 			else
-				ft_lstadd_back(com, ft_lstnew(temp));
+				ft_lstadd_back(&com, ft_lstnew(temp));
 			str = input;
-			/* if (flag == NONE && (input[i] == 124
-					|| input[i] == 62 || input[i] == 60))
-				i++; */
+			old_pos = i;
 		}
 		i++;
 	}
-	ft_lstadd_back(com, ft_lstnew(str));
+	ft_lstadd_back(&com, ft_lstnew(str + old_pos));
+	return (com);
 }
 
 void	parsing(char *input, char **paths, char **env)
@@ -57,7 +56,7 @@ void	parsing(char *input, char **paths, char **env)
 		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
 		return ;
 	}
-	split_commands(input, &commands);
+	commands = split_commands(input, commands);
 	aux = commands;
 	while (aux)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/15 18:46:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:26:35 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static char	**put_path(char **paths, char **env)
 	return (paths);
 }
 
-/* void	ft_leaks(void)
+void	ft_leaks(void)
 {
 	system("Leaks minishell");
-} */
+}
 
 static void	user_input(char **paths, char **env)
 {
@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char	**paths;
 
-	//atexit(ft_leaks);
+	atexit(ft_leaks);
 	((void)argv, (void)argc);
 	g_shell = malloc(sizeof(g_shell));
 	if (!env[0])
