@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/14 16:16:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:02:58 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ t_list	*find_name_vars(char *var)
 	n = 0;
 	len = 0;
 	vars = NULL;
-	printf("%s\n", var);
 	while (var[n])
 	{
-		if (var[n] == '$')
+		if (var[n] == '$' && var[n + 1] && var[n + 1] != 39 && var[n + 1] != 34)
 		{
 			start = n + 1;
 			while (var[++n + 1] && var[n + 1] != ' ' && var[n + 1] != 34

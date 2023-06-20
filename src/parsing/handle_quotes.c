@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/15 18:28:45 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:05:27 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char	*add_values(char *command, char **env)
 		path = get_var_value(vars->content, env);
 		i = find_dollar_pos(command, i);
 		temp = ft_substr(command, 0, i);
-		if (!path)
+		if (ft_strlen(path) < 1)
 			return (temp);
 		other_aux = ft_strjoin(temp, path);
 		free(temp);
