@@ -6,8 +6,8 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:47 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 15:36:05 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:21:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
