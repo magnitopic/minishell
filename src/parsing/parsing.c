@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 14:53:06 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:18:48 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_list	*split_commands(char *input, t_list *com)
 	old_pos = 0;
 	while (input[i])
 	{
-		if (check_flag(input, i) == NONE && (input[i] == 124 || ((input[i] == 62
-						|| input[i] == 60) && input[i - 1] != input[i])))
+		if (check_flag(input, i) == NONE && i > 0 && (input[i] == 124 \
+		|| ((input[i] == 62 || input[i] == 60) && input[i - 1] != input[i])))
 		{
 			temp = ft_substr(str, old_pos, i - old_pos);
 			if (com == NULL)
