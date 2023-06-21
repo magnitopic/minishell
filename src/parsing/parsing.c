@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 18:55:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:47:01 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_list	*split_commands(char *input, t_list *com)
 	while (input[i])
 	{
 		if (check_flag(input, i) == NONE && (input[i] == 124
-				|| input[i] == 62 || input[i] == 60))
+				|| (input[i] == 62 && input[i - 1] != 62) || (input[i] == 60 && input[i - 1] != 60)))
 		{
 			temp = ft_substr(str, old_pos, i - old_pos);
 			if (com == NULL)

@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 18:25:32 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:43:56 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*add_values(char *command, char **env)
 	{
 		v.str = ft_substr(command, 0, ft_strlen(command));
 		free(command);
-		return (NULL);
+		return (v.str);
 	}
 	v.str = get_string(command, env, v, vars);
 	return (v.str);
