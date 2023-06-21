@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/20 18:33:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:29:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ static void	execute_one(char **comms, char **paths, char **env)
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
-	//waitpid(id, NULL, 0);
+	waitpid(id, NULL, 0);
 	free_matrix(arr);
 	free(name);
 }

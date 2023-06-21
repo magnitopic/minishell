@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 17:35:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:29:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int	main(int argc, char **argv, char **env)
 		exit(EXIT_FAILURE);
 	}
 	paths = put_path(NULL, env);
-	/* signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler); */
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
 	while (1)
 		user_input(paths, env);
 	free_matrix(paths);
