@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 19:03:06 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:46:46 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	num_words(char *str)
 		flag = check_flag(str, n);
 		if (str[n] != ' ' || flag != NONE)
 			index = 0;
-		if ((str[n] == ' ' && flag == NONE && index == 0)
+		if (((str[n] == ' ' || str[n] == '<' || str[n] == '>') && flag == NONE && index == 0)
 			|| (!str[n + 1] && str[n] != ' '))
 		{
 			cont++;
@@ -57,16 +57,21 @@ char	**split_words(char *str)
 	a.arr = ft_calloc(num_words(str) + 1, sizeof(char *));
 	while (str[a.i])
 	{
-		if (!str[a.i + 1] && str[a.i] != ' ')
+		if (!str[a.i + 1])
+		{
 			a.arr[a.j] = ft_substr(str, a.st, a.i - a.st + 1);
-		if (str[a.i] == ' ' && check_flag(str, a.i) == NONE && a.index == 0)
+			return (a.arr);
+		}
+		if ((str[a.i] == ' ' || str[a.i] == '<' || str[a.i] == '>')
+			&& check_flag(str, a.i) == NONE && a.index == 0)
 		{
 			a.arr[a.j] = ft_substr(str, a.st, a.i - a.st);
 			a.st = a.i;
 			a.j++;
 			a.index = 1;
 		}
-		if (str[a.i] != ' ' || check_flag(str, a.i) != NONE)
+		if ((str[a.i] != ' ' && str[a.i] != '<' && str[a.i] != '>')
+			|| check_flag(str, a.i) != NONE)
 			a.index = 0;
 		if (str[a.i] == ' ' && a.index == 1)
 			a.st = a.i;

@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 19:00:09 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:43:28 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	parsing(char *input, char **paths, char **env)
 	t_list	*aux;
 
 	commands = NULL;
+	paths = NULL;
 	if (check_unclosed_quotes(input))
 	{
 		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
@@ -98,7 +99,7 @@ void	parsing(char *input, char **paths, char **env)
 	while (aux)
 	{
 		aux->content = split_words(aux->content);
-		aux->content = order_values(aux->content);
+		//aux->content = order_values(aux->content);
 		aux->content = expand_values(aux->content, env);
 		int i = 0;
 		printf("\033[0;35mParsed:\033[0m\n");
@@ -108,10 +109,10 @@ void	parsing(char *input, char **paths, char **env)
 		aux = aux->next;
 	}
 	aux = commands;
-	while (commands)
+	/*while (commands)
 	{
 		execution(commands->content, paths, env);
 		commands = commands->next;
 	}
-	free_stacks(&aux);
+	free_stacks(&aux);*/
 }
