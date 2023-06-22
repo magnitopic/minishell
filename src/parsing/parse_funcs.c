@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/22 14:46:46 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:57:13 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	**split_words(char *str)
 			return (a.arr);
 		}
 		if ((str[a.i] == ' ' || str[a.i] == '<' || str[a.i] == '>')
-			&& check_flag(str, a.i) == NONE && a.index == 0)
+			&& check_flag(str, a.i) == NONE && a.index == 0 && a.i != 0)
 		{
 			a.arr[a.j] = ft_substr(str, a.st, a.i - a.st);
 			a.st = a.i;
