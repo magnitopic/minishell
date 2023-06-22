@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 17:29:52 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:53:52 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ char			*split_quotes(char *input, char **env);
 char			*add_values(char *command, char **env);
 t_list			*find_name_vars(char *var);
 char			*get_var_value(char *name, char **env);
+char			**split_redirects(char **str);
 
 #endif

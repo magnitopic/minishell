@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/22 14:51:08 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:14:53 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ char	**order_values(char	**old_arr)
 	new.j = 0;
 	while (old_arr[new.j])
 	{
-		if (old_arr[new.j][0] != '<' && old_arr[new.j][0] != '>' && \
-	(new.j < 1 || (old_arr[new.j - 1][0] != '<'
-			&& old_arr[new.j - 1][0] != '>')))
+		if ((old_arr[new.j][0] != '<' && old_arr[new.j][0] != '>' && \
+	new.j < 1) || ((old_arr[new.j - 1][1] != '<'
+			&& old_arr[new.j - 1][1] != '>' && ft_strlen(old_arr[new.j - 1]) == 2)
+			|| (old_arr[new.j][1] != '<' && old_arr[new.j][0] != '>')))
 		{
-			printf("JAJA, %s arr[%d][0] = %c\n", old_arr[new.j], new.j, old_arr[new.j][0]);
+			printf("JAJA, %s arr[%d][1] = %c\n", old_arr[new.j], new.j, old_arr[new.j][1]);
 			new.arr[new.i] = ft_substr(old_arr[new.j], 0,
 					ft_strlen(old_arr[new.j]));
 			new.i++;
@@ -99,6 +100,7 @@ void	parsing(char *input, char **paths, char **env)
 	while (aux)
 	{
 		aux->content = split_words(aux->content);
+		aux->content = split_redirects(aux->content);
 		//aux->content = order_values(aux->content);
 		aux->content = expand_values(aux->content, env);
 		int i = 0;

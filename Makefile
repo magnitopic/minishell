@@ -22,7 +22,7 @@ LIBFT_SRC		=	./libft/
 # Compiler
 CC				=	gcc
 RM				=	rm -f
-CFLAGS			=	-Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS			=	-Wall -Werror -Wextra 
 EXTRAFLAGS		=	-lreadline
 
 # Colours
