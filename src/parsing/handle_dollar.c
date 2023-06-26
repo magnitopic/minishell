@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 13:43:56 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:03:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ t_list	*find_name_vars(char *var)
 				&& var[n + 1] != 39 && var[n + 1] != '$' && var[n + 1]
 				!= '|' && var[n + 1] != '<' && var[n + 1] != '>')
 				i.len++;
-			if (!vars)
-				vars = ft_lstnew(ft_substr(var, i.st, i.len + 1));
-			else
-				ft_lstadd_back(&vars, ft_lstnew(ft_substr(var, i.st, ++i.len)));
+			ft_lstadd_new(&vars, ft_substr(var, i.st, ++i.len));
 			i.len = 0;
 		}
 		n++;

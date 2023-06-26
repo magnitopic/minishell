@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 18:42:24 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/26 14:56:53 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,13 @@ t_list	*split_commands(char *input, t_list *com)
 		|| ((input[i] == 62 || input[i] == 60) && input[i - 1] != input[i])))
 		{
 			temp = ft_substr(str, old_pos, i - old_pos);
-			if (com == NULL)
-				com = ft_lstnew(temp);
-			else
-				ft_lstadd_back(&com, ft_lstnew(temp));
+			ft_lstadd_new(&com, temp);
 			str = input;
 			old_pos = i;
 		}
 		i++;
 	}
-	ft_lstadd_back(&com, ft_lstnew(str + old_pos));
+	ft_lstadd_new(&com, str + old_pos);
 	return (com);
 }
 

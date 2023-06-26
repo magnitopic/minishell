@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/20 18:55:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:03:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ static void	quote_split(char *str, t_list **splitted)
 			flag = check_flag(str, i + ++len);
 		if (old_flag != NONE)
 			flag = check_flag(str, i + ++len);
-		if (!*splitted)
-			*splitted = ft_lstnew(ft_substr(str, i, len));
-		else
-			ft_lstadd_back(splitted, ft_lstnew(ft_substr(str, i, len)));
+		ft_lstadd_new(splitted, ft_substr(str, i, len));
 		i = i + len;
 		old_flag = flag;
 	}
