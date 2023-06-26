@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 17:29:52 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:48:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,14 @@ typedef struct s_vars
 	char	*other_aux;
 	char	**arr;
 }	t_vars;
+
+typedef struct s_command
+{
+	char				*comm;
+	t_list				*args;
+	t_list				*redi;
+	struct s_command	*next;
+}	t_command;
 
 /* Global variable */
 t_shell	*g_shell;
