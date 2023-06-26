@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 18:48:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/26 14:34:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ typedef struct s_command
 
 /* Global variable */
 t_shell	*g_shell;
+
+/* Replace line shenanigans */
+void			rl_replace_line(const char *text, int clear_undo);
 
 /* Functions */
 char			**expand_values(char **args, char **env);

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 15:17:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/21 15:29:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:17:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		printf("\n");
-		// TODO: show prompt again
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }

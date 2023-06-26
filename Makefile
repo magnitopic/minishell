@@ -30,7 +30,7 @@ LIBFT_SRC		=	./libft/
 CC				=	gcc
 RM				=	rm -f
 CFLAGS			=	-Wall -Werror -Wextra
-EXTRAFLAGS		=	-lreadline
+EXTRAFLAGS		=	-lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 
 # Colours
 RED				=	\033[0;31m
