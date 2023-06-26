@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/26 14:56:53 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/26 17:20:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,28 @@
  * This function separates the raw user input onto a list where each element is
  * a command
 */
-t_list	*split_commands(char *input, t_list *com)
+int	split_commands(char *input, t_list **com)
 {
-	char			*str;
-	char			*temp;
-	int				i;
-	int				old_pos;
+	int	i;
+	int	old_pos;
 
-	str = input;
 	i = 0;
 	old_pos = 0;
 	while (input[i])
 	{
-		if (check_flag(input, i) == NONE && i > 0 && (input[i] == 124 \
-		|| ((input[i] == 62 || input[i] == 60) && input[i - 1] != input[i])))
+		if (check_flag(input, i) == NONE && i > 0 && input[i] == 124)
 		{
-			temp = ft_substr(str, old_pos, i - old_pos);
-			ft_lstadd_new(&com, temp);
-			str = input;
+			char *test = ft_strtrim(ft_substr(input, old_pos, i - old_pos), "|");
+			if (*test == '\0')
+				return (1);
+			ft_lstadd_new(com, test);
 			old_pos = i;
+			printf("\"%s\"\n", test);
 		}
 		i++;
 	}
-	ft_lstadd_new(&com, str + old_pos);
-	return (com);
+	ft_lstadd_new(com, input + old_pos);
+	return (0);
 }
 
 void	parsing(char *input, char **paths, char **env)
@@ -53,7 +51,11 @@ void	parsing(char *input, char **paths, char **env)
 		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
 		return ;
 	}
-	commands = split_commands(input, commands);
+	if (split_commands(input, &commands))
+	{
+		ft_putstr_fd("\033[0;31mError: \033[0;\n", 2);
+		return ;
+	}
 	aux = commands;
 	while (aux)
 	{
