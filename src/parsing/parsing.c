@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/26 17:20:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/29 11:03:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,29 @@
 */
 int	split_commands(char *input, t_list **com)
 {
-	int	i;
-	int	old_pos;
+	int		i;
+	int		old_i;
+	char	*str;
 
 	i = 0;
-	old_pos = 0;
+	old_i = 0;
 	while (input[i])
 	{
 		if (check_flag(input, i) == NONE && i > 0 && input[i] == 124)
 		{
-			char *test = ft_strtrim(ft_substr(input, old_pos, i - old_pos), "|");
-			if (*test == '\0')
+			str = ft_substr(input, old_i, i - old_i);
+			if (str)
 				return (1);
-			ft_lstadd_new(com, test);
-			old_pos = i;
-			printf("\"%s\"\n", test);
+			ft_lstadd_new(com, ft_strtrim(str, "| "));
+			old_i = i;
+			free(str);
 		}
 		i++;
 	}
-	ft_lstadd_new(com, input + old_pos);
+	if (!*com)
+		ft_lstadd_new(com, input + old_i);
+	else
+		ft_lstadd_new(com, ft_strtrim(input + old_i + 1, "| "));
 	return (0);
 }
 
@@ -52,10 +56,7 @@ void	parsing(char *input, char **paths, char **env)
 		return ;
 	}
 	if (split_commands(input, &commands))
-	{
-		ft_putstr_fd("\033[0;31mError: \033[0;\n", 2);
-		return ;
-	}
+		return (ft_putstr_fd("\033[0;31mError: \033[0;\n", 2));
 	aux = commands;
 	while (aux)
 	{
