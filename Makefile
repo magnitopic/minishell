@@ -2,23 +2,23 @@
 NAME			=	minishell
 
 SHELL_SRC	=	src/minishell.c \
+				src/utils.c \
 				src/signals.c \
 				src/execution.c \
-				src/create_arrays.c \
 				src/create_vars.c \
-				src/utils.c \
+				src/create_arrays.c \
 				src/parsing/parsing.c \
-				src/parsing/parse_funcs.c \
+				src/parsing/handle_args.c \
+				src/parsing/split_words.c \
 				src/parsing/handle_dollar.c \
 				src/parsing/handle_quotes.c \
-				src/parsing/handle_args.c \
 				src/builtins/cd.c \
-				src/builtins/echo.c \
 				src/builtins/env.c \
-				src/builtins/exit.c \
-				src/builtins/export.c \
 				src/builtins/pwd.c \
-				src/builtins/unset.c
+				src/builtins/echo.c \
+				src/builtins/exit.c \
+				src/builtins/unset.c \
+				src/builtins/export.c
 
 OBJS			= $(SHELL_SRC:.c=.o)
 

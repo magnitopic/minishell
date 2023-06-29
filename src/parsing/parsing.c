@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/29 11:03:47 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:07:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * This function separates the raw user input onto a list where each element is
  * a command
 */
-int	split_commands(char *input, t_list **com)
+static int	split_commands(char *input, t_list **com)
 {
 	int		i;
 	int		old_i;
@@ -44,6 +44,13 @@ int	split_commands(char *input, t_list **com)
 	return (0);
 }
 
+char	*coso(char **args)
+{
+	printf("Yes");
+	printf("%s", *args);
+	return ("yes");
+}
+
 void	parsing(char *input, char **paths, char **env)
 {
 	t_list	*commands;
@@ -51,10 +58,7 @@ void	parsing(char *input, char **paths, char **env)
 
 	commands = NULL;
 	if (check_unclosed_quotes(input))
-	{
-		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
-		return ;
-	}
+		return (ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2));
 	if (split_commands(input, &commands))
 		return (ft_putstr_fd("\033[0;31mError: \033[0;\n", 2));
 	aux = commands;
@@ -67,6 +71,7 @@ void	parsing(char *input, char **paths, char **env)
 		while (((char **)aux->content)[i])
 			printf("%s\n", ((char **)aux->content)[i++]);
 		printf("\033[0;35m--------------------\033[0m\n");
+		aux->content = coso(aux->content);
 		aux = aux->next;
 	}
 	aux = commands;

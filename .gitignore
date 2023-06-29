@@ -4,3 +4,9 @@ minishell
 *.o
 test.c
 /.vscode
+
+# test output files
+1
+2
+a
+b
