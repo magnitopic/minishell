@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/29 17:07:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:22:57 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	split_commands(char *input, t_list **com)
 		if (check_flag(input, i) == NONE && i > 0 && input[i] == 124)
 		{
 			str = ft_substr(input, old_i, i - old_i);
-			if (str)
+			if (!str)
 				return (1);
 			ft_lstadd_new(com, ft_strtrim(str, "| "));
 			old_i = i;
@@ -44,11 +44,24 @@ static int	split_commands(char *input, t_list **com)
 	return (0);
 }
 
-char	*coso(char **args)
+static t_command	*coso(char **tokens)
 {
-	printf("Yes");
-	printf("%s", *args);
-	return ("yes");
+	t_command	*new_list;
+	int			i;
+
+	i = 0;
+	new_list = malloc(sizeof(t_command));
+	while (*tokens)
+	{
+		if (i++ == 0)
+			new_list->comm = *tokens;
+		else if (**tokens == '<' || **tokens == '>')
+			ft_lstadd_new(&new_list->redi, *tokens);
+		else
+			ft_lstadd_new(&new_list->args, *tokens);
+		tokens++;
+	}
+	return (new_list);
 }
 
 void	parsing(char *input, char **paths, char **env)
@@ -60,7 +73,7 @@ void	parsing(char *input, char **paths, char **env)
 	if (check_unclosed_quotes(input))
 		return (ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2));
 	if (split_commands(input, &commands))
-		return (ft_putstr_fd("\033[0;31mError: \033[0;\n", 2));
+		return (ft_putstr_fd("\033[0;31mError: Syntax error '|'\033[0;\n", 2));
 	aux = commands;
 	while (aux)
 	{

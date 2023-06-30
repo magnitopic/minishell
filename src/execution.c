@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/21 15:29:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:25:02 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ static void	execute_one(char **comms, char **paths, char **env)
 	free(name);
 }
 
-void	execution(char **input, char **paths, char **env)
+/* void	execution(char **input, char **paths, char **env)
 {
 	// TODO: Fix this ->
 	if ((!ft_strncmp(*input, "exit", ft_strlen(*input))
@@ -149,7 +149,28 @@ void	execution(char **input, char **paths, char **env)
 		exit_program("exit\n");
 	if (!input[1])
 		execute_one(input, paths, env);
-	/* char *name = find_command(*input, paths);
-	execve(name, input, env); */
+	char *name = find_command(*input, paths);
+	execve(name, input, env);
 	free_matrix(input);
+} */
+
+// ! Known errors: if redis are palce together they are not split fix in expand values
+void	execution(t_command *input, char **paths, char **env)
+{
+	((void)paths, (void)env);
+	if (input ->comm)
+	{
+		printf("command: %s\n", input->comm);
+		execute_one(&input->comm, paths, env);
+	}
+	while (input->redi)
+	{
+		printf("redi: %s\n", input->redi->content);
+		input->redi = input->redi->next;
+	}
+	while (input->args)
+	{
+		printf("args: %s\n", input->args->content);
+		input->args = input->args->next;
+	}
 }

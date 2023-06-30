@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/29 16:51:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:05:17 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_command
 	char				*comm;
 	t_list				*args;
 	t_list				*redi;
-	struct s_command	*next;
 }	t_command;
 
 /* Global variable */
@@ -85,7 +84,7 @@ char			*create_vars(char *origin, char **env);
 char			**create_arrays(char **comms, char *name);
 void			parsing(char *input, char **paths, char **env);
 enum e_quotes	check_flag(char *str, int n);
-void			execution(char **input, char **paths, char **env);
+void			execution(t_command *input, char **paths, char **env);
 char			*split_quotes(char *input, char **env);
 char			*add_values(char *command, char **env);
 t_list			*find_name_vars(char *var);
