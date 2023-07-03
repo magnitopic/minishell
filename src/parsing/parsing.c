@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/03 13:30:41 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:22:02 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ static int	split_commands(char *input, t_list **com)
 	old_i = 0;
 	while (input[i])
 	{
-		if (check_flag(input, i) == NONE && i > 0 && input[i] == 124)
+		if (check_flag(input, i) == NONE && input[i] == 124)
 		{
 			str = ft_substr(input, old_i, i - old_i);
-			if (!str)
+			if ((ft_strlen(ft_strtrim(str, "| ")) < 1)
+				|| (input[i] == '|' && !input[i + 1]))
 				return (1);
 			ft_lstadd_new(com, ft_strtrim(str, "| "));
 			old_i = i;
