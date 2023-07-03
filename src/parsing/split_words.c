@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/29 14:33:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:14:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	num_words(char *str)
 */
 char	**split_words(char *str)
 {
-	t_vars			a;
+	t_vars	a;
 
 	a.i = 0;
 	a.st = 0;

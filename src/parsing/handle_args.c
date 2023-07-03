@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/03 14:00:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:55:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ static char	*join_phrases(t_list	*list)
 	char	*str;
 	char	*aux;
 
-	str = "";
+	str = list->content;
+	aux = "";
+	list = list->next;
 	while (list)
 	{
-		aux = ft_substr(str, 0, ft_strlen(str));
-		if (ft_strlen(str) > 0)
-			free(str);
+		aux = str;
 		str = ft_strjoin(str, list->content);
 		free(aux);
 		list = list->next;
