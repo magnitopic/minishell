@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/06/30 16:25:02 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/03 11:48:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	change_dir(char **arr, char **env)
+/* static void	change_dir(char **arr, char **env)
 {
 	char	*pwd;
 	char	*buf;
@@ -139,7 +139,7 @@ static void	execute_one(char **comms, char **paths, char **env)
 	waitpid(id, NULL, 0);
 	free_matrix(arr);
 	free(name);
-}
+} */
 
 /* void	execution(char **input, char **paths, char **env)
 {
@@ -154,14 +154,14 @@ static void	execute_one(char **comms, char **paths, char **env)
 	free_matrix(input);
 } */
 
-// ! Known errors: if redis are palce together they are not split fix in expand values
+// ! Known errors: if redis are placed together they are not split. Fix in expand values
 void	execution(t_command *input, char **paths, char **env)
 {
 	((void)paths, (void)env);
-	if (input ->comm)
+	if (input->comm)
 	{
 		printf("command: %s\n", input->comm);
-		execute_one(&input->comm, paths, env);
+		//execute_one(&input->comm, paths, env);
 	}
 	while (input->redi)
 	{

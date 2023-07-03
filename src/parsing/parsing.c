@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/30 16:22:57 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/03 11:53:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ static t_command	*coso(char **tokens)
 	int			i;
 
 	i = 0;
-	new_list = malloc(sizeof(t_command));
+	new_list = ft_calloc(1, sizeof(t_command));
 	while (*tokens)
 	{
-		if (i++ == 0)
-			new_list->comm = *tokens;
-		else if (**tokens == '<' || **tokens == '>')
+		if (**tokens == '<' || **tokens == '>')
 			ft_lstadd_new(&new_list->redi, *tokens);
+		else if (i++ == 0)
+			new_list->comm = *tokens;
 		else
 			ft_lstadd_new(&new_list->args, *tokens);
 		tokens++;
