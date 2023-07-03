@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/03 11:53:36 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/03 13:30:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ static int	split_commands(char *input, t_list **com)
 	return (0);
 }
 
-static t_command	*coso(char **tokens)
+/**
+ * The command elements are split into the actual command, it's arguments and
+ * the redirects to and from files
+*/
+static t_command	*structure(char **tokens)
 {
 	t_command	*new_list;
 	int			i;
@@ -84,7 +88,7 @@ void	parsing(char *input, char **paths, char **env)
 		while (((char **)aux->content)[i])
 			printf("%s\n", ((char **)aux->content)[i++]);
 		printf("\033[0;35m--------------------\033[0m\n");
-		aux->content = coso(aux->content);
+		aux->content = structure(aux->content);
 		aux = aux->next;
 	}
 	aux = commands;
@@ -93,5 +97,5 @@ void	parsing(char *input, char **paths, char **env)
 		execution(commands->content, paths, env);
 		commands = commands->next;
 	}
-	free_stacks(&aux);
+	free_commands(aux);
 }

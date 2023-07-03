@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/03 09:19:02 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/03 12:39:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ char			*split_quotes(char *input, char **env);
 char			*add_values(char *command, char **env);
 t_list			*find_name_vars(char *var);
 char			*get_var_value(char *name, char **env);
+void			free_commands(t_list *input);
 
 #endif

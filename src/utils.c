@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/08 12:44:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/03 12:45:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,25 @@ void	free_stacks(t_list **list)
 	if ((*list)->next != NULL)
 		free_stacks(&(*list)->next);
 	(free(*list), *list = NULL);
+}
+
+void	free_commands(t_list *cmd)
+{
+	t_list		*input;
+	t_command	*command;
+
+	input = cmd;
+	while (input)
+	{
+		command = input->content;
+		if (command == NULL)
+			return ;
+		if (command->args != NULL)
+			free_stacks(&(command->args));
+		if (command->redi != NULL)
+			free_stacks(&(command->redi));
+		free(command);
+		input = input->next;
+	}
+	free(cmd);
 }
