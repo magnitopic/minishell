@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/04 12:28:33 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:29:01 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,6 @@
 	return (diputado(a.arr));
 } */
 
-static void	split_redirects(char *str, int pos, int last_pos, t_list **list)
-{
-	pos++;
-	while (str[pos] != '>' && str[pos] != '<' && str[pos] != ' '
-		&& str[pos] != '\0')
-		pos++;
-	//printf("SPLIT: %s\n", ft_substr(str, last_pos, pos - last_pos));
-	ft_lstadd_new(list, ft_substr(str, last_pos, pos - last_pos));
-	last_pos = pos;
-}
-
 t_list	*split_words(char *str)
 {
 	t_list	*list;
@@ -113,14 +102,27 @@ t_list	*split_words(char *str)
 	{
 		while ((str[pos + 1] == ' ' && !check_flag(str, pos + 1)))
 			pos++;
+		if ((str[pos] == '>' || str[pos] == '<') && !check_flag(str, pos))
+		{
+			printf("SPLIT: %s\n", ft_substr(str, last_pos, pos - last_pos));
+			if (str[pos - 1] != ' ')
+				ft_lstadd_new(&list, ft_substr(str, last_pos, pos - last_pos));
+			last_pos = pos;
+			while (((str[pos] == '>' || str[pos] == '<')
+					&& !check_flag(str, pos)))
+				pos++;
+			/*if (last_pos == pos)
+				last_pos -= 1;*/
+			printf("SPLIT: %s\n", ft_substr(str, last_pos, pos - last_pos));
+			ft_lstadd_new(&list, ft_substr(str, last_pos, pos - last_pos));
+			last_pos = pos;
+		}
 		if ((str[pos] == ' ' && !check_flag(str, pos)) || !str[pos + 1])
 		{
-			//printf("SPLIT: %s\n", ft_substr(str, last_pos, pos + 1 - last_pos));
+			printf("SPLIT: %s\n", ft_substr(str, last_pos, pos + 1 - last_pos));
 			ft_lstadd_new(&list, ft_substr(str, last_pos, pos + 1 - last_pos));
 			last_pos = pos + 1;
 		}
-		else if ((str[pos] == '>' || str[pos] == '<') && !check_flag(str, pos))
-			split_redirects(str, pos, last_pos, &list);
 		pos++;
 	}
 	return (list);
