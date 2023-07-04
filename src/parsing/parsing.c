@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/04 13:06:21 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:56:48 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,29 @@ static int	split_commands(char *input, t_list **com)
  * The command elements are split into the actual command, it's arguments and
  * the redirects to and from files
 */
-static t_command	*structure(char **tokens)
+static t_command	*structure(t_list *tokens)
 {
 	t_command	*new_list;
 	int			i;
 	char		*str;
+	char		*aux;
 
 	i = 0;
 	new_list = ft_calloc(1, sizeof(t_command));
-	while (*tokens)
+	while (tokens)
 	{
-		printf("TOKENS: %s\n", *tokens);
-		if ((**tokens == '<' || **tokens == '>'))
+		aux = tokens->content;
+		printf("TOKENS: %s\n", aux);
+		if ((*aux == '<' || *aux == '>'))
 		{
-			if (ft_strncmp(*tokens, ">>", ft_strlen(*tokens)) == 0
-				|| ft_strncmp(*tokens, "<<", ft_strlen(*tokens)) == 0)
-				(str = ft_strjoin(*tokens, *(tokens + 1)), tokens++);
-			else
-				str =*tokens;
+			str = aux;
 			ft_lstadd_new(&new_list->redi, str);
 		}
 		else if (i++ == 0)
-			new_list->comm = *tokens;
+			new_list->comm = aux;
 		else
-			ft_lstadd_new(&new_list->args, *tokens);
-		tokens++;
+			ft_lstadd_new(&new_list->args, aux);
+		tokens = tokens->next;
 	}
 	return (new_list);
 }
@@ -94,13 +92,13 @@ void	parsing(char *input, char **paths, char **env)
 		aux->content = split_words(aux->content);
 		aux->content = expand_values(aux->content, env);
 		printf("\033[0;35mParsed:\033[0m\n");
-		/* t_list	*auxaux = aux;
+		t_list	*auxaux = aux;
 		while (auxaux->content)
 		{
 			printf("%s\n", (char *)(((t_list *)auxaux->content)->content));
-			auxaux = auxaux->content;
+			auxaux = auxaux->next;
 		}
-		printf("\033[0;35m--------------------\033[0m\n"); */
+		printf("\033[0;35m--------------------\033[0m\n");
 		aux->content = structure(aux->content);
 		aux = aux->next;
 	}

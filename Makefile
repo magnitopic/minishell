@@ -29,7 +29,7 @@ LIBFT_SRC		=	./libft/
 # Compiler
 CC				=	gcc
 RM				=	rm -f
-CFLAGS			=	 -g3 -fsanitize=address #-Wall -Werror -Wextra
+CFLAGS			=	 -g3 -fsanitize=address -Wall -Werror -Wextra
 EXTRAFLAGS		=	-lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 
 # Colours

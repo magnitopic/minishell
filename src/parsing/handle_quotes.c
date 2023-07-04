@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/04 13:14:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:40:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	check_unclosed_quotes(char *input)
 
 static char	*count_quotes(char c, int n, int j, char *input)
 {
-	printf("yes3: %s\n", input);
 	while (input[n])
 	{
 		if ((input[n] == '\'' || input[n] == '"') && c == 1)
@@ -61,7 +60,6 @@ char	*split_quotes(char *input, char **env)
 	c = 1;
 	v.n = 0;
 	v.st = 0;
-	printf("yes2: %s\n", input);
 	parsed = count_quotes(c, v.n, v.st, input);
 	while (input[v.n])
 	{
