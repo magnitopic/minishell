@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/04 16:16:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/04 18:24:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ static void	quote_split(char *str, t_list **splitted)
 			flag = check_flag(str, i + ++len);
 		if (old_flag != NONE)
 			flag = check_flag(str, i + ++len);
-		ft_printf("hola: %s\n", ft_substr(str, i, len));
 		ft_lstadd_new(splitted, ft_substr(str, i, len));
-		ft_printf("adios: %s\n", (*splitted)->content);
-		splitted = &((*splitted)->next);
 		i = i + len;
 		old_flag = flag;
 	}
@@ -73,7 +70,9 @@ static char	*join_phrases(t_list	*list)
 t_list *expand_values(t_list *args, char **env)
 {
 	t_list	*splitted;
+	t_list	*aux;
 
+	aux = args;
 	splitted = NULL;
 	while (args)
 	{
@@ -83,5 +82,5 @@ t_list *expand_values(t_list *args, char **env)
 		(free_stacks(&splitted), splitted = NULL);
 		args = args->next;
 	}
-	return (args);
+	return (aux);
 }

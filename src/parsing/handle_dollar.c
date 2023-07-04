@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/06/26 15:03:41 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:14:42 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ t_list	*find_name_vars(char *var)
 	int		n;
 	t_list	*vars;
 
+	printf("SIP: %s\n", var);
 	n = 0;
 	i.len = 0;
 	vars = NULL;
 	while (var[n])
 	{
-		if (var[n] == '$' && var[n + 1] && var[n + 1] != 39 && var[n + 1] != 34)
+		printf("%c %d\n", var[n], check_flag(var, n));
+		if (var[n] == '$')
 		{
 			i.st = n + 1;
-			while (var[++n + 1] && var[n + 1] != ' ' && var[n + 1] != 34
-				&& var[n + 1] != 39 && var[n + 1] != '$' && var[n + 1]
-				!= '|' && var[n + 1] != '<' && var[n + 1] != '>')
+			while (var[++n + 1] && ft_isalpha(var[n + 1]))
 				i.len++;
 			ft_lstadd_new(&vars, ft_substr(var, i.st, ++i.len));
 			i.len = 0;
@@ -117,6 +117,7 @@ char	*add_values(char *command, char **env)
 		free(command);
 		return (v.str);
 	}
+	printf("Vars: %s\n", (char *)vars->content);
 	v.str = get_string(command, env, v, vars);
 	return (v.str);
 }
