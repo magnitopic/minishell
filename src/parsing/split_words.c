@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/03 16:14:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/04 12:28:33 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * Counts the number of words for `split_words`
  */
-static int	num_words(char *str)
+/* static int	num_words(char *str)
 {
 	int				n;
 	int				cont;
@@ -40,13 +40,27 @@ static int	num_words(char *str)
 		n++;
 	}
 	return (cont);
-}
+} */
+
+// TODO: Hacer una función que nos separe los redirects y ver si es posible
+// hacer mediante strrchr o cuál es la manera más eficiente
+
+/* char	**diputado(char **arr)
+{
+	char	**new_str;
+
+	while (*arr)
+	{
+		
+		arr++;
+	}
+} */
 
 /**
  * Receives a command as in input. It separates the different words
  * of the command. The command itself and it's parameters.
 */
-char	**split_words(char *str)
+/* char	**split_words(char *str)
 {
 	t_vars	a;
 
@@ -72,5 +86,42 @@ char	**split_words(char *str)
 			a.st = a.i;
 		a.i++;
 	}
-	return (a.arr);
+	return (diputado(a.arr));
+} */
+
+static void	split_redirects(char *str, int pos, int last_pos, t_list **list)
+{
+	pos++;
+	while (str[pos] != '>' && str[pos] != '<' && str[pos] != ' '
+		&& str[pos] != '\0')
+		pos++;
+	//printf("SPLIT: %s\n", ft_substr(str, last_pos, pos - last_pos));
+	ft_lstadd_new(list, ft_substr(str, last_pos, pos - last_pos));
+	last_pos = pos;
+}
+
+t_list	*split_words(char *str)
+{
+	t_list	*list;
+	int		pos;
+	int		last_pos;
+
+	pos = 0;
+	last_pos = 0;
+	list = NULL;
+	while (str[pos] != '\0')
+	{
+		while ((str[pos + 1] == ' ' && !check_flag(str, pos + 1)))
+			pos++;
+		if ((str[pos] == ' ' && !check_flag(str, pos)) || !str[pos + 1])
+		{
+			//printf("SPLIT: %s\n", ft_substr(str, last_pos, pos + 1 - last_pos));
+			ft_lstadd_new(&list, ft_substr(str, last_pos, pos + 1 - last_pos));
+			last_pos = pos + 1;
+		}
+		else if ((str[pos] == '>' || str[pos] == '<') && !check_flag(str, pos))
+			split_redirects(str, pos, last_pos, &list);
+		pos++;
+	}
+	return (list);
 }

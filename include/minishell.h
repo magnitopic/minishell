@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/03 12:39:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:34:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ t_shell	*g_shell;
 void			rl_replace_line(const char *text, int clear_undo);
 
 /* Functions */
-char			**expand_values(char **args, char **env);
+t_list			*expand_values(t_list *args, char **env);
 void			set_prompt(void);
 void			signal_handler(int sig);
-char			**split_words(char *str);
+t_list			*split_words(char *str);
 int				check_unclosed_quotes(char *input);
 void			free_stacks(t_list **list);
 void			exit_program(char *message);
