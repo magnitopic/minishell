@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/04 19:29:16 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/04 20:09:33 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,20 @@ static t_command	*structure(t_list *tokens)
 	t_command	*new_list;
 	int			i;
 	char		*str;
-	char		*aux;
 
 	i = 0;
 	new_list = ft_calloc(1, sizeof(t_command));
 	while (tokens)
 	{
-		aux = tokens->content;
-		printf("TOKENS: %s\n", aux);
-		if ((*aux == '<' || *aux == '>'))
+		str = tokens->content;
+		if ((*str == '<' || *str == '>'))
 		{
-			str = aux;
 			ft_lstadd_new(&new_list->redi, str);
 		}
 		else if (i++ == 0)
-			new_list->comm = aux;
+			new_list->comm = str;
 		else
-			ft_lstadd_new(&new_list->args, aux);
+			ft_lstadd_new(&new_list->args, str);
 		tokens = tokens->next;
 	}
 	return (new_list);

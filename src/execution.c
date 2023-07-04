@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/03 14:21:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:56:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,20 +141,6 @@ static void	execute_one(char **comms, char **paths, char **env)
 	free(name);
 } */
 
-/* void	execution(char **input, char **paths, char **env)
-{
-	// TODO: Fix this ->
-	if ((!ft_strncmp(*input, "exit", ft_strlen(*input))
-			|| !(ft_strncmp(*input, "exit ", 5))) && *input[0] != 0)
-		exit_program("exit\n");
-	if (!input[1])
-		execute_one(input, paths, env);
-	char *name = find_command(*input, paths);
-	execve(name, input, env);
-	free_matrix(input);
-} */
-
-// ! Known errors: if redis are placed together they are not split. Fix in expand values
 void	execution(t_command *input, char **paths, char **env)
 {
 	((void)paths, (void)env);
