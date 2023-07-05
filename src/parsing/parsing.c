@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/04 20:09:33 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:57:33 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,24 @@ static int	split_commands(char *input, t_list **com)
 }
 
 /**
+ * Auxiliary function to check if the redirect and the next command need to be
+ * joined
+*/
+static int	check_separate_redirect(char *str)
+{
+	int	flag;
+
+	flag = 0;
+	while (*str)
+	{
+		if (*str != '<' || *str != '>')
+			flag = 1;
+		str++;
+	}
+	return (flag);
+}
+
+/**
  * The command elements are split into the actual command, it's arguments and
  * the redirects to and from files
 */
@@ -60,8 +78,13 @@ static t_command	*structure(t_list *tokens)
 	while (tokens)
 	{
 		str = tokens->content;
-		if ((*str == '<' || *str == '>'))
+		if (*str == '<' || *str == '>')
 		{
+			if (check_separate_redirect(str))
+			{
+				str = ft_strjoin(str, tokens->next->content);
+				tokens = tokens->next;
+			}
 			ft_lstadd_new(&new_list->redi, str);
 		}
 		else if (i++ == 0)
