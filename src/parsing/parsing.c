@@ -6,12 +6,21 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/05 16:28:38 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:46:34 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * It was at a wine party-
+ * I lay in a drowse, knowing it not.
+ * The blown flowers fell and filled my lap.
+ * When I arose, still drunken,
+ * The birds had all gone to their nests,
+ * And there remained but few of my comrades.
+ * I went along the river—alone in the moonlight.
+*/
 t_list	*delete_emptiness(t_list *list)
 {
 	t_list	*aux;
@@ -23,13 +32,13 @@ t_list	*delete_emptiness(t_list *list)
 	temp = "";
 	while (aux != NULL)
 	{
-		if (ft_strlen(temp) > 0)
+		if (temp && ft_strlen(temp) > 0)
 			temp = NULL;
 		temp = ft_strtrim(aux->content, " 	");
 		if (ft_strlen(temp) >= 1)
 			ft_lstadd_new(&list_cpy, temp);
 		else
-			free(temp);
+			(free(temp), temp = NULL);
 		aux = aux->next;
 	}
 	free_stacks(&list);

@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/05 16:29:27 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:46:51 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	parse_phrase(t_list **list, char **env)
 	}
 }
 
-static char	*join_phrases(t_list	*list)
+static char	*join_phrases(t_list *list)
 {
 	char	*str;
 	char	*aux;
@@ -66,7 +66,7 @@ static char	*join_phrases(t_list	*list)
 	return (str);
 }
 
-t_list *expand_values(t_list *args, char **env)
+t_list	*expand_values(t_list *args, char **env)
 {
 	t_list	*splitted;
 	t_list	*aux;
