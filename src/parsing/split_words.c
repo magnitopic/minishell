@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_words.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/04 19:55:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:59:26 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_list	*split_words(char *str)
 		if ((str[pos] == '>' || str[pos] == '<') && !check_flag(str, pos))
 		{
 			printf("SPLIT: %s\n", ft_substr(str, last_pos, pos - last_pos));
-			if (str[pos - 1] != ' ')
+			if (pos > 0 && str[pos - 1] != ' ')
 				ft_lstadd_new(&list, ft_substr(str, last_pos, pos - last_pos));
 			last_pos = pos;
 			while (((str[pos] == '>' || str[pos] == '<')
