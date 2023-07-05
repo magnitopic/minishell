@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/05 14:28:20 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:29:27 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,12 @@ static char	*join_phrases(t_list	*list)
 	char	*aux;
 
 	str = ft_strtrim(list->content, " 	");
-	ft_printf("str: %s\n", str);
 	while (list->next)
 	{
 		list = list->next;
 		aux = str;
 		if (list->content && ft_strtrim(list->content, " 	") != NULL)
 			str = ft_strjoin(str, ft_strtrim(list->content, " 	"));
-		ft_printf("str: %s\n", str);
 		free(aux);
 	}
 	return (str);

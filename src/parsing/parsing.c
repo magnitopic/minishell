@@ -6,11 +6,35 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/05 14:34:34 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:28:38 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_list	*delete_emptiness(t_list *list)
+{
+	t_list	*aux;
+	t_list	*list_cpy;
+	char	*temp;
+
+	aux = list;
+	list_cpy = NULL;
+	temp = "";
+	while (aux != NULL)
+	{
+		if (ft_strlen(temp) > 0)
+			temp = NULL;
+		temp = ft_strtrim(aux->content, " 	");
+		if (ft_strlen(temp) >= 1)
+			ft_lstadd_new(&list_cpy, temp);
+		else
+			free(temp);
+		aux = aux->next;
+	}
+	free_stacks(&list);
+	return (list_cpy);
+}
 
 /**
  * This function separates the raw user input onto a list where each element is
@@ -110,6 +134,7 @@ void	parsing(char *input, char **paths, char **env)
 	while (aux)
 	{
 		aux->content = split_words(aux->content);
+		aux->content = delete_emptiness(aux->content);
 		aux->content = expand_values(aux->content, env);
 		t_list	*auxaux = aux->content;
 		printf("\033[0;35mParsed:\033[0m\n");
