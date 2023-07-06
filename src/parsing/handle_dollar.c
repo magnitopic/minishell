@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/04 20:01:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/05 19:10:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,27 @@ static char	*get_string(char *command, char **env, t_vars v, t_list *vars)
 		i = find_dollar_pos(command, i);
 		v.temp = ft_substr(command, 0, i);
 		if (ft_strlen(v.path) < 1)
+		{
+			v.other_aux = ft_substr(command, i + 1 + ft_strlen(vars->content), \
+				ft_strlen(command) - ft_strlen(vars->content) \
+				+ ft_strlen(v.path));
+			v.temp = ft_strjoin(v.temp, v.other_aux);
 			return (v.temp);
-		v.other_aux = ft_strjoin(v.temp, v.path);
-		free(v.temp);
-		v.temp = ft_substr(command, i + 1 + ft_strlen(vars->content),
+		}
+		else
+		{
+			v.other_aux = ft_strjoin(v.temp, v.path);
+			free(v.temp);
+			v.temp = ft_substr(command, i + 1 + ft_strlen(vars->content),
 				ft_strlen(command) - ft_strlen(vars->content)
 				+ ft_strlen(v.path));
-		v.str = ft_strjoin(v.other_aux, v.temp);
-		free(command);
-		free(v.other_aux);
-		command = v.str;
-		i += ft_strlen(vars->content);
-		free(v.temp);
+			v.str = ft_strjoin(v.other_aux, v.temp);
+			free(command);
+			free(v.other_aux);
+			command = v.str;
+			i += ft_strlen(vars->content);
+			free(v.temp);
+		}
 		vars = vars->next;
 		free(v.path);
 	}
