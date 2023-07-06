@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/06 14:59:50 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/06 15:13:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ static int	check_separate_redirect(char *str, t_list *tokens)
 		str++;
 	}
 	printf("TOKENS->next: %s\n", (char *)tokens->next);
+	if (tokens->next == NULL)
+		flag = 0;
 	return (flag);
 }
 
@@ -130,6 +132,9 @@ static t_command	*structure(t_list *tokens)
 	return (new_list);
 }
 
+/**
+ * Main parsing function which will call all other functions needed for parsing
+*/
 void	parsing(char *input, char **paths, char **env)
 {
 	t_list	*commands;
