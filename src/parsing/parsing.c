@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/05 16:46:34 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/06 14:59:50 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	split_commands(char *input, t_list **com)
  * Auxiliary function to check if the redirect and the next command need to be
  * joined
 */
-static int	check_separate_redirect(char *str)
+static int	check_separate_redirect(char *str, t_list *tokens)
 {
 	int	flag;
 
@@ -93,6 +93,7 @@ static int	check_separate_redirect(char *str)
 			flag = 1;
 		str++;
 	}
+	printf("TOKENS->next: %s\n", (char *)tokens->next);
 	return (flag);
 }
 
@@ -113,7 +114,7 @@ static t_command	*structure(t_list *tokens)
 		str = tokens->content;
 		if (*str == '<' || *str == '>')
 		{
-			if (check_separate_redirect(str))
+			if (check_separate_redirect(str, tokens))
 			{
 				str = ft_strjoin(str, tokens->next->content);
 				tokens = tokens->next;
