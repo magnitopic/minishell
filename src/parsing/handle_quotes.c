@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/04 15:40:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/06 13:36:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*split_quotes(char *input, char **env)
 			break ;
 		}
 	}
-	if (ft_strchr(parsed, '$') != NULL && c != '\'')
+	while (ft_strchr(parsed, '$') != NULL && c != '\'')
 		parsed = add_values(parsed, env);
 	return (parsed);
 }
