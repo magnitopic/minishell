@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/06 15:13:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/07 11:17:58 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ static int	check_separate_redirect(char *str, t_list *tokens)
 			flag = 1;
 		str++;
 	}
-	printf("TOKENS->next: %s\n", (char *)tokens->next);
 	if (tokens->next == NULL)
 		flag = 0;
 	return (flag);
