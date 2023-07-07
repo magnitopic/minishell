@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/07 12:28:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/07 14:36:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,28 @@ t_shell	*g_shell;
 void			rl_replace_line(const char *text, int clear_undo);
 
 /* Functions */
-t_list			*expand_values(t_list *args, char **env);
+
 void			set_prompt(void);
 void			signal_handler(int sig);
-t_list			*split_words(char *str);
-int				check_unclosed_quotes(char *input);
 void			free_stacks(t_list **list);
 void			exit_program(char *message);
 char			*expand_vars(char *var, char **env);
 char			*create_vars(char *origin, char **env);
 char			**create_arrays(char **comms, char *name);
-void			parsing(char *input, char **paths, char **env);
-enum e_quotes	check_flag(char *str, int n);
 void			execution(t_command *input, char **paths, char **env);
-char			*split_quotes(char *input, char **env);
-char			*add_values(char *command, char **env);
-t_list			*find_name_vars(char *var);
-char			*get_var_value(char *name, char **env);
 void			free_commands(t_list *input);
+/* Parsing functions */
+t_list			*split_words(char *str);
+enum e_quotes	check_flag(char *str, int n);
+int				check_unclosed_quotes(char *input);
+char			*get_var_value(char *name, char **env);
+char			*add_values(char *command, char **env);
+char			*split_quotes(char *input, char **env);
+t_list			*expand_values(t_list *args, char **env);
+void			parsing(char *input, char **paths, char **env);
 /* BuiltIn Functions */
 void			bi_echo(t_command *com);
 void			bi_exit(t_command *com);
+void			bi_pwd(t_command *com);
 
 #endif

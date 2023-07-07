@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/05 19:10:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/07 14:34:32 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_list	*find_name_vars(char *var)
+static t_list	*find_name_vars(char *var)
 {
 	t_vars	i;
 	int		n;
@@ -60,7 +60,7 @@ char	*get_var_value(char *name, char **env)
 	return (line);
 }
 
-int	find_dollar_pos(char *str, int pos)
+static int	find_dollar_pos(char *str, int pos)
 {
 	if (!pos)
 		pos = 0;

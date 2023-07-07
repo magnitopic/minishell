@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/07 11:17:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/07 14:27:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * And there remained but few of my comrades.
  * I went along the river—alone in the moonlight.
 */
-t_list	*delete_emptiness(t_list *list)
+static t_list	*delete_emptiness(t_list *list)
 {
 	t_list	*aux;
 	t_list	*list_cpy;
@@ -150,14 +150,6 @@ void	parsing(char *input, char **paths, char **env)
 		aux->content = split_words(aux->content);
 		aux->content = delete_emptiness(aux->content);
 		aux->content = expand_values(aux->content, env);
-		t_list	*auxaux = aux->content;
-		printf("\033[0;35mParsed:\033[0m\n");
-		while (auxaux)
-		{
-			printf("%s\n", (char *)auxaux->content);
-			auxaux = auxaux->next;
-		}
-		printf("\033[0;35m--------------------\033[0m\n");
 		aux->content = structure(aux->content);
 		aux = aux->next;
 	}
