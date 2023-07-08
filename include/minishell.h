@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/07 14:36:59 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/08 13:43:00 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ void			parsing(char *input, char **paths, char **env);
 void			bi_echo(t_command *com);
 void			bi_exit(t_command *com);
 void			bi_pwd(t_command *com);
+void			bi_cd(t_command *com, char **env);
 
 #endif
