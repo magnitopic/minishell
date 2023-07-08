@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/08 15:25:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:29:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ void	bi_cd(t_command *com, char **env)
 	printf("%s\n", getcwd(path, sizeof(path)));
 }
 
-int	main(int argc, char **argv, char **env)
+/* int	main(int argc, char **argv, char **env)
 {
 	t_command	*test = malloc(sizeof(t_command));
 
 	ft_lstadd_new(&test->args, "../../include");
 	bi_cd(test, env);
 	return (0);
-}
+} */

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/08 12:47:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:29:50 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*heredoc(char *key_word)
 	return (src);
 }
 
-int	main(int argc, char **argv)
+/* int	main(int argc, char **argv)
 {
 	printf("%s", heredoc("yes"));
 	return (0);
-}
+} */
