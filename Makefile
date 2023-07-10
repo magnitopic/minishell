@@ -6,12 +6,14 @@ SHELL_SRC	=	src/minishell.c \
 				src/signals.c \
 				src/execution.c \
 				src/create_vars.c \
+				src/comand_list.c \
 				src/create_arrays.c \
 				src/parsing/parsing.c \
 				src/parsing/handle_args.c \
 				src/parsing/split_words.c \
 				src/parsing/handle_dollar.c \
 				src/parsing/handle_quotes.c \
+				src/parsing/handle_redirects.c \
 				src/builtins/cd.c \
 				src/builtins/env.c \
 				src/builtins/pwd.c \

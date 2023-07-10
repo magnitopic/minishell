@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/04 19:56:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:01:20 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ void	execution(t_command *input, char **paths, char **env)
 	while (input->redi)
 	{
 		printf("redi: %s\n", (char *)input->redi->content);
+		printf("redi: %d\n", (int)input->redi->type);
 		input->redi = input->redi->next;
 	}
 	while (input->args)

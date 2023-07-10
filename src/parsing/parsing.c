@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/10 14:44:53 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:47:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,7 @@ static t_command	*structure(t_list *tokens)
 				str = ft_strjoin(str, tokens->next->content);
 				tokens = tokens->next;
 			}
-			ft_lstadd_new(&new_list->redi, str);
-			new_list->redi->type = red;
+			ft_newcommand(&new_list->redi, str, red);
 		}
 		else if (i++ == 0)
 			new_list->comm = str;

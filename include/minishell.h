@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/10 14:40:19 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:58:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ enum e_quotes
  * OUTPUT		>
  * HEREDOC		<<
  * APPEND		>>
+ * BAD_INPUT	something different
 */
 enum e_redirect
 {
 	INPUT,
 	OUTPUT,
 	HEREDOC,
-	APPEND
+	APPEND,
+	BAD_INPUT
 };
 
 /* Structs */
@@ -82,9 +84,9 @@ typedef struct s_redi
 
 typedef struct s_command
 {
-	char				*comm;
-	t_list				*args;
-	t_list				*redi;
+	char		*comm;
+	t_list		*args;
+	t_redi		*redi;
 }	t_command;
 
 /* Global variable */
@@ -105,6 +107,7 @@ char			**create_arrays(char **comms, char *name);
 void			execution(t_command *input, char **paths, char **env);
 void			free_commands(t_list *input);
 char			*heredoc(char *key_word);
+void			ft_newcommand(t_redi **list, void *context, enum e_redirect type);
 /* Parsing functions */
 t_list			*split_words(char *str);
 enum e_quotes	check_flag(char *str, int n);
@@ -114,6 +117,7 @@ char			*add_values(char *command, char **env);
 char			*split_quotes(char *input, char **env);
 t_list			*expand_values(t_list *args, char **env);
 void			parsing(char *input, char **paths, char **env);
+enum e_redirect	handle_redirects(char *str);
 /* BuiltIn Functions */
 void			bi_echo(t_command *com);
 void			bi_exit(t_command *com);
