@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/10 17:22:05 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:36:51 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	handle_file(char *filename, int flag)
 {
 	if (flag == 1 || flag == 3)
 		open(filename, O_CREAT, 0644);
-	else if (flag == 0 || flag == 2)
+	else if (flag == 0)
 	{
 		if (access(filename, R_OK) != 0)
 			exit(EXIT_FAILURE);			// TODO: hacer que esto funcione bien
