@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/10 17:50:45 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/10 18:02:46 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ char	*handle_file(char *filename, int flag)
 
 	if (flag == 1 || flag == 3)
 	{
+		if (flag == 1)
+			unlink(filename);
 		open(filename, O_CREAT, 0644);
 		if (temp)
 			free(temp);
