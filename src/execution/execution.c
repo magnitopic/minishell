@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/10 18:02:46 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/10 18:15:04 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,9 @@ char	*handle_file(char *filename, int flag)
 		open(filename, O_CREAT, 0644);
 		if (temp)
 			free(temp);
-		temp = ft_substr(filename, 0, ft_strlen(filename));
+		temp = ft_calloc(ft_strlen(filename) + 2, sizeof(char));
+		temp[0] = flag + '0';
+		ft_strlcpy(temp + 1, filename, ft_strlen(filename) + 1);
 	}
 	else if (flag == 0)
 	{
