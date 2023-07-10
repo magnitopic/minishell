@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/10 17:36:51 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:50:45 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,21 +141,30 @@ static void	execute_one(char **comms, char **paths, char **env)
 	free(name);
 } */
 
-void	handle_file(char *filename, int flag)
+char	*handle_file(char *filename, int flag)
 {
+	static char	*temp = NULL;
+
 	if (flag == 1 || flag == 3)
+	{
 		open(filename, O_CREAT, 0644);
+		if (temp)
+			free(temp);
+		temp = ft_substr(filename, 0, ft_strlen(filename));
+	}
 	else if (flag == 0)
 	{
 		if (access(filename, R_OK) != 0)
 			exit(EXIT_FAILURE);			// TODO: hacer que esto funcione bien
 	}
+	return (temp);
 }
 
 char	*create_files(t_command *input)
 {
 	int		index;
 	char	*filename;
+	char	*last;
 
 	index = 0;
 	while (input->redi)
@@ -168,14 +177,14 @@ char	*create_files(t_command *input)
 					ft_strlen(input->redi->content) - 2);
 		if (!filename || input->redi->type == 4)
 			exit(EXIT_FAILURE); // TODO: Fix this shit
-		handle_file(filename, input->redi->type);
+		last = handle_file(filename, input->redi->type);
 		free(filename);
 		if (input->redi->next)
 			input->redi = input->redi->next;
 		else
 			break ;
 	}
-	return (input->redi->content);
+	return (last);
 }
 
 void	print_commands(t_command *input, char **paths, char **env)
@@ -204,8 +213,12 @@ void	print_commands(t_command *input, char **paths, char **env)
 
 void	execute_final(t_command *input, char **paths, char **env)
 {
+	char	*lastfile;
+
 	((void)paths, (void)env);
+	lastfile = NULL;
 	if (input->redi && input->redi->type != 4)
-		create_files(input);
+		lastfile = create_files(input);
+	ft_printf("last file: %s\n", lastfile);
 }
 
