@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/10 17:12:41 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:22:05 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,17 @@ static void	execute_one(char **comms, char **paths, char **env)
 	free(name);
 } */
 
+void	handle_file(char *filename, int flag)
+{
+	if (flag == 1 || flag == 3)
+		open(filename, O_CREAT, 0644);
+	else if (flag == 0 || flag == 2)
+	{
+		if (access(filename, R_OK) != 0)
+			exit(EXIT_FAILURE);			// TODO: hacer que esto funcione bien
+	}
+}
+
 char	*create_files(t_command *input)
 {
 	int		index;
@@ -157,7 +168,7 @@ char	*create_files(t_command *input)
 					ft_strlen(input->redi->content) - 2);
 		if (!filename || input->redi->type == 4)
 			exit(EXIT_FAILURE); // TODO: Fix this shit
-		open(filename, O_CREAT, 0644);
+		handle_file(filename, input->redi->type);
 		free(filename);
 		if (input->redi->next)
 			input->redi = input->redi->next;
