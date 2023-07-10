@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/08 15:30:01 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/10 14:40:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,20 @@ enum e_quotes
 	NONE,
 	SINGLE,
 	DOUBLE
+};
+
+/**
+ * INPUT		<
+ * OUTPUT		>
+ * HEREDOC		<<
+ * APPEND		>>
+*/
+enum e_redirect
+{
+	INPUT,
+	OUTPUT,
+	HEREDOC,
+	APPEND
 };
 
 /* Structs */
@@ -58,6 +72,13 @@ typedef struct s_vars
 	char	*other_aux;
 	char	**arr;
 }	t_vars;
+
+typedef struct s_redi
+{
+	void			*content;
+	enum e_redirect	type;
+	struct s_redi	*next;
+}	t_redi;
 
 typedef struct s_command
 {

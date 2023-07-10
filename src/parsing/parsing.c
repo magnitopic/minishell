@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/07 14:27:59 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/10 14:44:53 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,23 +104,27 @@ static int	check_separate_redirect(char *str, t_list *tokens)
 */
 static t_command	*structure(t_list *tokens)
 {
-	t_command	*new_list;
-	int			i;
-	char		*str;
+	t_command		*new_list;
+	int				i;
+	char			*str;
+	enum e_redirect	red;
 
 	i = 0;
 	new_list = ft_calloc(1, sizeof(t_command));
 	while (tokens)
 	{
 		str = tokens->content;
+		printf("%s\n", str);
 		if (*str == '<' || *str == '>')
 		{
+			red = handle_redirects(str);
 			if (check_separate_redirect(str, tokens))
 			{
 				str = ft_strjoin(str, tokens->next->content);
 				tokens = tokens->next;
 			}
 			ft_lstadd_new(&new_list->redi, str);
+			new_list->redi->type = red;
 		}
 		else if (i++ == 0)
 			new_list->comm = str;
