@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/10 15:58:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:44:17 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ void			exit_program(char *message);
 char			*expand_vars(char *var, char **env);
 char			*create_vars(char *origin, char **env);
 char			**create_arrays(char **comms, char *name);
-void			execution(t_command *input, char **paths, char **env);
+void			print_commands(t_command *input, char **paths, char **env);
+void			execute_final(t_command *input, char **paths, char **env);
 void			free_commands(t_list *input);
 char			*heredoc(char *key_word);
 void			ft_newcommand(t_redi **list, void *context, enum e_redirect type);

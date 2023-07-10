@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/10 16:01:20 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:12:41 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /* static void	change_dir(char **arr, char **env)
 {
@@ -141,19 +141,48 @@ static void	execute_one(char **comms, char **paths, char **env)
 	free(name);
 } */
 
-void	execution(t_command *input, char **paths, char **env)
+char	*create_files(t_command *input)
 {
+	int		index;
+	char	*filename;
+
+	index = 0;
+	while (input->redi)
+	{
+		if (input->redi->type == 0 || input->redi->type == 1)
+			filename = ft_substr(input->redi->content, 1,
+					ft_strlen(input->redi->content) - 1);
+		else if (input->redi->type == 2 || input->redi->type == 3)
+			filename = ft_substr(input->redi->content, 2,
+					ft_strlen(input->redi->content) - 2);
+		if (!filename || input->redi->type == 4)
+			exit(EXIT_FAILURE); // TODO: Fix this shit
+		open(filename, O_CREAT, 0644);
+		free(filename);
+		if (input->redi->next)
+			input->redi = input->redi->next;
+		else
+			break ;
+	}
+	return (input->redi->content);
+}
+
+void	print_commands(t_command *input, char **paths, char **env)
+{
+	t_redi	*aux;
+
+	aux = input->redi;
 	((void)paths, (void)env);
 	if (input->comm)
 	{
 		printf("command: %s\n", input->comm);
 		//execute_one(&input->comm, paths, env);
 	}
-	while (input->redi)
+	while (aux)
 	{
-		printf("redi: %s\n", (char *)input->redi->content);
-		printf("redi: %d\n", (int)input->redi->type);
-		input->redi = input->redi->next;
+		printf("redi: %s\n", (char *)aux->content);
+		printf("  -> type: %d\n", (int)aux->type);
+		aux = aux->next;
 	}
 	while (input->args)
 	{
@@ -161,3 +190,11 @@ void	execution(t_command *input, char **paths, char **env)
 		input->args = input->args->next;
 	}
 }
+
+void	execute_final(t_command *input, char **paths, char **env)
+{
+	((void)paths, (void)env);
+	if (input->redi && input->redi->type != 4)
+		create_files(input);
+}
+

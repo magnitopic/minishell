@@ -4,10 +4,10 @@ NAME			=	minishell
 SHELL_SRC	=	src/minishell.c \
 				src/utils.c \
 				src/signals.c \
-				src/execution.c \
 				src/create_vars.c \
 				src/comand_list.c \
 				src/create_arrays.c \
+				src/execution/execution.c \
 				src/parsing/parsing.c \
 				src/parsing/handle_args.c \
 				src/parsing/split_words.c \

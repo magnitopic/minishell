@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/10 15:47:24 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:55:36 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ static t_command	*structure(t_list *tokens)
 		if (*str == '<' || *str == '>')
 		{
 			red = handle_redirects(str);
+			if (red == 4)
+				exit(EXIT_FAILURE); // TODO: hacer una función que salga del programa dando error
 			if (check_separate_redirect(str, tokens))
 			{
 				str = ft_strjoin(str, tokens->next->content);
@@ -159,7 +161,10 @@ void	parsing(char *input, char **paths, char **env)
 	aux = commands;
 	while (commands)
 	{
-		execution(commands->content, paths, env);
+		print_commands(commands->content, paths, env);
+		execute_final(commands->content, paths, env);
+		/*else
+			execute_pipe(commands->content, paths, env);*/
 		commands = commands->next;
 	}
 	free_commands(aux);
