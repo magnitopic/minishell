@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/10 16:55:36 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/11 13:09:11 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,26 +79,6 @@ static int	split_commands(char *input, t_list **com)
 }
 
 /**
- * Auxiliary function to check if the redirect and the next command need to be
- * joined
-*/
-static int	check_separate_redirect(char *str, t_list *tokens)
-{
-	int	flag;
-
-	flag = 0;
-	while (*str)
-	{
-		if (*str != '<' || *str != '>')
-			flag = 1;
-		str++;
-	}
-	if (tokens->next == NULL)
-		flag = 0;
-	return (flag);
-}
-
-/**
  * The command elements are split into the actual command, it's arguments and
  * the redirects to and from files
 */
@@ -107,26 +87,15 @@ static t_command	*structure(t_list *tokens)
 	t_command		*new_list;
 	int				i;
 	char			*str;
-	enum e_redirect	red;
 
 	i = 0;
 	new_list = ft_calloc(1, sizeof(t_command));
 	while (tokens)
 	{
 		str = tokens->content;
-		printf("%s\n", str);
+		printf("STR_command-> %s\n", str);
 		if (*str == '<' || *str == '>')
-		{
-			red = handle_redirects(str);
-			if (red == 4)
-				exit(EXIT_FAILURE); // TODO: hacer una función que salga del programa dando error
-			if (check_separate_redirect(str, tokens))
-			{
-				str = ft_strjoin(str, tokens->next->content);
-				tokens = tokens->next;
-			}
-			ft_newcommand(&new_list->redi, str, red);
-		}
+			handle_redirects(str, &(new_list->redi), &tokens);
 		else if (i++ == 0)
 			new_list->comm = str;
 		else

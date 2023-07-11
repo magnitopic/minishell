@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/10 18:15:04 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/11 13:01:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ static void	execute_one(char **comms, char **paths, char **env)
 	free(name);
 } */
 
-char	*handle_file(char *filename, int flag)
+static char	*handle_file(char *filename, int flag)
 {
 	static char	*temp = NULL;
 
@@ -164,7 +164,7 @@ char	*handle_file(char *filename, int flag)
 	return (temp);
 }
 
-char	*create_files(t_command *input)
+static char	*create_files(t_command *input)
 {
 	int		index;
 	char	*filename;
@@ -226,3 +226,19 @@ void	execute_final(t_command *input, char **paths, char **env)
 	ft_printf("last file: %s\n", lastfile);
 }
 
+void	exec_redis(t_redi *redis)
+{
+	while (redis)
+	{
+		
+	}
+	
+}
+
+void	execution(t_command *com, char **paths, char **env)
+{
+	((void)paths, (void)env);
+	exec_redis(com->redi);
+	//exec_cmd();
+	//pipes();
+}

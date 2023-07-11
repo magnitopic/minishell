@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/10 16:44:17 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/11 13:08:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char			*add_values(char *command, char **env);
 char			*split_quotes(char *input, char **env);
 t_list			*expand_values(t_list *args, char **env);
 void			parsing(char *input, char **paths, char **env);
-enum e_redirect	handle_redirects(char *str);
+void			handle_redirects(char *str, t_redi **redi, t_list **tokens);
 /* BuiltIn Functions */
 void			bi_echo(t_command *com);
 void			bi_exit(t_command *com);
