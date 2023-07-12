@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/07 11:18:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:45:14 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_list	*split_words(char *str)
 				ft_lstadd_new(&list, ft_substr(str, last_pos, pos - last_pos));
 			last_pos = pos;
 			while (((str[pos] == '>' || str[pos] == '<')
-					&& !check_flag(str, pos)))
+					&& !check_flag(str, pos)) && str[pos + 1])
 				pos++;
 			ft_lstadd_new(&list, ft_substr(str, last_pos, pos - last_pos));
 			last_pos = pos;
