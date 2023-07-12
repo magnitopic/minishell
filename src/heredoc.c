@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/12 11:59:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 12:34:16 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*create_file(char *str)
 	char	*nbr;
 
 	i = 0;
-	while (i < 10000)
+	while (i < 100000)
 	{
 		nbr = ft_itoa(i);
 		file_name = ft_strjoin("/tmp/.heredoc_", nbr);
@@ -45,7 +45,7 @@ char	*heredoc(char *key_word)
 	str = "\0";
 	while (1)
 	{
-		ft_printf("-> heredoc:%s $ ", key_word);
+		ft_printf("\033[0;34m→ heredoc\033[0m:\033[0;33m%s\033[0m$ ", key_word);
 		input = get_next_line(STDIN_FILENO);
 		if (!input)
 			break ;
@@ -61,8 +61,8 @@ char	*heredoc(char *key_word)
 	return (str);
 }
 
-int	main(int argc, char **argv)
+/* int	main(int argc, char **argv)
 {
 	printf("%s", heredoc("yes"));
 	return (0);
-}
+} */
