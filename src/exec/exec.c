@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/12 16:09:01 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:13:17 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,63 @@ void	print_commands(t_command *input, char **paths, char **env)
 	}
 }
 
+static char	*check_param(char *argv)
+{
+	char	*str;
+	char	**aux;
+
+	aux = ft_split(argv, ' ');
+	if (!aux)
+	{
+		str = ft_substr(argv, 0, ft_strlen(argv));
+		free_matrix(aux);
+		return (str);
+	}
+	str = ft_substr(aux[0], 0, ft_strlen(aux[0]));
+	free_matrix(aux);
+	return (str);
+}
+
+static char	*find_command(char *argv, char **paths)
+{
+	char	*str;
+	char	*temp;
+	char	*aux;
+
+	argv = check_param(argv);
+	if (access(argv, F_OK) == 0)
+		return (argv);
+	while (*paths != NULL)
+	{
+		aux = ft_strjoin(*paths, "/");
+		temp = ft_strjoin(aux, argv);
+		if (access(temp, F_OK) == 0)
+		{
+			str = ft_substr(temp, 0, ft_strlen(temp));
+			free(temp);
+			free(aux);
+			free(argv);
+			return (str);
+		}
+		paths++;
+		free(temp);
+		free(aux);
+	}
+	free(argv);
+	return (NULL);
+}
+
+int	*read_infile(t_redi *read)
+{
+	int	*fd;
+
+	fd = ft_calloc(3, sizeof(int));
+	fd[0] = open(read->content, O_RDONLY);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	return (fd);
+}
+
 void	execute_final(t_command *input, char **paths, char **env)
 {
 	t_files	*files;
@@ -213,15 +270,25 @@ void	execute_final(t_command *input, char **paths, char **env)
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
 	ft_printf("read file: %s\nwrite file: %s\n", files->read->content, files->write->content);
+	files->command = find_command(input->comm, paths);
+	files->arr = ft_split(files->command, ' ');
+	ft_printf("command: %s\n", files->command);
+	if (files->read)
+		files->fd = read_infile(files->read);
+	execve(files->command, files->arr, env);
 }
 
+
+
+
+/*
 void	exec_redis(t_redi *redis)
 {
 	while (redis)
 	{
-		
+
 	}
-	
+
 }
 
 void	execution(t_command *com, char **paths, char **env)
@@ -231,3 +298,4 @@ void	execution(t_command *com, char **paths, char **env)
 	//exec_cmd();
 	//pipes();
 }
+*/

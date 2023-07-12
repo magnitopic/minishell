@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/12 14:08:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:10:37 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ typedef struct s_files
 {
 	struct s_redi	*write;
 	struct s_redi	*read;
+	char			**arr;
+	char			*command;
+	int				*fd;
+	int				id;
 }	t_files;
 
 typedef struct s_command
