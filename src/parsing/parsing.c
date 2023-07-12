@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/12 13:24:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 19:18:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static int	split_commands(char *input, t_list **com)
 */
 static t_command	*structure(t_list *tokens)
 {
+	// TODO: add flag to check if there is a command and send appropriate error message
 	t_command		*new_list;
 	int				i;
 	char			*str;
@@ -134,7 +135,7 @@ void	parsing(char *input, char **paths, char **env)
 	aux = commands;
 	while (commands)
 	{
-		print_commands(commands->content, paths, env);
+		//print_commands(commands->content, paths, env);
 		execute_final(commands->content, paths, env);
 		/*else
 			execute_pipe(commands->content, paths, env);*/

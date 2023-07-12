@@ -9,6 +9,7 @@ SHELL_SRC	=	src/minishell.c \
 				src/comand_list.c \
 				src/create_arrays.c \
 				src/exec/exec.c \
+				src/exec/exec_utils.c \
 				src/parsing/parsing.c \
 				src/parsing/handle_args.c \
 				src/parsing/split_words.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/12 18:10:37 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:54:44 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void			execute_final(t_command *input, char **paths, char **env);
 void			free_commands(t_list *input);
 char			*heredoc(char *key_word);
 void			ft_newcommand(t_redi **list, void *context, enum e_redirect type);
+char			**set_for_execve(t_files *files, t_command *input);
 /* Parsing functions */
 t_list			*split_words(char *str);
 enum e_quotes	check_flag(char *str, int n);

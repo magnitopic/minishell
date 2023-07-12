@@ -5,8 +5,10 @@ minishell
 test.c
 /.vscode
 
-# test output files
+# testing files
 1
 2
 a
 b
+infile
+outfile

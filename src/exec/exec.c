@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/12 18:48:10 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/12 19:13:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,13 @@ t_files	*create_files(t_command *input, t_files *files)
 	return (files);
 }
 
-void	print_commands(t_command *input, char **paths, char **env)
+/* void	print_commands(t_command *input, char **paths, char **env)
 {
 	t_redi	*aux;
+	t_list	*aux_two;
 
 	aux = input->redi;
+	aux_two = input->args;
 	((void)paths, (void)env);
 	if (input->comm)
 	{
@@ -195,12 +197,12 @@ void	print_commands(t_command *input, char **paths, char **env)
 		printf("  -> type: %d\n", (int)aux->type);
 		aux = aux->next;
 	}
-	while (input->args)
+	while (aux_two)
 	{
-		printf("args: %s\n", (char *)input->args->content);
-		input->args = input->args->next;
+		printf("args: %s\n", (char *)aux_two->content);
+		aux_two = aux_two->next;
 	}
-}
+} */
 
 static char	*check_param(char *argv)
 {
@@ -269,10 +271,8 @@ void	execute_final(t_command *input, char **paths, char **env)
 	((void)paths, (void)env);
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
-	ft_printf("read file: %s\nwrite file: %s\n", files->read->content, files->write->content);
 	files->command = find_command(input->comm, paths);
-	files->arr = ft_split(files->command, ' ');
-	ft_printf("command: %s\n", files->command);
+	files->arr = set_for_execve(files, input);
 	if (files->read)
 		files->fd = read_infile(files->read);
 	files->id = fork();
