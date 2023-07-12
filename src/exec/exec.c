@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/12 18:13:17 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:48:10 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,18 @@ void	execute_final(t_command *input, char **paths, char **env)
 	ft_printf("command: %s\n", files->command);
 	if (files->read)
 		files->fd = read_infile(files->read);
-	execve(files->command, files->arr, env);
+	files->id = fork();
+	if (files->id == 0)
+	{
+		if (files->write)
+		{
+			files->fd[1] = open(files->write->content, O_WRONLY);
+			dup2(files->fd[1], 1);
+			close(files->fd[1]);
+		}
+		execve(files->command, files->arr, env);
+	}
+	waitpid(files->id, NULL, 0);
 }
 
 
