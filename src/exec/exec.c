@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/11 13:01:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:09:01 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,54 +141,41 @@ static void	execute_one(char **comms, char **paths, char **env)
 	free(name);
 } */
 
-static char	*handle_file(char *filename, int flag)
+t_files	*handle_file(char *name, int flag, t_files *files)
 {
-	static char	*temp = NULL;
-
 	if (flag == 1 || flag == 3)
 	{
+		ft_printf("One!\n");
 		if (flag == 1)
-			unlink(filename);
-		open(filename, O_CREAT, 0644);
-		if (temp)
-			free(temp);
-		temp = ft_calloc(ft_strlen(filename) + 2, sizeof(char));
-		temp[0] = flag + '0';
-		ft_strlcpy(temp + 1, filename, ft_strlen(filename) + 1);
+			unlink(name);
+		open(name, O_CREAT, 0644);
+		files->write->content = ft_substr(name, 0, ft_strlen(name));
+		files->write->type = flag;
 	}
-	else if (flag == 0)
+	else if (flag == 0 || flag == 2)
 	{
-		if (access(filename, R_OK) != 0)
+		if (flag == 0 && access(name, R_OK) != 0)
 			exit(EXIT_FAILURE);			// TODO: hacer que esto funcione bien
+		files->read->content = ft_substr(name, 0, ft_strlen(name));
+		files->read->type = flag;
 	}
-	return (temp);
+	return (files);
 }
 
-static char	*create_files(t_command *input)
+t_files	*create_files(t_command *input, t_files *files)
 {
-	int		index;
 	char	*filename;
-	char	*last;
 
-	index = 0;
 	while (input->redi)
 	{
-		if (input->redi->type == 0 || input->redi->type == 1)
-			filename = ft_substr(input->redi->content, 1,
-					ft_strlen(input->redi->content) - 1);
-		else if (input->redi->type == 2 || input->redi->type == 3)
-			filename = ft_substr(input->redi->content, 2,
-					ft_strlen(input->redi->content) - 2);
-		if (!filename || input->redi->type == 4)
-			exit(EXIT_FAILURE); // TODO: Fix this shit
-		last = handle_file(filename, input->redi->type);
-		free(filename);
+		filename = input->redi->content;
+		files = handle_file(filename, input->redi->type, files);
 		if (input->redi->next)
 			input->redi = input->redi->next;
 		else
 			break ;
 	}
-	return (last);
+	return (files);
 }
 
 void	print_commands(t_command *input, char **paths, char **env)
@@ -217,13 +204,15 @@ void	print_commands(t_command *input, char **paths, char **env)
 
 void	execute_final(t_command *input, char **paths, char **env)
 {
-	char	*lastfile;
+	t_files	*files;
 
+	files = ft_calloc(1, sizeof(t_files));
+	files->write = ft_calloc(1, sizeof(t_redi));
+	files->read = ft_calloc(1, sizeof(t_redi));
 	((void)paths, (void)env);
-	lastfile = NULL;
 	if (input->redi && input->redi->type != 4)
-		lastfile = create_files(input);
-	ft_printf("last file: %s\n", lastfile);
+		files = create_files(input, files);
+	ft_printf("read file: %s\nwrite file: %s\n", files->read->content, files->write->content);
 }
 
 void	exec_redis(t_redi *redis)

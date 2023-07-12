@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/12 13:23:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:08:32 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,12 @@ typedef struct s_redi
 	enum e_redirect	type;
 	struct s_redi	*next;
 }	t_redi;
+
+typedef struct s_files
+{
+	struct s_redi	*write;
+	struct s_redi	*read;
+}	t_files;
 
 typedef struct s_command
 {
