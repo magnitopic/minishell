@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/11 15:58:42 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:59:18 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ char	*create_file(char *str)
 		free(file_name);
 		i++;
 	}
-	fd = open(file_name, O_WRONLY);
-	printf("%d\n", fd);
+	fd = open(file_name, O_CREAT | O_RDWR, 0644);
 	write(fd, str, ft_strlen(str));
 	close(fd);
 	return (file_name);
