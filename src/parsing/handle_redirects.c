@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/12 12:10:25 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 13:24:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * Classify what type of redirect has been input
 */
-enum e_redirect	flag_redi(char *str)
+static enum e_redirect	flag_redi(char *str)
 {
 	if (!ft_strncmp(str, "<", 1) && ft_strlen(str) == 1)
 		return (INPUT);
@@ -29,14 +29,13 @@ enum e_redirect	flag_redi(char *str)
 		return (BAD_INPUT);
 }
 
-void	handle_redirects(char *str, t_redi **redi, t_list **tokens)
+int	handle_redirects(char *str, t_redi **redi, t_list **tokens)
 {
 	enum e_redirect	flag;
 
-	printf("STR: %s\n", str);
 	flag = flag_redi(str);
 	if (flag == BAD_INPUT)
-		exit(EXIT_FAILURE); // TODO: hacer una función que salga del programa dando error
+		return (1);
 	if ((*tokens)->next != NULL)
 	{
 		str = (*tokens)->next->content;
@@ -45,4 +44,5 @@ void	handle_redirects(char *str, t_redi **redi, t_list **tokens)
 	if (flag == HEREDOC)
 		str = heredoc(str);
 	ft_newcommand(redi, str, flag);
+	return (0);
 }

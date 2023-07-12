@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/11 13:08:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 13:23:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ enum e_quotes
  * HEREDOC		<<
  * APPEND		>>
  * BAD_INPUT	something different
-*/
+ */
 enum e_redirect
 {
 	INPUT,
@@ -118,7 +118,7 @@ char			*add_values(char *command, char **env);
 char			*split_quotes(char *input, char **env);
 t_list			*expand_values(t_list *args, char **env);
 void			parsing(char *input, char **paths, char **env);
-void			handle_redirects(char *str, t_redi **redi, t_list **tokens);
+int				handle_redirects(char *str, t_redi **redi, t_list **tokens);
 /* BuiltIn Functions */
 void			bi_echo(t_command *com);
 void			bi_exit(t_command *com);

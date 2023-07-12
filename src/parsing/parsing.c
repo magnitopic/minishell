@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/11 13:09:11 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/12 13:24:22 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,11 @@ static t_command	*structure(t_list *tokens)
 	while (tokens)
 	{
 		str = tokens->content;
-		printf("STR_command-> %s\n", str);
 		if (*str == '<' || *str == '>')
-			handle_redirects(str, &(new_list->redi), &tokens);
+		{
+			if (handle_redirects(str, &(new_list->redi), &tokens))
+				return (NULL);
+		}
 		else if (i++ == 0)
 			new_list->comm = str;
 		else
@@ -125,6 +127,8 @@ void	parsing(char *input, char **paths, char **env)
 		aux->content = delete_emptiness(aux->content);
 		aux->content = expand_values(aux->content, env);
 		aux->content = structure(aux->content);
+		if (aux->content == NULL)
+			return (ft_putstr_fd("\033[0;31mError: Bad redirect\033[0;\n", 2));
 		aux = aux->next;
 	}
 	aux = commands;
