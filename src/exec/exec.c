@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/14 15:27:00 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:08:11 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,8 +264,6 @@ int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 {
 	if (files->fd[0] != 0)
 	{
-		ft_printf("hola: %d\n", files->fd[0]);
-		ft_printf("gnl: %s\n", get_next_line(files->fd[0]));
 		dup2(files->fd[0], STDIN_FILENO);
 		close(files->fd[0]);
 	}
@@ -278,19 +276,15 @@ int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
 		files->fd = read_infile(files->read);
-	files->id = fork();
-	if (files->id == 0)
+	if (files->write->content)
 	{
-		if (files->write->content)
-		{
-			files->fd[1] = open(files->write->content, O_WRONLY);
-			dup2(files->fd[1], 1);
-			close(files->fd[1]);
-		}
-		ft_printf("fd que: %d\n", files->fd[1]);
-		execve(files->command, files->arr, env);
+		files->fd[1] = open(files->write->content, O_WRONLY);
+		dup2(files->fd[1], 1);
+		close(files->fd[1]);
 	}
-	waitpid(files->id, NULL, 0);
+	execve(files->command, files->arr, env);
+	close(files->fd[0]);
+	close(files->fd[1]);
 	return (files->fd);
 }
 
@@ -300,7 +294,6 @@ int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 	int	*fd;
 
 	fd = ft_calloc(3, sizeof(int));
-	ft_printf("fd ?: %d\n", files->fd[0]);
 	if (files->fd[0] != 0)
 	{
 		dup2(files->fd[0], STDIN_FILENO);
@@ -321,17 +314,17 @@ int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 	{
 		if (files->write->content)
 		{
-			files->fd[1] = open(files->write->content, O_WRONLY);
-			dup2(files->fd[1], STDOUT_FILENO);
-			close(files->fd[1]);
+			fd[1] = open(files->write->content, O_WRONLY);
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[1]);
 		}
 		else
 		{
-			ft_printf("fd finalisimo: %d\n", fd[1]);
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 			close(fd[0]);
 			close(files->fd[0]);
+			close(files->fd[1]);
 		}
 		execve(files->command, files->arr, env);
 	}

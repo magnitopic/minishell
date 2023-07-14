@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/14 15:13:47 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:10:27 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ void	parsing(char *input, char **paths, char **env)
 		else
 			files->fd = execute_pipe(commands->content, paths, env, files);
 		close (files->fd[1]);
-		close(files->fd[0]);
 		commands = commands->next;
 	}
 	free_commands(aux);
