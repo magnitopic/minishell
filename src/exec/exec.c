@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/14 15:19:13 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:24:03 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,7 @@ int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 	if (files->fd[0] != 0)
 	{
 		ft_printf("hola: %d\n", files->fd[0]);
+		ft_printf("gnl: %s\n", get_next_line(files->fd[0]));
 		dup2(files->fd[0], STDIN_FILENO);
 		close(files->fd[0]);
 	}
@@ -312,7 +313,7 @@ int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 		files = create_files(input, files);
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
-	if (files->read)
+	if (files->read->content)
 		files->fd = read_infile(files->read);
 	pipe(fd);
 	files->id = fork();
