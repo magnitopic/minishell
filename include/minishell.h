@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/14 15:13:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:21:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ char			*expand_vars(char *var, char **env);
 char			*create_vars(char *origin, char **env);
 char			**create_arrays(char **comms, char *name);
 void			print_commands(t_command *input, char **paths, char **env);
-void			execute_final(t_command *input, char **paths, char **env);
+int				*execute_final(t_command *input, char **paths, char **env, t_files *files);
+int				*execute_pipe(t_command *input, char **paths, char **env, t_files *files);
 void			free_commands(t_list *input);
 char			*heredoc(char *key_word);
 void			ft_newcommand(t_redi **list, void *context, enum e_redirect type);
