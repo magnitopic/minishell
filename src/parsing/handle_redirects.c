@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/12 16:51:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:03:42 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	handle_redirects(char *str, t_redi **redi, t_list **tokens)
 	if ((*tokens)->next != NULL)
 		flag = flag_redi(str, (*tokens)->next->content);
 	if (flag == BAD_INPUT)
-		return (1); 
+		return (1);
 	if ((*tokens)->next != NULL)
 	{
 		str = (*tokens)->next->content;

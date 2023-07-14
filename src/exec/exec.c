@@ -6,65 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/12 19:13:23 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:19:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/* static void	change_dir(char **arr, char **env)
-{
-	char	*pwd;
-	char	*buf;
-	char	*home;
-	int		len;
-	char	path[PATH_MAX];
-
-	buf = NULL;
-	pwd = NULL;
-	if (!arr[1])
-	{
-		home = create_vars("HOME", env);
-		chdir(home);
-		free(home);
-		free(arr);
-		return ;
-	}
-	if (access(arr[1], F_OK) == 0)
-	{
-		chdir(arr[1]);
-		free(arr);
-		return ;
-	}
-	buf = getcwd(path, sizeof(path));
-	if (ft_strncmp(arr[1], "..", 2) == 0)
-	{
-		len = ft_strlen(ft_strrchr(buf, '/'));
-		pwd = ft_substr(buf, 0, ft_strlen(buf) - len);
-		chdir(pwd);
-		free(pwd);
-		if (ft_strlen(arr[1]) == 2)
-			return ;
-	}
-	if (!pwd)
-	{
-		pwd = ft_strjoin(buf, "/");
-		buf = ft_strjoin(pwd, arr[1]);
-		if (access(buf, F_OK) == 0)
-		{
-			chdir(buf);
-			free(pwd);
-			free(buf);
-		}
-		else
-			perror("cd");
-	}
-	free(arr);
-	free(pwd);
-	free(buf);
-}
-
-static char	*check_param(char *argv)
+/* static char	*check_param(char *argv)
 {
 	char	*str;
 	char	**aux;
@@ -145,7 +93,6 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 {
 	if (flag == 1 || flag == 3)
 	{
-		ft_printf("One!\n");
 		if (flag == 1)
 			unlink(name);
 		open(name, O_CREAT, 0644);
@@ -177,32 +124,6 @@ t_files	*create_files(t_command *input, t_files *files)
 	}
 	return (files);
 }
-
-/* void	print_commands(t_command *input, char **paths, char **env)
-{
-	t_redi	*aux;
-	t_list	*aux_two;
-
-	aux = input->redi;
-	aux_two = input->args;
-	((void)paths, (void)env);
-	if (input->comm)
-	{
-		printf("command: %s\n", input->comm);
-		//execute_one(&input->comm, paths, env);
-	}
-	while (aux)
-	{
-		printf("redi: %s\n", (char *)aux->content);
-		printf("  -> type: %d\n", (int)aux->type);
-		aux = aux->next;
-	}
-	while (aux_two)
-	{
-		printf("args: %s\n", (char *)aux_two->content);
-		aux_two = aux_two->next;
-	}
-} */
 
 static char	*check_param(char *argv)
 {
@@ -261,6 +182,29 @@ int	*read_infile(t_redi *read)
 	return (fd);
 }
 
+static void	exec_cmd(t_command *input, t_files *files, char **env)
+{
+	int	len;
+
+	len = ft_strlen(input->comm);
+	if (ft_strncmp(input->comm, "cd", len) == 0)
+		bi_cd(input, env);
+	else if (ft_strncmp(input->comm, "echo", len) == 0)
+		bi_echo(input);
+	else if (ft_strncmp(input->comm, "env", len) == 0)
+		bi_env(input, env);
+	else if (ft_strncmp(input->comm, "exit", len) == 0)
+		bi_exit(input);
+	else if (ft_strncmp(input->comm, "export", len) == 0)
+		bi_export(input, env);
+	else if (ft_strncmp(input->comm, "pwd", len) == 0)
+		bi_pwd(input);
+	else if (ft_strncmp(input->comm, "unset", len) == 0)
+		bi_unset(input, env);
+	else
+		execve(files->command, files->arr, env);
+}
+
 void	execute_final(t_command *input, char **paths, char **env)
 {
 	t_files	*files;
@@ -284,7 +228,7 @@ void	execute_final(t_command *input, char **paths, char **env)
 			dup2(files->fd[1], 1);
 			close(files->fd[1]);
 		}
-		execve(files->command, files->arr, env);
+		exec_cmd(input, files, env);
 	}
 	waitpid(files->id, NULL, 0);
 }
@@ -310,3 +254,29 @@ void	execution(t_command *com, char **paths, char **env)
 	//pipes();
 }
 */
+
+/* void	print_commands(t_command *input, char **paths, char **env)
+{
+	t_redi	*aux;
+	t_list	*aux_two;
+
+	aux = input->redi;
+	aux_two = input->args;
+	((void)paths, (void)env);
+	if (input->comm)
+	{
+		printf("command: %s\n", input->comm);
+		//execute_one(&input->comm, paths, env);
+	}
+	while (aux)
+	{
+		printf("redi: %s\n", (char *)aux->content);
+		printf("  -> type: %d\n", (int)aux->type);
+		aux = aux->next;
+	}
+	while (aux_two)
+	{
+		printf("args: %s\n", (char *)aux_two->content);
+		aux_two = aux_two->next;
+	}
+} */

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/07 14:34:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:04:20 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ static char	*get_string(char *command, char **env, t_vars v, t_list *vars)
 			v.other_aux = ft_strjoin(v.temp, v.path);
 			free(v.temp);
 			v.temp = ft_substr(command, i + 1 + ft_strlen(vars->content),
-				ft_strlen(command) - ft_strlen(vars->content)
-				+ ft_strlen(v.path));
+					ft_strlen(command) - ft_strlen(vars->content)
+					+ ft_strlen(v.path));
 			v.str = ft_strjoin(v.other_aux, v.temp);
 			free(command);
 			free(v.other_aux);
