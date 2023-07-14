@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/12 19:18:24 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:13:47 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,10 @@ void	parsing(char *input, char **paths, char **env)
 {
 	t_list	*commands;
 	t_list	*aux;
+	t_files	*files;
 
+	files = ft_calloc(1, sizeof(t_files));
+	files->fd = ft_calloc(3, sizeof(int));
 	commands = NULL;
 	if (check_unclosed_quotes(input))
 		return (ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2));
@@ -136,9 +139,12 @@ void	parsing(char *input, char **paths, char **env)
 	while (commands)
 	{
 		//print_commands(commands->content, paths, env);
-		execute_final(commands->content, paths, env);
-		/*else
-			execute_pipe(commands->content, paths, env);*/
+		if (!commands->next)
+			files->fd = execute_final(commands->content, paths, env, files);
+		else
+			files->fd = execute_pipe(commands->content, paths, env, files);
+		close (files->fd[1]);
+		close(files->fd[0]);
 		commands = commands->next;
 	}
 	free_commands(aux);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/12 19:13:23 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:19:13 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 {
 	if (flag == 1 || flag == 3)
 	{
-		ft_printf("One!\n");
 		if (flag == 1)
 			unlink(name);
 		open(name, O_CREAT, 0644);
@@ -261,11 +260,14 @@ int	*read_infile(t_redi *read)
 	return (fd);
 }
 
-void	execute_final(t_command *input, char **paths, char **env)
+int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 {
-	t_files	*files;
-
-	files = ft_calloc(1, sizeof(t_files));
+	if (files->fd[0] != 0)
+	{
+		ft_printf("hola: %d\n", files->fd[0]);
+		dup2(files->fd[0], STDIN_FILENO);
+		close(files->fd[0]);
+	}
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
 	((void)paths, (void)env);
@@ -278,18 +280,64 @@ void	execute_final(t_command *input, char **paths, char **env)
 	files->id = fork();
 	if (files->id == 0)
 	{
-		if (files->write)
+		if (files->write->content)
 		{
 			files->fd[1] = open(files->write->content, O_WRONLY);
 			dup2(files->fd[1], 1);
 			close(files->fd[1]);
 		}
+		ft_printf("fd que: %d\n", files->fd[1]);
 		execve(files->command, files->arr, env);
 	}
 	waitpid(files->id, NULL, 0);
+	return (files->fd);
 }
 
+int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 
+{
+	int	*fd;
+
+	fd = ft_calloc(3, sizeof(int));
+	ft_printf("fd ?: %d\n", files->fd[0]);
+	if (files->fd[0] != 0)
+	{
+		dup2(files->fd[0], STDIN_FILENO);
+		close(files->fd[0]);
+	}
+	files->write = ft_calloc(1, sizeof(t_redi));
+	files->read = ft_calloc(1, sizeof(t_redi));
+	((void)paths, (void)env);
+	if (input->redi && input->redi->type != 4)
+		files = create_files(input, files);
+	files->command = find_command(input->comm, paths);
+	files->arr = set_for_execve(files, input);
+	if (files->read)
+		files->fd = read_infile(files->read);
+	pipe(fd);
+	files->id = fork();
+	if (files->id == 0)
+	{
+		if (files->write->content)
+		{
+			files->fd[1] = open(files->write->content, O_WRONLY);
+			dup2(files->fd[1], STDIN_FILENO);
+			close(files->fd[1]);
+		}
+		else
+		{
+			ft_printf("fd finalisimo: %d\n", fd[1]);
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[1]);
+			close(fd[0]);
+			close(files->fd[0]);
+		}
+		execve(files->command, files->arr, env);
+	}
+	waitpid(files->id, NULL, 0);
+	free(files->fd);
+	return (fd);
+}
 
 
 /*
