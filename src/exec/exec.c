@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/17 11:58:11 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:46:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,12 @@ static char	*find_command(char *argv, char **paths)
 	return (NULL);
 }
 
-static int	*read_infile(t_redi *read)
+static int	*read_infile(t_redi *read, int *old_fd)
 {
 	int	*fd;
 
+	if (old_fd)
+		free(old_fd);
 	fd = ft_calloc(3, sizeof(int));
 	fd[0] = open(read->content, O_RDONLY);
 	dup2(fd[0], STDIN_FILENO);
@@ -109,32 +111,37 @@ static void	exec_cmd(t_command *input, t_files *files, char **env)
 {
 	int	len;
 
+	if (!input->comm)
+		return ;
 	len = ft_strlen(input->comm);
-	if (ft_strncmp(input->comm, "cd", len) == 0)
+	if (ft_strncmp(input->comm, "cd", 2) == 0 && len == 2)
 		bi_cd(input, env);
-	else if (ft_strncmp(input->comm, "echo", len) == 0)
+	else if (ft_strncmp(input->comm, "echo", 4) == 0 && len == 4)
 		bi_echo(input);
-	else if (ft_strncmp(input->comm, "env", len) == 0)
+	else if (ft_strncmp(input->comm, "env", 3) == 0 && len == 3)
 		bi_env(input, env);
-	else if (ft_strncmp(input->comm, "exit", len) == 0)
+	else if (ft_strncmp(input->comm, "exit", 4) == 0 && len == 4)
 		bi_exit(input);
-	else if (ft_strncmp(input->comm, "export", len) == 0)
+	else if (ft_strncmp(input->comm, "export", 6) == 0 && len == 6)
 		bi_export(input, env);
-	else if (ft_strncmp(input->comm, "pwd", len) == 0)
+	else if (ft_strncmp(input->comm, "pwd", 3) == 0 && len == 3)
 		bi_pwd(input);
-	else if (ft_strncmp(input->comm, "unset", len) == 0)
+	else if (ft_strncmp(input->comm, "unset", 5) == 0 && len == 5)
 		bi_unset(input, env);
-	else
+	else if (files->command)
+	{
+		ft_printf("STDIN: %d\n", files->fd[1]);
 		execve(files->command, files->arr, env);
+	}
+	else
+		ft_putstr_fd("\033[0;31mCommand not found\033[0m", 1);
 }
 
 int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 {
 	if (files->fd[0] != 0)
-	{
 		dup2(files->fd[0], STDIN_FILENO);
-		close(files->fd[0]);
-	}
+	ft_printf("SRDIN: %d\n", STDIN_FILENO);
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
 	((void)paths, (void)env);
@@ -143,24 +150,31 @@ int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
-		files->fd = read_infile(files->read);
-	if (files->write->content)
+		files->fd = read_infile(files->read, files->fd);
+	files->id = fork();
+	if (files->id == 0)
 	{
-		files->fd[1] = open(files->write->content, O_WRONLY);
-		dup2(files->fd[1], 1);
-		close(files->fd[1]);
+		if (files->write->content)
+		{
+			files->fd[1] = open(files->write->content, O_WRONLY);
+			dup2(files->fd[1], 1);
+			close(files->fd[1]);
+		}
+		close(files->fd[0]);
+		//close(files->fd[1]);
+		ft_printf("STDIN: %d\n", STDIN_FILENO);
+		ft_printf("STDOUT: %d\n", STDOUT_FILENO);
+		exec_cmd(input, files, env);
 	}
-	execve(files->command, files->arr, env);
-	close(files->fd[0]);
-	close(files->fd[1]);
-	return (files->fd);
+	waitpid(files->id, NULL, 0);
+	return (NULL);
 }
 
 int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 {
 	int	*fd;
 
-	fd = ft_calloc(3, sizeof(int));
+	fd = malloc(3 * sizeof(int));
 	if (files->fd[0] != 0)
 	{
 		dup2(files->fd[0], STDIN_FILENO);
@@ -172,30 +186,22 @@ int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
 	files->command = find_command(input->comm, paths);
-	printf("command: %s\n", files->command);
-	printf("YES");
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
-		files->fd = read_infile(files->read);
+		files->fd = read_infile(files->read, files->fd);
 	pipe(fd);
 	files->id = fork();
 	if (files->id == 0)
 	{
 		if (files->write->content)
-		{
 			fd[1] = open(files->write->content, O_WRONLY);
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
-		}
 		else
-		{
 			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
-			close(fd[0]);
-			close(files->fd[0]);
-			close(files->fd[1]);
-		}
+		close(fd[1]);
+		close(fd[0]);
 		exec_cmd(input, files, env);
+		//close(files->fd[0]);
+		//close(files->fd[1]);
 	}
 	waitpid(files->id, NULL, 0);
 	free(files->fd);
@@ -209,18 +215,22 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 	aux = com;
 	while (com)
 	{
-		//print_commands(commands->content, paths, env);
+		//print_commands(com->content, paths, env);
 		if (!com->next)
 			files->fd = execute_final(com->content, paths, env, files);
 		else
 			files->fd = execute_pipe(com->content, paths, env, files);
-		close (files->fd[1]);
+		if (files->fd)
+		{
+			//close (files->fd[0]);
+			close (files->fd[1]);
+		}
 		com = com->next;
 	}
 	free_commands(aux);
 }
 
-/* void	print_commands(t_command *input, char **paths, char **env)
+/*void	print_commands(t_command *input, char **paths, char **env)
 {
 	t_redi	*aux;
 	t_list	*aux_two;

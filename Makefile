@@ -1,10 +1,10 @@
 # Minishell
 NAME			=	minishell
 
-SHELL_SRC	=	src/minishell.c \
-				src/utils.c \
-				src/signals.c \
+SHELL_SRC	=	src/utils.c \
 				src/heredoc.c \
+				src/signals.c \
+				src/minishell.c \
 				src/create_vars.c \
 				src/comand_list.c \
 				src/create_arrays.c \
