@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/17 16:46:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:25:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ static int	*read_infile(t_redi *read, int *old_fd)
 	if (old_fd)
 		free(old_fd);
 	fd = ft_calloc(3, sizeof(int));
+	fd[0] = 0;
+	fd[1] = 1;
 	fd[0] = open(read->content, O_RDONLY);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
@@ -130,17 +132,23 @@ static void	exec_cmd(t_command *input, t_files *files, char **env)
 		bi_unset(input, env);
 	else if (files->command)
 	{
-		ft_printf("STDIN: %d\n", files->fd[1]);
 		execve(files->command, files->arr, env);
+		perror("execve");
+		
 	}
 	else
 		ft_putstr_fd("\033[0;31mCommand not found\033[0m", 1);
 }
 
+/*
 int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 {
 	if (files->fd[0] != 0)
+	{
 		dup2(files->fd[0], STDIN_FILENO);
+		close(files->fd[0]);
+		close(files->fd[1]);
+	}
 	ft_printf("SRDIN: %d\n", STDIN_FILENO);
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
@@ -158,27 +166,33 @@ int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 		{
 			files->fd[1] = open(files->write->content, O_WRONLY);
 			dup2(files->fd[1], 1);
-			close(files->fd[1]);
+			//close(files->fd[1]);
 		}
 		close(files->fd[0]);
-		//close(files->fd[1]);
+		close(files->fd[1]);
 		ft_printf("STDIN: %d\n", STDIN_FILENO);
 		ft_printf("STDOUT: %d\n", STDOUT_FILENO);
 		exec_cmd(input, files, env);
 	}
 	waitpid(files->id, NULL, 0);
 	return (NULL);
-}
+}*/
 
-int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
+int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files, int num)
 {
 	int	*fd;
 
-	fd = malloc(3 * sizeof(int));
+	fd = ft_calloc(3, sizeof(int));
+	fd[0] = 0;
+	fd[1] = 1;
+	dup2(1, STDOUT_FILENO);
+	dup2(0, STDIN_FILENO);
 	if (files->fd[0] != 0)
 	{
 		dup2(files->fd[0], STDIN_FILENO);
 		close(files->fd[0]);
+		close(files->fd[1]);
+		free(files->fd);
 	}
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
@@ -189,42 +203,41 @@ int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
 		files->fd = read_infile(files->read, files->fd);
-	pipe(fd);
+	if (num != 0)
+		pipe(fd);
+	else
+		fd[1] = 1;
 	files->id = fork();
 	if (files->id == 0)
 	{
 		if (files->write->content)
 			fd[1] = open(files->write->content, O_WRONLY);
-		else
-			dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		if (fd[1] != 1)
+			close(fd[1]);
 		exec_cmd(input, files, env);
-		//close(files->fd[0]);
-		//close(files->fd[1]);
 	}
 	waitpid(files->id, NULL, 0);
-	free(files->fd);
 	return (fd);
 }
 
 void	exec(t_list *com, t_files *files, char **paths, char **env)
 {
 	t_list	*aux;
+	int		num;
 
 	aux = com;
+	num = 1;
+	files->fd = ft_calloc(3, sizeof(int));
 	while (com)
 	{
 		//print_commands(com->content, paths, env);
+		//if (!com->next)
+		/*files->fd = execute_final(com->content, paths, env, files);
+		else*/
 		if (!com->next)
-			files->fd = execute_final(com->content, paths, env, files);
-		else
-			files->fd = execute_pipe(com->content, paths, env, files);
-		if (files->fd)
-		{
-			//close (files->fd[0]);
-			close (files->fd[1]);
-		}
+			num = 0;
+		files->fd = execute_pipe(com->content, paths, env, files, num);
 		com = com->next;
 	}
 	free_commands(aux);

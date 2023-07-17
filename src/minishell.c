@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/17 16:49:53 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:09:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,11 @@ static void	user_input(char **paths, char **env)
 
 int	main(int argc, char **argv, char **env)
 {
+	
 	char	**paths;
-	//int		copy_fd;
 
 	//atexit(ft_leaks);
 	((void)argv, (void)argc);
-	//copy_fd = dup(STDIN_FILENO);
-	//close(copy_fd);
 	g_shell = malloc(sizeof(g_shell));
 	if (!env[0])
 	{
@@ -80,8 +78,6 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGQUIT, signal_handler);
 	while (1)
 		user_input(paths, env);
-	//dup2(copy_fd, STDIN_FILENO);
-	//close(copy_fd);
 	free_matrix(paths);
 	return (0);
 }

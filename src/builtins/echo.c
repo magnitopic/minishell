@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:01 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/17 14:15:45 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:32:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	bi_echo(t_command *com)
 	t_list	*args;
 	int		flag;
 
+	if (!com->args || ft_strlen(com->args->content) < 1)
+		return (ft_putstr_fd("\n", 1));
 	args = com->args;
 	if (!ft_strncmp(args->content, "-n", ft_strlen(args->content)))
 	{
