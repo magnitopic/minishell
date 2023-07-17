@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/14 17:24:33 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:58:11 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_files	*handle_file(char *name, int flag, t_files *files)
+static t_files	*handle_file(char *name, int flag, t_files *files)
 {
 	if (flag == 1 || flag == 3)
 	{
@@ -25,14 +25,14 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 	else if (flag == 0 || flag == 2)
 	{
 		if (flag == 0 && access(name, R_OK) != 0)
-			exit(EXIT_FAILURE);			// TODO: hacer que esto funcione bien
+			exit_program("Unable to read file\n");			// TODO: hacer que esto funcione bien
 		files->read->content = ft_substr(name, 0, ft_strlen(name));
 		files->read->type = flag;
 	}
 	return (files);
 }
 
-t_files	*create_files(t_command *input, t_files *files)
+static t_files	*create_files(t_command *input, t_files *files)
 {
 	char	*filename;
 
@@ -94,7 +94,7 @@ static char	*find_command(char *argv, char **paths)
 	return (NULL);
 }
 
-int	*read_infile(t_redi *read)
+static int	*read_infile(t_redi *read)
 {
 	int	*fd;
 
@@ -157,7 +157,6 @@ int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 }
 
 int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
-
 {
 	int	*fd;
 
@@ -173,6 +172,8 @@ int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
 	files->command = find_command(input->comm, paths);
+	printf("command: %s\n", files->command);
+	printf("YES");
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
 		files->fd = read_infile(files->read);
@@ -201,25 +202,23 @@ int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 	return (fd);
 }
 
-
-/*
-void	exec_redis(t_redi *redis)
+void	exec(t_list *com, t_files *files, char **paths, char **env)
 {
-	while (redis)
+	t_list	*aux;
+
+	aux = com;
+	while (com)
 	{
-
+		//print_commands(commands->content, paths, env);
+		if (!com->next)
+			files->fd = execute_final(com->content, paths, env, files);
+		else
+			files->fd = execute_pipe(com->content, paths, env, files);
+		close (files->fd[1]);
+		com = com->next;
 	}
-
+	free_commands(aux);
 }
-
-void	execution(t_command *com, char **paths, char **env)
-{
-	((void)paths, (void)env);
-	exec_redis(com->redi);
-	//exec_cmd();
-	//pipes();
-}
-*/
 
 /* void	print_commands(t_command *input, char **paths, char **env)
 {

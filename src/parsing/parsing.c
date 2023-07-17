@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/14 17:14:33 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:50:50 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,16 +135,5 @@ void	parsing(char *input, char **paths, char **env)
 			return (ft_putstr_fd("\033[0;31mError: Bad redirect\033[0;\n", 2));
 		aux = aux->next;
 	}
-	aux = commands;
-	while (commands)
-	{
-		//print_commands(commands->content, paths, env);
-		if (!commands->next)
-			files->fd = execute_final(commands->content, paths, env, files);
-		else
-			files->fd = execute_pipe(commands->content, paths, env, files);
-		close (files->fd[1]);
-		commands = commands->next; 
-	}
-	free_commands(aux);
+	exec(commands, files, paths, env);
 }
