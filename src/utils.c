@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/10 15:57:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/18 12:09:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,13 @@ void	exit_program(char *message)
 {
 	printf("%s", message);
 	free(g_shell->prompt);
-	exit (0);
+	exit(EXIT_SUCCESS);
+}
+
+void	ft_perror(char *message)
+{
+	perror(message);
+	exit(EXIT_FAILURE);
 }
 
 void	set_prompt(void)

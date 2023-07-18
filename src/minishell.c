@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/17 18:09:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/18 12:10:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static char	**put_path(char **paths, char **env)
 	line = ft_calloc(ft_strlen(env[y]) - 4, sizeof(char));
 	if (!line)
 	{
-		perror("malloc");
+		ft_perror("malloc");
 		exit (EXIT_FAILURE);
 	}
 	ft_strlcpy(line, env[y] + 5, ft_strlen(env[y]) - 4);
 	paths = ft_split(line, ':');
 	if (!paths)
-		(perror("split"), exit (EXIT_FAILURE));
+		ft_perror("split");
 	free(line);
 	return (paths);
 }

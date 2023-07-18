@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/17 19:32:39 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/18 12:10:49 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ static void	exec_cmd(t_command *input, t_files *files, char **env)
 	else if (files->command && access(files->command, F_OK) == 0)
 	{
 		execve(files->command, files->arr, env);
-		perror("execve");
+		ft_perror("execve");
 	}
 	else
 		ft_putstr_fd("\033[0;31mCommand not found\033[0m\n", 1);
@@ -240,7 +240,7 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 			break ;
 		if (!com->next)
 			num = 0;
-		ft_printf("holi\n");
+		//ft_printf("holi\n");
 		files->fd = execute_pipe(com->content, paths, env, files, num);
 		com = com->next;
 	}

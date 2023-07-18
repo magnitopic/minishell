@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:04:24 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/17 18:26:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/18 12:10:04 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*create_vars(char *origin, char **env)
 			line = ft_calloc(ft_strlen(env[n]) - ft_strlen(origin) + 1,
 					sizeof(char));
 			if (!line)
-				perror("malloc");
+				ft_perror("malloc");
 			ft_strlcpy(line, env[n] + ft_strlen(origin) + 1, ft_strlen(env[n])
 				- ft_strlen(origin) + 1);
 			return (line);
