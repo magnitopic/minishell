@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:35:51 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/11 13:07:04 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/18 12:35:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static t_redi	*ft_lstnew_command(void *content, enum e_redirect type)
 	return (node);
 }
 
-void	ft_newcommand(t_redi **list, void *context, enum e_redirect type)
+void	ft_newcommand(t_redi **list, void *cont, enum e_redirect type)
 {
 	t_redi	*new_redirect;
 
-	new_redirect = ft_lstnew_command(context, type);
+	new_redirect = ft_lstnew_command(cont, type);
 	if (!*list)
 		*list = new_redirect;
 	else
