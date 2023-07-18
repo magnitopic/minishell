@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/18 12:10:49 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:21:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,19 +116,19 @@ static void	exec_cmd(t_command *input, t_files *files, char **env)
 	if (!input->comm)
 		return ;
 	len = ft_strlen(input->comm);
-	if (ft_strncmp(input->comm, "cd", 2) == 0 && len == 2)
+	if (ft_strcmp(input->comm, "cd") == 0)
 		bi_cd(input, env);
-	else if (ft_strncmp(input->comm, "echo", 4) == 0 && len == 4)
+	else if (ft_strcmp(input->comm, "echo", 4) == 0)
 		bi_echo(input);
-	else if (ft_strncmp(input->comm, "env", 3) == 0 && len == 3)
+	else if (ft_strcmp(input->comm, "env", 3) == 0)
 		bi_env(input, env);
-	else if (ft_strncmp(input->comm, "exit", 4) == 0 && len == 4)
+	else if (ft_strcmp(input->comm, "exit", 4) == 0)
 		bi_exit(input);
-	else if (ft_strncmp(input->comm, "export", 6) == 0 && len == 6)
+	else if (ft_strcmp(input->comm, "export", 6) == 0)
 		bi_export(input, env);
-	else if (ft_strncmp(input->comm, "pwd", 3) == 0 && len == 3)
+	else if (ft_strcmp(input->comm, "pwd", 3) == 0)
 		bi_pwd(input);
-	else if (ft_strncmp(input->comm, "unset", 5) == 0 && len == 5)
+	else if (ft_strcmp(input->comm, "unset", 5) == 0)
 		bi_unset(input, env);
 	else if (files->command && access(files->command, F_OK) == 0)
 	{
