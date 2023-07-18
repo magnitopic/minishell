@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/18 18:21:23 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:11:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,24 +111,21 @@ static int	*read_infile(t_redi *read, int *old_fd)
 
 static void	exec_cmd(t_command *input, t_files *files, char **env)
 {
-	int	len;
-
 	if (!input->comm)
 		return ;
-	len = ft_strlen(input->comm);
 	if (ft_strcmp(input->comm, "cd") == 0)
 		bi_cd(input, env);
-	else if (ft_strcmp(input->comm, "echo", 4) == 0)
+	else if (ft_strcmp(input->comm, "echo") == 0)
 		bi_echo(input);
-	else if (ft_strcmp(input->comm, "env", 3) == 0)
+	else if (ft_strcmp(input->comm, "env") == 0)
 		bi_env(input, env);
-	else if (ft_strcmp(input->comm, "exit", 4) == 0)
+	else if (ft_strcmp(input->comm, "exit") == 0)
 		bi_exit(input);
-	else if (ft_strcmp(input->comm, "export", 6) == 0)
+	else if (ft_strcmp(input->comm, "export") == 0)
 		bi_export(input, env);
-	else if (ft_strcmp(input->comm, "pwd", 3) == 0)
+	else if (ft_strcmp(input->comm, "pwd") == 0)
 		bi_pwd(input);
-	else if (ft_strcmp(input->comm, "unset", 5) == 0)
+	else if (ft_strcmp(input->comm, "unset") == 0)
 		bi_unset(input, env);
 	else if (files->command && access(files->command, F_OK) == 0)
 	{
@@ -247,7 +244,7 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 	free_commands(aux);
 }
 
-/*void	print_commands(t_command *input, char **paths, char **env)
+/* void	print_commands(t_command *input, char **paths, char **env)
 {
 	t_redi	*aux;
 	t_list	*aux_two;
