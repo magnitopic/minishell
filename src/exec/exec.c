@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/19 16:28:20 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:40:48 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	*read_infile(t_redi *read, int *old_fd)
 static int	exec_cmd(t_command *input, t_files *files, char **env)
 {
 	if (!input->comm)
-		return ;
+		return (0);
 	if (ft_strcmp(input->comm, "cd") == 0)
 		bi_cd(input, env);
 	else if (ft_strcmp(input->comm, "echo") == 0)
@@ -170,6 +170,29 @@ int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 }
 */
 
+static int	check_builtin(t_command *input, t_files *files)
+{
+	if (!input->comm)
+		return (1);
+	if (ft_strcmp(input->comm, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(input->comm, "echo") == 0)
+		return (1);
+	else if (ft_strcmp(input->comm, "env") == 0)
+		return (1);
+	else if (ft_strcmp(input->comm, "exit") == 0)
+		return (1);
+	else if (ft_strcmp(input->comm, "export") == 0)
+		return (1);
+	else if (ft_strcmp(input->comm, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(input->comm, "unset") == 0)
+		return (1);
+	else if (files->command && access(files->command, F_OK) == 0)
+		return (0);
+	return (1);
+}
+
 void	execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 {
 	files->fd = ft_calloc(3, sizeof(int));
@@ -179,7 +202,7 @@ void	execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 		files = create_files(input, files);
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
-	if (files->command && access(files->command, F_OK) == 0)
+	if (!check_builtin(input, files))
 		files->id = fork();
 	if (files->id == 0)
 	{
