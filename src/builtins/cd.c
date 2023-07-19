@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/18 12:10:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:15:00 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	bi_cd(t_command *com, char **env)
 	}
 	else
 		ft_perror("cd");
-	printf("%s\n", getcwd(path, sizeof(path)));
+	//exit(EXIT_SUCCESS);
 }
 
 /* int	main(int argc, char **argv, char **env)

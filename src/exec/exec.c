@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/18 19:11:34 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:28:20 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,22 +94,20 @@ static char	*find_command(char *argv, char **paths)
 	return (NULL);
 }
 
-static int	*read_infile(t_redi *read, int *old_fd)
+int	*read_infile(t_redi *read, int *old_fd)
 {
 	int	*fd;
 
 	if (old_fd)
 		free(old_fd);
-	fd = ft_calloc(3, sizeof(int));
-	fd[0] = 0;
-	fd[1] = 1;
+	fd = malloc(3 * sizeof(int));
 	fd[0] = open(read->content, O_RDONLY);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-	return (fd);
+	dup2(old_fd[0], STDIN_FILENO);
+	close(old_fd[0]);
+	return (old_fd);
 }
 
-static void	exec_cmd(t_command *input, t_files *files, char **env)
+static int	exec_cmd(t_command *input, t_files *files, char **env)
 {
 	if (!input->comm)
 		return ;
@@ -128,12 +126,10 @@ static void	exec_cmd(t_command *input, t_files *files, char **env)
 	else if (ft_strcmp(input->comm, "unset") == 0)
 		bi_unset(input, env);
 	else if (files->command && access(files->command, F_OK) == 0)
-	{
 		execve(files->command, files->arr, env);
-		ft_perror("execve");
-	}
 	else
-		ft_putstr_fd("\033[0;31mCommand not found\033[0m\n", 1);
+		return (ft_putstr_fd("\033[0;31mCommand not found\033[0m\n", 1), 1);
+	return (0);
 }
 
 /*
@@ -145,7 +141,6 @@ int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 		close(files->fd[0]);
 		close(files->fd[1]);
 	}
-	ft_printf("SRDIN: %d\n", STDIN_FILENO);
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
 	((void)paths, (void)env);
@@ -165,58 +160,43 @@ int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
 			//close(files->fd[1]);
 		}
 		close(files->fd[0]);
-		close(files->fd[1]);
+		//close(files->fd[1]);
 		ft_printf("STDIN: %d\n", STDIN_FILENO);
 		ft_printf("STDOUT: %d\n", STDOUT_FILENO);
 		exec_cmd(input, files, env);
 	}
 	waitpid(files->id, NULL, 0);
 	return (NULL);
-}*/
+}
+*/
 
-int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files, int num)
+void	execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 {
-	int	*fd;
-
-	fd = ft_calloc(3, sizeof(int));
-	if (files->fd[0] != 0)
-	{
-		dup2(files->fd[0], STDIN_FILENO);
-		close(files->fd[0]);
-		close(files->fd[1]);
-		free(files->fd);
-	}
+	files->fd = ft_calloc(3, sizeof(int));
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
-	((void)paths, (void)env);
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
-	if (files->read->content)
-		files->fd = read_infile(files->read, files->fd);
-	if (files->write->content)
-		fd[1] = open(files->write->content, O_WRONLY);
-	else if (num != 0 && !files->write->content)
-		pipe(fd);
-	else
-		fd[1] = STDOUT_FILENO;
-	ft_putnbr_fd(fd[1], STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	files->id = fork();
+	if (files->command && access(files->command, F_OK) == 0)
+		files->id = fork();
 	if (files->id == 0)
 	{
-		if (fd[1] != 1)
+		if (files->write->content)
 		{
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
+			files->fd[1] = open(files->write->content, O_WRONLY);
+			dup2(files->fd[1], STDOUT_FILENO);
+			close(files->fd[1]);
+			close(files->fd[0]);
 		}
-		if (fd[0] != 0)
-			close (fd[0]);
-		exec_cmd(input, files, env);
+		if (exec_cmd(input, files, env))
+			exit(EXIT_FAILURE);
 	}
+	//if (files->write->content)
+	//close(files->fd[1]);
+	//close(files->fd[0]);
 	waitpid(files->id, NULL, 0);
-	return (fd);
 }
 
 void	exec(t_list *com, t_files *files, char **paths, char **env)
@@ -226,19 +206,19 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 
 	aux = com;
 	num = 1;
-	files->fd = ft_calloc(3, sizeof(int));
 	while (com)
 	{
 		//print_commands(com->content, paths, env);
-		//if (!com->next)
-		/*files->fd = execute_final(com->content, paths, env, files);
-		else*/
-		if (num == 0)
-			break ;
 		if (!com->next)
 			num = 0;
+		/*files->fd = execute_final(com->content, paths, env, files);
+		else*/
+		/*if (!com->next)
+			files->fd = execute_final(com->content, paths, env, files);*/
 		//ft_printf("holi\n");
-		files->fd = execute_pipe(com->content, paths, env, files, num);
+		//else
+		execute_pipe(com->content, paths, env, files);
+		num = -1;
 		com = com->next;
 	}
 	free_commands(aux);
