@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/20 11:29:42 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:23:42 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,7 @@ static void	print_export(char **env)
 	while (sort_env[i])
 		ft_printf("declare -x %s\n", sort_env[i++]);
 }
-
-typedef struct s_test
-{
-	char	*before;
-	char	*after;
-}	t_test;
-
+/* 
 static char	**add_to_env(char **env, char *str)
 {
 	char	**new_env;
@@ -43,47 +37,29 @@ static char	**add_to_env(char **env, char *str)
 	new_env[i] = str;
 	free(aux);
 	return (new_env);
-}
+} */
 
-static int validate(char *str)
+static enum e_export	validate(char *str)
 {
 	int	i;
 
-	i = 0;
-	while (str[i] && str[i] != '=')
+	i = -1;
+	while (str[++i] && str[i] != '=')
 	{
 		if (i == 0 && !(ft_isalpha(str[i]) || str[i] == '_'))
-			return (0);
+			return (INVALID);
 		else if (i != 0 && !(ft_isalnum(str[i]) || str[i] == '_'))
-			return (0);
+			return (INVALID);
 	}
-	if ()
-		return ()
-	
+	if (str[i] == '\0')
+		return (CREATE);
+	return (NEW_VALUE);
 }
-
-/* static t_test	*validate(char *test)
-{
-	char	*str;
-	t_test	*variable;
-
-	str = ft_strchr(test, '=');
-	if (str == NULL)
-		return (free(str), NULL);
-	variable = ft_calloc(1, sizeof(t_test));
-	if (ft_strlen(str) > 1)
-		ft_strlcpy(variable->after, str, ft_strlen(str));
-	else
-		variable->after = NULL;
-	printf("%s\n", ft_substr(test, 0, ft_strlen(test) - ft_strlen(str)));
-	variable->after = ft_substr(test, 0, ft_strlen(test) - ft_strlen(str) - 1);
-	return (variable);
-} */
 
 void	bi_export(t_command *input, char **env)
 {
-	t_list	*args;
-	t_test	*result;
+	t_list			*args;
+	enum e_export	result;
 
 	args = input->args;
 	if (ft_lstsize(input->args) == 0)
@@ -91,20 +67,22 @@ void	bi_export(t_command *input, char **env)
 	while (args)
 	{
 		result = validate(args->content);
-		if (result == 0)
+		if (result == INVALID)
 			return (ft_putstr_fd("\033[0;31mInvalid identifier\n\033[0m", 0));
-		if (result->after == NULL)
-			env = add_to_env(env, result->before);
+		/* if (result == NEW_VALUE)
+			replace_in_env(env, args->content);
+		if (result == CREATE)
+			add_to_env(env, args->content); */
 		args = args->next;
 	}
 	return ;
 }
 
-int	main(int argc, char **argv, char **env)
+/* int	main(int argc, char **argv, char **env)
 {
 	t_command	*test = malloc(sizeof(t_command));
 
 	ft_lstadd_new(&test->args, "There");
 	bi_export(test, env);
 	return (0);
-}
+} */
