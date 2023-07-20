@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/20 17:04:42 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:51:05 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,48 @@ static int	check_builtin(t_command *input)
 	return (0);
 }
 
+void	execute_first(t_command *input, char **paths, char **env, t_files *files)
+{
+	if (input->redi && input->redi->type != 4)
+		files = create_files(input, files);
+	files->command = find_command(input->comm, paths);
+	files->arr = set_for_execve(files, input);
+	if (files->read->content)
+		files->fd[0][0] = read_infile(files->read, files->fd);
+	files->id[0] = fork();
+	if (files->id[0] == 0)
+	{
+		if (files->write->content)
+		{
+			files->fd[0][1] = open(files->write->content, O_WRONLY);
+			dup2(files->fd[0][1], 1);
+			close(files->fd[0][1]);
+		}
+		else
+		{
+			dup2(files->fd[0][1], STDOUT_FILENO);
+			close(files->fd[0][1]);
+		}
+		//close(files->fd[0]);
+		//close(files->fd[1]);
+		exec_cmd(input, files, env);
+	}
+	//close(files->fd[0][0]);
+	//close(files->fd[0][1]);
+}
+
 void	execute_final(t_command *input, char **paths, char **env, t_files *files)
 {
 	if (files->fd[0][0] != 0)
 	{
 		dup2(files->fd[0][0], STDIN_FILENO);
 		close(files->fd[0][0]);
-		close(files->fd[1][0]);
+		close(files->fd[0][1]);
 	}
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
+	else
+		files->write->content = NULL;
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
@@ -160,7 +192,15 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 		execute_final(com->content, paths, env, files);
 		com = NULL;
 	}
-	
+	pipe(files->fd[0]);
+	pipe(files->fd[1]);
+	if (files->count == 2)
+	{
+		execute_first(com->content, paths, env, files);
+		com = com->next;
+		execute_final(com->content, paths, env, files);
+		com = NULL;
+	}
 	while (com)
 	{
 		//print_commands(com->content, paths, env);
