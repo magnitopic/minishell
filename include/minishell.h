@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/20 15:46:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/20 16:57:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,9 @@ typedef struct s_files
 	struct s_redi	*read;
 	char			**arr;
 	char			*command;
-	int				*fd;
-	int				id;
+	int				fd[2][2];
+	int				id[1024];
+	int				count;
 }	t_files;
 
 typedef struct s_command
@@ -151,7 +152,7 @@ t_files			*create_files(t_command *input, t_files *files);
 char			*check_param(char *argv);
 char			*find_command(char *argv, char **paths);
 void			exec_one_builtin(t_command *input, t_files *files, char **env);
-int				*read_infile(t_redi *read, int *old_fd);
+int				read_infile(t_redi *read, int fd[2][2]);
 int				exec_cmd(t_command *input, t_files *files, char **env);
 /* Parsing functions */
 t_list			*split_words(char *str);

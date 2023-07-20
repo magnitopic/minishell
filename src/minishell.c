@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/20 13:50:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:08:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int	main(int argc, char **argv, char **env)
 	int		output;
 
 	//atexit(ft_leaks);
+	((void)argv, (void)argc);
 	input = dup(STDIN_FILENO);
 	output = dup(STDOUT_FILENO);
-	((void)argv, (void)argc);
 	g_shell = malloc(sizeof(g_shell));
 	if (!env[0])
 	{

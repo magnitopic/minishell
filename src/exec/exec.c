@@ -6,23 +6,18 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/20 16:17:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:04:42 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	*read_infile(t_redi *read, int *old_fd)
+int	read_infile(t_redi *read, int fd[2][2])
 {
-	int	*fd;
-
-	if (old_fd)
-		free(old_fd);
-	fd = malloc(3 * sizeof(int));
-	fd[0] = open(read->content, O_RDONLY);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-	return (fd);
+	fd[0][0] = open(read->content, O_RDONLY);
+	dup2(fd[0][0], STDIN_FILENO);
+	close(fd[0][0]);
+	return (fd[0][0]);
 }
 
 int	exec_cmd(t_command *input, t_files *files, char **env)
@@ -75,44 +70,41 @@ static int	check_builtin(t_command *input)
 	return (0);
 }
 
-int	*execute_final(t_command *input, char **paths, char **env, t_files *files)
+void	execute_final(t_command *input, char **paths, char **env, t_files *files)
 {
-	if (files->fd[0] != 0)
+	if (files->fd[0][0] != 0)
 	{
-		dup2(files->fd[0], STDIN_FILENO);
-		close(files->fd[0]);
-		close(files->fd[1]);
+		dup2(files->fd[0][0], STDIN_FILENO);
+		close(files->fd[0][0]);
+		close(files->fd[1][0]);
 	}
-	((void)paths, (void)env);
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
-		files->fd = read_infile(files->read, files->fd);
-	//if (!check_builtin(input) || files->fd[0] != 0)
-	files->id = fork();
-	if (files->id == 0)
+		files->fd[0][0] = read_infile(files->read, files->fd);
+	files->id[files->count] = fork();
+	if (files->id[files->count] == 0)
 	{
 		if (files->write->content)
 		{
-			files->fd[1] = open(files->write->content, O_WRONLY);
-			dup2(files->fd[1], 1);
-			//close(files->fd[1]);
+			files->fd[1][1] = open(files->write->content, O_WRONLY);
+			dup2(files->fd[1][1], 1);
+			close(files->fd[1][1]);
 		}
 		//close(files->fd[0]);
 		//close(files->fd[1]);
 		exec_cmd(input, files, env);
 	}
-	waitpid(files->id, NULL, 0);
-	return (NULL);
+	close(files->fd[0][0]);
+	close(files->fd[0][1]);
+	waitpid(files->id[files->count], NULL, 0);
 }
 
+/*
 int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 {
-	int	*fd;
-
-	fd = ft_calloc(2, sizeof(int));
 	if (files->fd[0] != 0)
 	{
 		dup2(files->fd[0], STDIN_FILENO);
@@ -145,19 +137,16 @@ int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
 	//if (files->write->content)
 	//close(files->fd[1]);
 	//close(files->fd[0]);
-	waitpid(files->id, NULL, 0);
+	//waitpid(files->id, NULL, 0);
 	free(files->fd);
 	return (fd);
-}
+}*/
 
 void	exec(t_list *com, t_files *files, char **paths, char **env)
 {
 	t_list	*aux;
-	int		num;
 
 	aux = com;
-	num = 1;
-	files->fd = ft_calloc(3, sizeof(int));
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
 	if (!com->next && check_builtin(com->content))
@@ -165,19 +154,23 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 		exec_one_builtin(com->content, files, env);
 		com = NULL;
 	}
+	files->count = ft_lstsize(com);
+	if (files->count == 1 && com)
+	{
+		execute_final(com->content, paths, env, files);
+		com = NULL;
+	}
+	
 	while (com)
 	{
 		//print_commands(com->content, paths, env);
-		if (!com->next)
-			num = 0;
 		/*files->fd = execute_final(com->content, paths, env, files);
 		else*/
 		if (!com->next)
-			files->fd = execute_final(com->content, paths, env, files);
+			execute_final(com->content, paths, env, files);
 		//ft_printf("holi\n");
-		else
-			files->fd = execute_pipe(com->content, paths, env, files);
-		num = -1;
+		/*else
+			files->fd = execute_pipe(com->content, paths, env, files);*/
 		com = com->next;
 	}
 	free_commands(aux);
