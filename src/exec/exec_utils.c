@@ -6,11 +6,10 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/17 14:11:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:37:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// ! Archivo temporal
 #include "../../include/minishell.h"
 
 char	**set_for_execve(t_files *files, t_command *input)
@@ -32,4 +31,86 @@ char	**set_for_execve(t_files *files, t_command *input)
 		i++;
 	}
 	return (com_args);
+}
+
+t_files	*handle_file(char *name, int flag, t_files *files)
+{
+	if (flag == 1 || flag == 3)
+	{
+		if (flag == 1)
+			unlink(name);
+		open(name, O_CREAT, 0644);
+		files->write->content = ft_substr(name, 0, ft_strlen(name));
+		files->write->type = flag;
+	}
+	else if (flag == 0 || flag == 2)
+	{
+		if (flag == 0 && access(name, R_OK) != 0)
+			exit_program("Unable to read file\n");			// TODO: hacer que esto funcione bien
+		files->read->content = ft_substr(name, 0, ft_strlen(name));
+		files->read->type = flag;
+	}
+	return (files);
+}
+
+t_files	*create_files(t_command *input, t_files *files)
+{
+	char	*filename;
+
+	while (input->redi)
+	{
+		filename = input->redi->content;
+		files = handle_file(filename, input->redi->type, files);
+		if (input->redi->next)
+			input->redi = input->redi->next;
+		else
+			break ;
+	}
+	return (files);
+}
+
+char	*check_param(char *argv)
+{
+	char	*str;
+	char	**aux;
+
+	aux = ft_split(argv, ' ');
+	if (!aux)
+	{
+		str = ft_substr(argv, 0, ft_strlen(argv));
+		free_matrix(aux);
+		return (str);
+	}
+	str = ft_substr(aux[0], 0, ft_strlen(aux[0]));
+	free_matrix(aux);
+	return (str);
+}
+
+char	*find_command(char *argv, char **paths)
+{
+	char	*str;
+	char	*temp;
+	char	*aux;
+
+	argv = check_param(argv);
+	if (access(argv, F_OK) == 0)
+		return (argv);
+	while (*paths != NULL)
+	{
+		aux = ft_strjoin(*paths, "/");
+		temp = ft_strjoin(aux, argv);
+		if (access(temp, F_OK) == 0)
+		{
+			str = ft_substr(temp, 0, ft_strlen(temp));
+			free(temp);
+			free(aux);
+			free(argv);
+			return (str);
+		}
+		paths++;
+		free(temp);
+		free(aux);
+	}
+	free(argv);
+	return (NULL);
 }

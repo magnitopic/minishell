@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/20 11:35:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:46:00 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,18 @@ enum e_redirect
 	HEREDOC,
 	APPEND,
 	BAD_INPUT
+};
+
+/**
+ * INVALID		syntax error
+ * NEW_VALUE	adds value to env or replaces existing value
+ * CREATE		it creates variable. If it exists it's not modified
+*/
+enum e_export
+{
+	INVALID,
+	NEW_VALUE,
+	CREATE
 };
 
 /* Structs */
@@ -134,6 +146,13 @@ void			ft_newcommand(t_redi **list, void *cont, enum e_redirect type);
 char			**set_for_execve(t_files *files, t_command *input);
 /* Execution */
 void			exec(t_list *com, t_files *files, char **paths, char **env);
+t_files			*handle_file(char *name, int flag, t_files *files);
+t_files			*create_files(t_command *input, t_files *files);
+char			*check_param(char *argv);
+char			*find_command(char *argv, char **paths);
+void			exec_one_builtin(t_command *input, t_files *files, char **env);
+int				*read_infile(t_redi *read, int *old_fd);
+int				exec_cmd(t_command *input, t_files *files, char **env);
 /* Parsing functions */
 t_list			*split_words(char *str);
 enum e_quotes	check_flag(char *str, int n);
