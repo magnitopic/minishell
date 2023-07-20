@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/18 18:40:57 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/20 11:35:32 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,18 @@ enum e_redirect
 };
 
 /* Structs */
+
+/**
+ * Global variable struct
+ */
 typedef struct s_shell
 {
 	char	*prompt;
 }	t_shell;
 
+/**
+ * General variable struct
+*/
 typedef struct s_vars
 {
 	int		flag;
@@ -76,6 +83,10 @@ typedef struct s_vars
 	char	**arr;
 }	t_vars;
 
+/**
+ * Struct for storing redirects
+ * 
+*/
 typedef struct s_redi
 {
 	void			*content;
