@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/19 16:29:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:50:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ static char	**put_path(char **paths, char **env)
 	system("Leaks minishell");
 } */
 
-static void	user_input(char **paths, char **env)
+static void	user_input(char **paths, char **env, int in, int out)
 {
 	char	*input;
 	char	*aux;
 
 	set_prompt();
+	dup2(in, STDIN_FILENO);
+	dup2(out, STDOUT_FILENO);
 	input = readline(g_shell->prompt);
 	aux = input;
 	input = ft_strtrim(input, " \n\t\r\v\f");
@@ -63,8 +65,12 @@ static void	user_input(char **paths, char **env)
 int	main(int argc, char **argv, char **env)
 {
 	char	**paths;
+	int		input;
+	int		output;
 
 	//atexit(ft_leaks);
+	input = dup(STDIN_FILENO);
+	output = dup(STDOUT_FILENO);
 	((void)argv, (void)argc);
 	g_shell = malloc(sizeof(g_shell));
 	if (!env[0])
@@ -76,7 +82,9 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
 	while (1)
-		user_input(paths, env);
+		user_input(paths, env, input, output);
+	close(input);
+	close(output);
 	free_matrix(paths);
 	return (0);
 }
