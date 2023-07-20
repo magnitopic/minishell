@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/20 17:51:05 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/20 18:49:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,6 @@ void	execute_final(t_command *input, char **paths, char **env, t_files *files)
 			dup2(files->fd[1][1], 1);
 			close(files->fd[1][1]);
 		}
-		//close(files->fd[0]);
-		//close(files->fd[1]);
 		exec_cmd(input, files, env);
 	}
 	close(files->fd[0][0]);
@@ -134,45 +132,50 @@ void	execute_final(t_command *input, char **paths, char **env, t_files *files)
 	waitpid(files->id[files->count], NULL, 0);
 }
 
-/*
-int	*execute_pipe(t_command *input, char **paths, char **env, t_files *files)
+
+void	execute_pipes(t_command *input, char **paths, char **env, t_files *files)
 {
-	if (files->fd[0] != 0)
-	{
-		dup2(files->fd[0], STDIN_FILENO);
-		close(files->fd[0]);
-		//close(files->fd[1]);
-	}
+	static int	i = 1;
+
+	dup2(files->fd[0][0], STDIN_FILENO);
+	close(files->fd[0][0]);
+	close(files->fd[0][1]);
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
+	else
+		files->write->content = NULL;
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
-	pipe(fd);
-	files->id = fork();
-	if (files->id == 0)
+	files->id[i] = fork();
+	if (files->id[i] == 0)
 	{
 		if (files->write->content)
 		{
-			files->fd[1] = open(files->write->content, O_WRONLY);
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
-			close(fd[0]);
+			files->fd[1][1] = open(files->write->content, O_WRONLY);
+			dup2(files->fd[1][1], STDOUT_FILENO);
+			close(files->fd[1][1]);
+			close(files->fd[0][0]);
 		}
 		else
 		{
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
+			dup2(files->fd[1][1], STDOUT_FILENO);
+			close(files->fd[1][1]);
 		}
 		if (exec_cmd(input, files, env))
 			exit(EXIT_FAILURE);
 	}
+	//close(files->fd[0][0]);
+	//close(files->fd[0][1]);
+	//close(files->fd[1][0]);
+	//close(files->fd[1][1]);
+	//close(files->fd[1][0]);
+	//close(files->fd[1][1]);
 	//if (files->write->content)
 	//close(files->fd[1]);
 	//close(files->fd[0]);
-	//waitpid(files->id, NULL, 0);
-	free(files->fd);
-	return (fd);
-}*/
+	//waitpid(files->id[i], NULL, 0);
+	i++;
+}
 
 void	exec(t_list *com, t_files *files, char **paths, char **env)
 {
@@ -194,24 +197,23 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 	}
 	pipe(files->fd[0]);
 	pipe(files->fd[1]);
-	if (files->count == 2)
+	if (files->count == 2 && com)
 	{
 		execute_first(com->content, paths, env, files);
 		com = com->next;
 		execute_final(com->content, paths, env, files);
 		com = NULL;
 	}
-	while (com)
+	else if (files->count > 2 && com)
 	{
-		//print_commands(com->content, paths, env);
-		/*files->fd = execute_final(com->content, paths, env, files);
-		else*/
-		if (!com->next)
-			execute_final(com->content, paths, env, files);
-		//ft_printf("holi\n");
-		/*else
-			files->fd = execute_pipe(com->content, paths, env, files);*/
+		execute_first(com->content, paths, env, files);
 		com = com->next;
+		while (com->next)
+		{
+			execute_pipes(com->content, paths, env, files);
+			com = com->next;
+		}
+		execute_final(com->content, paths, env, files);
 	}
 	free_commands(aux);
 }
