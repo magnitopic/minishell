@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 11:47:36 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:54:48 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,58 @@ static char	**add_to_env(char **env, char *str)
 	return (new_env);
 } */
 
-static void	add_to_env(char **env, char *str)
+static int	find_in_env(char **env, char ***env_cpy, char *str)
 {
 	char	*substr;
 	int		flag;
+	int		i;
 
-	(void)str;
-	flag = 1;
+	i = 0;
+	flag = -1;
 	while (*env)
 	{
 		substr = ft_substr(*env, 0, \
 		ft_strlen(*env) - ft_strlen(ft_strchr(*env, '=')));
 		if (ft_strcmp(str, substr) == 0)
-			flag = 0;
+			flag = i;
 		free(substr);
-		env++;
+		(*env_cpy)[i++] = *env++;
 	}
-	if (flag)
-		
+	return (flag);
+}
+
+static char	**replace_in_env(char **env, char *str)
+{
+	char	**new_env;
+	char	*var;
+	int		flag;
+
+	new_env = ft_calloc(ft_get_matrix_size(env) + 2, sizeof(char *));
+	var = ft_substr(str, 0, ft_strlen(str) - ft_strlen(ft_strchr(str, '=')));
+	flag = find_in_env(env, &new_env, var);
+	if (flag != -1)
+		env[flag] = str;
+	else
+	{
+		new_env[ft_get_matrix_size(env)] = str;
+		env = new_env;
+	}
+	return (env);
+}
+
+static char	**add_to_env(char **env, char *str)
+{
+	char	**new_env;
+	int		flag;
+
+	new_env = ft_calloc(ft_get_matrix_size(env) + 2, sizeof(char *));
+	flag = find_in_env(env, &new_env, str);
+	if (flag == -1)
+	{
+		new_env[ft_get_matrix_size(env)] = str;
+		env = new_env;
+	}
+	return (env);
 }
 
 static enum e_export	validate(char *str)
@@ -76,34 +110,34 @@ static enum e_export	validate(char *str)
 	return (NEW_VALUE);
 }
 
-void	bi_export(t_command *input, char **env)
+void	bi_export(t_command *input, char ***env)
 {
 	t_list			*args;
 	enum e_export	result;
 
 	args = input->args;
 	if (ft_lstsize(input->args) == 0)
-		return (print_export(env));
+		return (print_export(*env));
 	while (args)
 	{
 		result = validate(args->content);
 		if (result == INVALID)
 			return (ft_putstr_fd("\033[0;31mInvalid identifier\n\033[0m", 0));
-		/* if (result == NEW_VALUE)
-			replace_in_env(env, args->content); */
+		if (result == NEW_VALUE)
+			*env = replace_in_env(*env, args->content);
 		if (result == CREATE)
-			add_to_env(env, args->content);
+			*env = add_to_env(*env, args->content);
 		args = args->next;
 	}
-	return ;
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	
 	t_command	*test = malloc(sizeof(t_command));
 
-	ft_lstadd_new(&test->args, "There");
-	bi_export(test, env);
+	((void)argc, (void)argv);
+	ft_lstadd_new(&test->args, "hi=There");
+	bi_export(test, &env);
+	bi_env(test, env);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/20 16:57:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/24 13:47:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_files
 	int				fd[2][2];
 	int				id[1024];
 	int				count;
+	int				read_fd;
 }	t_files;
 
 typedef struct s_command
@@ -170,7 +171,7 @@ void			bi_exit(t_command *com);
 void			bi_pwd(t_command *com);
 void			bi_cd(t_command *com, char **env);
 void			bi_env(t_command *com, char **env);
-void			bi_export(t_command *input, char **env);
+void			bi_export(t_command *input, char ***env);
 void			bi_unset(t_command *input, char **env);
 
 #endif

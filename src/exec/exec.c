@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/20 18:49:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:26:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	exec_cmd(t_command *input, t_files *files, char **env)
 	else if (ft_strcmp(input->comm, "exit") == 0)
 		bi_exit(input);
 	else if (ft_strcmp(input->comm, "export") == 0)
-		bi_export(input, env);
+		bi_export(input, &env);
 	else if (ft_strcmp(input->comm, "pwd") == 0)
 		bi_pwd(input);
 	else if (ft_strcmp(input->comm, "unset") == 0)
@@ -70,7 +70,7 @@ static int	check_builtin(t_command *input)
 	return (0);
 }
 
-void	execute_first(t_command *input, char **paths, char **env, t_files *files)
+int	execute_first(t_command *input, char **paths, char **env, t_files *files)
 {
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
@@ -96,18 +96,26 @@ void	execute_first(t_command *input, char **paths, char **env, t_files *files)
 		//close(files->fd[1]);
 		exec_cmd(input, files, env);
 	}
+	files->read_fd = files->fd[0][0];
 	//close(files->fd[0][0]);
 	//close(files->fd[0][1]);
+	return (files->read_fd);
 }
 
 void	execute_final(t_command *input, char **paths, char **env, t_files *files)
 {
-	if (files->fd[0][0] != 0)
+	if (files->read_fd != 0)
+	{
+		dup2(files->read_fd, STDIN_FILENO);
+		close(files->read_fd);
+		close(files->fd[0][1]);
+	}
+	/*if (files->fd[0][0] != 0)
 	{
 		dup2(files->fd[0][0], STDIN_FILENO);
 		close(files->fd[0][0]);
 		close(files->fd[0][1]);
-	}
+	}*/
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
 	else
@@ -129,17 +137,20 @@ void	execute_final(t_command *input, char **paths, char **env, t_files *files)
 	}
 	close(files->fd[0][0]);
 	close(files->fd[0][1]);
+	close(files->fd[1][0]);
+	close(files->fd[1][1]);
 	waitpid(files->id[files->count], NULL, 0);
 }
 
 
-void	execute_pipes(t_command *input, char **paths, char **env, t_files *files)
+int	execute_pipes(t_command *input, char **paths, char **env, t_files *files)
 {
 	static int	i = 1;
 
-	dup2(files->fd[0][0], STDIN_FILENO);
-	close(files->fd[0][0]);
-	close(files->fd[0][1]);
+	//dprintf(1, "hola: %s\n", get_next_line(files->read_fd));
+	dup2(files->read_fd, STDIN_FILENO);
+	close(files->read_fd);
+	//close(files->fd[0][1]);
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
 	else
@@ -164,6 +175,9 @@ void	execute_pipes(t_command *input, char **paths, char **env, t_files *files)
 		if (exec_cmd(input, files, env))
 			exit(EXIT_FAILURE);
 	}
+	dprintf(1, "alaparic\n");
+	close(files->fd[1][0]);
+	//dprintf(files->fd[1][0], "que haces: %s\n", get_next_line(files->fd[1][0]));
 	//close(files->fd[0][0]);
 	//close(files->fd[0][1]);
 	//close(files->fd[1][0]);
@@ -175,6 +189,8 @@ void	execute_pipes(t_command *input, char **paths, char **env, t_files *files)
 	//close(files->fd[0]);
 	//waitpid(files->id[i], NULL, 0);
 	i++;
+	files->read_fd = files->fd[1][0];
+	return(files->read_fd);
 }
 
 void	exec(t_list *com, t_files *files, char **paths, char **env)
@@ -199,7 +215,7 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 	pipe(files->fd[1]);
 	if (files->count == 2 && com)
 	{
-		execute_first(com->content, paths, env, files);
+		files->read_fd = execute_first(com->content, paths, env, files);
 		com = com->next;
 		execute_final(com->content, paths, env, files);
 		com = NULL;
@@ -210,7 +226,7 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 		com = com->next;
 		while (com->next)
 		{
-			execute_pipes(com->content, paths, env, files);
+			files->read_fd = execute_pipes(com->content, paths, env, files);
 			com = com->next;
 		}
 		execute_final(com->content, paths, env, files);
