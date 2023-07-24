@@ -6,11 +6,27 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:01 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 16:47:54 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/24 18:43:59 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static int	ft_ischar(char *str, char c)
+{
+	int	n;
+
+	n = 1;
+	if (!str[1])
+		return (0);
+	while (str[n])
+	{
+		if (str[n] != c)
+			return (0);
+		n++;
+	}
+	return (1);
+}
 
 void	bi_echo(t_command *com, int num)
 {
@@ -20,7 +36,8 @@ void	bi_echo(t_command *com, int num)
 	if (!com->args || ft_strlen(com->args->content) < 1)
 		return (ft_putstr_fd("\n", 1));
 	args = com->args;
-	if (!ft_strncmp(args->content, "-n", ft_strlen(args->content)))
+	if (ft_strlen(args->content) > 1 && !ft_strncmp(args->content, "-", 1)
+		&& ft_ischar(args->content, 'n'))
 	{
 		flag = 0;
 		args = args->next;
