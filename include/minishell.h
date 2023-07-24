@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 17:05:30 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:11:33 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,6 @@ void			bi_pwd(t_command *com, int num);
 void			bi_cd(t_command *com, char **env, int num);
 void			bi_env(t_command *com, char **env, int num);
 void			bi_export(t_command *input, char ***env, int num);
-void			bi_unset(t_command *input, char **env);
+void			bi_unset(t_command *input, char **env, int num);
 
 #endif
