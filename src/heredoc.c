@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/12 16:29:54 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:22:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ char	*heredoc(char *key_word)
 		if (!input)
 			break ;
 		change = ft_strtrim(input, "\n");
-		if (ft_strncmp(key_word, change, ft_strlen(change)) == 0
-			&& ft_strlen(change) > 0)
+		if (ft_strcmp(change, key_word) == 0)
 			break ;
 		str = ft_strjoin(str, input);
 		free(change);
