@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 14:54:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:21:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,6 @@ static void	print_export(char **env)
 	while (sort_env[i])
 		ft_printf("declare -x %s\n", sort_env[i++]);
 }
-/* 
-static char	**add_to_env(char **env, char *str)
-{
-	char	**new_env;
-	char	**aux;
-	int		i;
-
-	i = 0;
-	aux = env;
-	new_env = ft_calloc(ft_get_matrix_size(env) + 2, sizeof(char *));
-	while (*env)
-		new_env[i++] = *env++;
-	new_env[i] = str;
-	free(aux);
-	return (new_env);
-} */
 
 static int	find_in_env(char **env, char ***env_cpy, char *str)
 {
@@ -59,37 +43,27 @@ static int	find_in_env(char **env, char ***env_cpy, char *str)
 	return (flag);
 }
 
-static char	**replace_in_env(char **env, char *str)
+static char	**change_env(char **env, char *str, enum e_export flag)
 {
 	char	**new_env;
 	char	*var;
-	int		flag;
+	int		exists;
+	char	*aux;
 
 	new_env = ft_calloc(ft_get_matrix_size(env) + 2, sizeof(char *));
-	var = ft_substr(str, 0, ft_strlen(str) - ft_strlen(ft_strchr(str, '=')));
-	flag = find_in_env(env, &new_env, var);
-	if (flag != -1)
-		env[flag] = str;
+	aux = ft_strchr(str, '=');
+	if (aux != 0)
+		var = ft_substr(str, 0, ft_strlen(str) - ft_strlen(aux));
 	else
+		var = str;
+	exists = find_in_env(env, &new_env, var);
+	if (exists == -1)
 	{
 		new_env[ft_get_matrix_size(env)] = str;
 		env = new_env;
 	}
-	return (env);
-}
-
-static char	**add_to_env(char **env, char *str)
-{
-	char	**new_env;
-	int		flag;
-
-	new_env = ft_calloc(ft_get_matrix_size(env) + 2, sizeof(char *));
-	flag = find_in_env(env, &new_env, str);
-	if (flag == -1)
-	{
-		new_env[ft_get_matrix_size(env)] = str;
-		env = new_env;
-	}
+	else if (flag == NEW_VALUE)
+		env[exists] = str;
 	return (env);
 }
 
@@ -123,21 +97,7 @@ void	bi_export(t_command *input, char ***env)
 		result = validate(args->content);
 		if (result == INVALID)
 			return (ft_putstr_fd("\033[0;31mInvalid identifier\n\033[0m", 0));
-		if (result == NEW_VALUE)
-			*env = replace_in_env(*env, args->content);
-		if (result == CREATE)
-			*env = add_to_env(*env, args->content);
+		*env = change_env(*env, args->content, result);
 		args = args->next;
 	}
-}
-
-int	main(int argc, char **argv, char **env)
-{
-	t_command	*test = malloc(sizeof(t_command));
-
-	((void)argc, (void)argv);
-	ft_lstadd_new(&test->args, "hi=There");
-	bi_export(test, &env);
-	bi_env(test, env);
-	return (0);
 }
