@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 13:47:47 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:54:57 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ typedef struct s_vars
 
 /**
  * Struct for storing redirects
- * 
+ *
 */
 typedef struct s_redi
 {
@@ -112,10 +112,9 @@ typedef struct s_files
 	struct s_redi	*read;
 	char			**arr;
 	char			*command;
-	int				fd[2][2];
+	int				*fd;
 	int				id[1024];
 	int				count;
-	int				read_fd;
 }	t_files;
 
 typedef struct s_command
@@ -153,8 +152,8 @@ t_files			*create_files(t_command *input, t_files *files);
 char			*check_param(char *argv);
 char			*find_command(char *argv, char **paths);
 void			exec_one_builtin(t_command *input, t_files *files, char **env);
-int				read_infile(t_redi *read, int fd[2][2]);
-int				exec_cmd(t_command *input, t_files *files, char **env);
+int				read_infile(t_redi *read, int *fd);
+int				exec_cmd(t_command *input, t_files *files, char **env, int flag);
 /* Parsing functions */
 t_list			*split_words(char *str);
 enum e_quotes	check_flag(char *str, int n);
@@ -166,10 +165,10 @@ t_list			*expand_values(t_list *args, char **env);
 void			parsing(char *input, char **paths, char **env);
 int				handle_redirects(char *str, t_redi **redi, t_list **tokens);
 /* BuiltIn Functions */
-void			bi_echo(t_command *com);
+void			bi_echo(t_command *com, int flag);
 void			bi_exit(t_command *com);
 void			bi_pwd(t_command *com);
-void			bi_cd(t_command *com, char **env);
+void			bi_cd(t_command *com, char **env, int flag);
 void			bi_env(t_command *com, char **env);
 void			bi_export(t_command *input, char ***env);
 void			bi_unset(t_command *input, char **env);

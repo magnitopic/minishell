@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:39:49 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/20 17:04:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:45:32 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	exec_one_builtin(t_command *input, t_files *files, char **env)
 		&& input->redi->type != 4)
 		files = create_files(input, files);
 	if (files->read->content)
-		files->fd[0][0] = read_infile(files->read, files->fd);
+		files->fd[0] = read_infile(files->read, files->fd);
 	if (files->write->content)
 	{
-		files->fd[1][0] = open(files->write->content, O_WRONLY);
-		dup2(files->fd[1][0], STDOUT_FILENO);
-		close(files->fd[1][0]);
+		files->fd[0] = open(files->write->content, O_WRONLY);
+		dup2(files->fd[1], STDOUT_FILENO);
+		close(files->fd[1]);
 	}
-	exec_cmd(input, files, env);
+	exec_cmd(input, files, env, 0);
 }

@@ -6,13 +6,13 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:01 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/19 14:25:41 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:47:54 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	bi_echo(t_command *com)
+void	bi_echo(t_command *com, int num)
 {
 	t_list	*args;
 	int		flag;
@@ -36,6 +36,8 @@ void	bi_echo(t_command *com)
 	}
 	if (flag)
 		ft_printf("\n");
+	if (num != 0)
+		exit(EXIT_SUCCESS);
 }
 
 /* int	main(int argc, char **argv)

@@ -6,13 +6,13 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/19 15:15:00 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:54:32 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	bi_cd(t_command *com, char **env)
+void	bi_cd(t_command *com, char **env, int num)
 {
 	char	path[PATH_MAX];
 	t_list	*args;
@@ -49,7 +49,8 @@ void	bi_cd(t_command *com, char **env)
 	}
 	else
 		ft_perror("cd");
-	//exit(EXIT_SUCCESS);
+	if (num != 0)
+		exit(EXIT_SUCCESS);
 }
 
 /* int	main(int argc, char **argv, char **env)
