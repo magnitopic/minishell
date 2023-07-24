@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 17:22:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:25:22 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*create_file(char *str)
+static char	*create_file(char *str)
 {
 	char	*file_name;
 	int		fd;
@@ -60,9 +60,3 @@ char	*heredoc(char *key_word)
 	str = create_file(str);
 	return (str);
 }
-
-/* int	main(int argc, char **argv)
-{
-	printf("%s", heredoc("yes"));
-	return (0);
-} */

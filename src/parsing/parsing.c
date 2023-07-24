@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/20 17:04:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/24 18:10:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ static t_command	*structure(t_list *tokens)
 }
 
 /**
- * Main parsing function which will call all other functions needed for parsing
+ * Main parsing function which will call all other functions needed for parsing.
+ * Once finished, the parsed input will be passed on to the `exec` function.
 */
 void	parsing(char *input, char **paths, char **env)
 {
@@ -134,7 +135,7 @@ void	parsing(char *input, char **paths, char **env)
 		aux->content = expand_values(aux->content, env);
 		aux->content = structure(aux->content);
 		if (aux->content == NULL)
-			return (ft_putstr_fd("\033[0;31mError: Bad redirect\033[0;\n", 2));
+			return ;
 		aux = aux->next;
 	}
 	exec(commands, files, paths, env);

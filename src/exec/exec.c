@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/24 17:08:15 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/24 18:13:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	exec_cmd(t_command *input, t_files *files, char **env, int flag)
 	else
 	{
 		dup2(1, STDOUT_FILENO);
-		ft_putstr_fd("\033[0;31mCommand not found\033[0m\n", STDOUT_FILENO);
+		ft_putstr_fd("\033[0;31mCommand not found\033[0m\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 	return (0);
@@ -70,7 +70,7 @@ static int	check_builtin(t_command *input)
 	return (0);
 }
 
-int	*execute_first(t_command *input, char **paths, char **env, t_files *files)
+static int	*execute_first(t_command *input, char **paths, char **env, t_files *files)
 {
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
@@ -102,7 +102,7 @@ int	*execute_first(t_command *input, char **paths, char **env, t_files *files)
 	return (files->fd);
 }
 
-void	execute_final(t_command *input, char **paths, char **env, t_files *files)
+static void	execute_final(t_command *input, char **paths, char **env, t_files *files)
 {
 	//dprintf(1, "adios: %s\n", get_next_line(files->fd[0]));
 	if (files->fd[0] != 0)
@@ -141,17 +141,15 @@ void	execute_final(t_command *input, char **paths, char **env, t_files *files)
 }
 
 
-int	*execute_pipes(t_command *input, char **paths, char **env, t_files *files)
+static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *files)
 {
 	static int	i = 1;
 	int			*fd;
 
-	//dprintf(1, "hola: %s\n", get_next_line(files->fd[0]));
 	dup2(files->fd[0], STDIN_FILENO);
 	close(files->fd[0]);
 	fd = ft_calloc(2, sizeof(int));
 	free(files->fd);
-	//close(files->fd[0][1]);
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
 	else
@@ -167,7 +165,6 @@ int	*execute_pipes(t_command *input, char **paths, char **env, t_files *files)
 			fd[1] = open(files->write->content, O_WRONLY);
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
-			//close(files->fd[0]);
 		}
 		else
 		{
@@ -175,23 +172,10 @@ int	*execute_pipes(t_command *input, char **paths, char **env, t_files *files)
 			close(fd[1]);
 		}
 		exec_cmd(input, files, env, 1);
-			//exit(EXIT_FAILURE);
 	}
 	close(fd[1]);
-	//close(fd[0]);
-	//dprintf(files->fd[1][0], "que haces: %s\n", get_next_line(files->fd[1][0]));
-	//close(files->fd[0][0]);
-	//close(files->fd[0][1]);
-	//close(files->fd[1][0]);
-	//close(files->fd[1][1]);
-	//close(files->fd[1][0]);
-	//close(files->fd[1][1]);
-	//if (files->write->content)
-	//close(files->fd[1]);
-	//close(files->fd[0]);
-	//waitpid(files->id[i], NULL, 0);
 	i++;
-	return(fd);
+	return (fd);
 }
 
 void	exec(t_list *com, t_files *files, char **paths, char **env)
@@ -235,7 +219,7 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 	free_commands(aux);
 }
 
-/* void	print_commands(t_command *input, char **paths, char **env)
+/* static void	print_commands(t_command *input, char **paths, char **env)
 {
 	t_redi	*aux;
 	t_list	*aux_two;
