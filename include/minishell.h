@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 16:54:57 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:05:30 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,11 +166,11 @@ void			parsing(char *input, char **paths, char **env);
 int				handle_redirects(char *str, t_redi **redi, t_list **tokens);
 /* BuiltIn Functions */
 void			bi_echo(t_command *com, int flag);
-void			bi_exit(t_command *com);
-void			bi_pwd(t_command *com);
-void			bi_cd(t_command *com, char **env, int flag);
-void			bi_env(t_command *com, char **env);
-void			bi_export(t_command *input, char ***env);
+void			bi_exit(t_command *com, int num);
+void			bi_pwd(t_command *com, int num);
+void			bi_cd(t_command *com, char **env, int num);
+void			bi_env(t_command *com, char **env, int num);
+void			bi_export(t_command *input, char ***env, int num);
 void			bi_unset(t_command *input, char **env);
 
 #endif

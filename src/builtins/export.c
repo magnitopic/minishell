@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 16:56:25 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:04:08 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static enum e_export	validate(char *str)
 	return (NEW_VALUE);
 }
 
-void	bi_export(t_command *input, char ***env)
+void	bi_export(t_command *input, char ***env, int num)
 {
 	t_list			*args;
 	enum e_export	result;
@@ -100,4 +100,6 @@ void	bi_export(t_command *input, char ***env)
 		*env = change_env(*env, args->content, result);
 		args = args->next;
 	}
+	if (num != 0)
+		exit(EXIT_SUCCESS);
 }
