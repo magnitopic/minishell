@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 16:54:32 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:12:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	bi_cd(t_command *com, char **env, int num)
 		free(pwd);
 	}
 	else
-		ft_perror("cd");
+		perror("cd");
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }

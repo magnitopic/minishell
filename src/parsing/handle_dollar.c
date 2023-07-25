@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/18 12:11:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:05:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ static t_list	*find_name_vars(char *var)
 	{
 		if (var[n] == '$')
 		{
+			if (!var[n + 1])
+			{
+				ft_lstadd_new(&vars, ft_substr(var, n, 1));
+				break ;
+			}
 			i.st = n + 1;
 			while (var[++n + 1] && ft_isalpha(var[n + 1]))
 				i.len++;
@@ -77,6 +82,11 @@ static char	*get_string(char *command, char **env, t_vars v, t_list *vars)
 	i = 0;
 	while (vars)
 	{
+		if (!ft_strcmp(vars->content, "?"))
+		{
+			v.path = ft_substr("0", 0, 1);		// TODO: Crear una función que nos retorne de manera correcta el código de exit de la ejecución anterior;
+			return (v.path);
+		}
 		v.path = get_var_value(vars->content, env);
 		i = find_dollar_pos(command, i);
 		v.temp = ft_substr(command, 0, i);
