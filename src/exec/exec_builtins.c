@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:27:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 12:29:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:52:07 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	exec_cmd(t_command *input, t_files *files, char **env, int flag)
 {
 	if (!input->comm)
-		return (0);
-	if (ft_strcmp(input->comm, "cd") == 0)
+		bi_echo(input, flag);
+	else if (ft_strcmp(input->comm, "cd") == 0)
 		bi_cd(input, env, flag);
 	else if (ft_strcmp(input->comm, "echo") == 0)
 		bi_echo(input, flag);

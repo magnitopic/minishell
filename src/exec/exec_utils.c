@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 12:27:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:53:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	*check_param(char *argv)
 	char	*str;
 	char	**aux;
 
+	if (!argv)
+		argv = ft_substr("echo", 0, 4);
 	aux = ft_split(argv, ' ');
 	if (!aux)
 	{

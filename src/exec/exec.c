@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/25 12:31:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:47:26 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,23 @@ static int	*execute_first(t_command *input, char **paths, char **env, t_files *f
 {
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
+	else
+	{
+		files->write->content = NULL;
+		files->read->content = NULL;
+	}
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
 		files->fd[0] = read_infile(files->read, files->fd);
+	files->read->content = NULL;
 	files->id[0] = fork();
 	if (files->id[0] == 0)
 	{
 		if (files->write->content)
-		{
 			files->fd[1] = open(files->write->content, O_WRONLY);
-			dup2(files->fd[1], 1);
-			close(files->fd[1]);
-		}
-		else
-		{
-			dup2(files->fd[1], STDOUT_FILENO);
-			close(files->fd[1]);
-		}
+		dup2(files->fd[1], STDOUT_FILENO);
+		close(files->fd[1]);
 		exec_cmd(input, files, env, 1);
 	}
 	close(files->fd[1]);
@@ -44,24 +43,24 @@ static void	execute_final(t_command *input, char **paths, char **env, t_files *f
 {
 	if (files->fd[0] != 0)
 	{
+		dprintf(1, "infile: %s\n", files->read->content);
 		dup2(files->fd[0], STDIN_FILENO);
 		close(files->fd[0]);
 	}
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
-	else
-		files->write->content = NULL;
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
 		files->fd[0] = read_infile(files->read, files->fd);
+	files->read->content = NULL;
 	files->id[files->count] = fork();
 	if (files->id[files->count] == 0)
 	{
 		if (files->write->content)
 		{
 			files->fd[1] = open(files->write->content, O_WRONLY);
-			(dup2(files->fd[1], 1), close(files->fd[1]));
+			(dup2(files->fd[1], STDOUT_FILENO), close(files->fd[1]));
 		}
 		exec_cmd(input, files, env, 0);
 	}
@@ -81,9 +80,15 @@ static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *f
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
 	else
+	{
 		files->write->content = NULL;
+		files->read->content = NULL;
+	}
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
+	if (files->read->content)
+		files->fd[0] = read_infile(files->read, files->fd);
+	files->read->content = NULL;
 	pipe(fd);
 	files->id[i] = fork();
 	if (files->id[i++] == 0)
@@ -106,7 +111,7 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 	files->fd = ft_calloc(2, sizeof(int));
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
-	if (!com->next && check_builtin(com->content))
+	if ((!com->next && check_builtin(com->content)) || !com->content)
 	{
 		exec_one_builtin(com->content, files, env);
 		com = NULL;

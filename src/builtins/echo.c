@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:01 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 18:43:59 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:14:21 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,25 @@ void	bi_echo(t_command *com, int num)
 	t_list	*args;
 	int		flag;
 
-	if (!com->args || ft_strlen(com->args->content) < 1)
-		return (ft_putstr_fd("\n", 1));
-	args = com->args;
-	if (ft_strlen(args->content) > 1 && !ft_strncmp(args->content, "-", 1)
-		&& ft_ischar(args->content, 'n'))
-	{
-		flag = 0;
-		args = args->next;
-	}
-	else
+	flag = 0;
+	if (com->comm)
 		flag = 1;
-	while (args)
+	if (com->args && ft_strlen(com->args->content) > 1 && com->comm)
 	{
-		ft_printf("%s", args->content);
-		if (args->next)
-			ft_printf(" ");
-		args = args->next;
+		args = com->args;
+		if (ft_strlen(args->content) > 1 && !ft_strncmp(args->content, "-", 1)
+			&& ft_ischar(args->content, 'n'))
+		{
+			flag = 0;
+			args = args->next;
+		}
+		while (args)
+		{
+			ft_printf("%s", args->content);
+			if (args->next)
+				ft_printf(" ");
+			args = args->next;
+		}
 	}
 	if (flag)
 		ft_printf("\n");
