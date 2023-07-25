@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 17:46:33 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:07:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	parsing(char *input, char **paths, char **env)
 		aux->content = expand_values(aux->content, env);
 		aux->content = structure(aux->content);
 		if (aux->content == NULL)
-			return (ft_putstr_fd("Bad redirect\n", 2));
+			return (ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2));
 		aux = aux->next;
 	}
 	exec(commands, files, paths, env);
