@@ -6,24 +6,16 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:20:15 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/11 11:51:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:16:43 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	redi_input()
+int	read_infile(t_redi *read, int *fd)
 {
-
-}
-
-
-void	redi_ouptup()
-{
-
-}
-
-void	redi_append()
-{
-
+	fd[0] = open(read->content, O_RDONLY);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	return (fd[0]);
 }

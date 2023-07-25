@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:39:49 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 16:45:32 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:31:26 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 void	exec_one_builtin(t_command *input, t_files *files, char **env)
 {

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 18:13:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:28:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ char			*find_command(char *argv, char **paths);
 void			exec_one_builtin(t_command *input, t_files *files, char **env);
 int				read_infile(t_redi *read, int *fd);
 int				exec_cmd(t_command *input, t_files *files, char **env, int flag);
+int				check_builtin(t_command *input);
 /* Parsing functions */
 t_list			*split_words(char *str);
 enum e_quotes	check_flag(char *str, int n);
@@ -173,6 +174,6 @@ void			bi_pwd(t_command *com, int num);
 void			bi_cd(t_command *com, char **env, int num);
 void			bi_env(t_command *com, char **env, int num);
 void			bi_export(t_command *input, char ***env, int num);
-void			bi_unset(t_command *input, char **env, int num);
+void			bi_unset(t_command *input, char ***env, int num);
 
 #endif

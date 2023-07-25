@@ -9,6 +9,8 @@ SHELL_SRC	=	src/utils.c \
 				src/comand_list.c \
 				src/create_arrays.c \
 				src/exec/exec.c \
+				src/exec/exec_redis.c \
+				src/exec/exec_builtins.c \
 				src/exec/exec_utils.c \
 				src/exec/exec_one_builtin.c \
 				src/parsing/parsing.c \
