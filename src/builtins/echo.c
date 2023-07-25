@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:01 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 14:14:21 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:48:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	bi_echo(t_command *com, int num)
 	flag = 0;
 	if (com->comm)
 		flag = 1;
-	if (com->args && ft_strlen(com->args->content) > 1 && com->comm)
+	if (com->args && com->comm)
 	{
 		args = com->args;
 		if (ft_strlen(args->content) > 1 && !ft_strncmp(args->content, "-", 1)
@@ -48,7 +48,7 @@ void	bi_echo(t_command *com, int num)
 		while (args)
 		{
 			ft_printf("%s", args->content);
-			if (args->next)
+			if (args->next && ft_strlen(args->content) > 1)
 				ft_printf(" ");
 			args = args->next;
 		}

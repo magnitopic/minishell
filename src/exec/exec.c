@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/25 16:42:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:33:54 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	*execute_first(t_command *input, char **paths, char **env, t_files *files)
 {
+	int	*fd;
+
+	fd = files->fd;
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
-	else
-	{
-		files->write->content = NULL;
-		files->read->content = NULL;
-	}
+	if (!files)
+		return (fd);
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
@@ -43,13 +43,15 @@ static int	*execute_first(t_command *input, char **paths, char **env, t_files *f
 
 static void	execute_final(t_command *input, char **paths, char **env, t_files *files)
 {
-	if (files->fd[0] != 0)
+	if (files->fd[0] != 0 && files->fd)
 	{
 		dup2(files->fd[0], STDIN_FILENO);
 		close(files->fd[0]);
 	}
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
+	if (!files)
+		return ;
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
@@ -80,11 +82,8 @@ static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *f
 	free(files->fd);
 	if (input->redi && input->redi->type != 4)
 		files = create_files(input, files);
-	else
-	{
-		files->write->content = NULL;
-		files->read->content = NULL;
-	}
+	if (!files)
+		return (fd);
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)

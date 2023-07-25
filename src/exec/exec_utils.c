@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 15:53:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:18:49 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 	else if (flag == 0 || flag == 2)
 	{
 		if (flag == 0 && access(name, R_OK) != 0)
-			exit_program("Unable to read file\n");			// TODO: hacer que esto funcione bien
+			return (ft_printf("\033[0;31mUnable to read file\033[0m\n"), NULL);
 		files->read->content = ft_substr(name, 0, ft_strlen(name));
 		files->read->type = flag;
 	}
@@ -61,6 +61,8 @@ t_files	*create_files(t_command *input, t_files *files)
 	{
 		filename = input->redi->content;
 		files = handle_file(filename, input->redi->type, files);
+		if (files == NULL)
+			return (NULL);
 		if (input->redi->next)
 			input->redi = input->redi->next;
 		else

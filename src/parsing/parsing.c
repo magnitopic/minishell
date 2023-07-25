@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 18:28:25 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:46:33 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static t_command	*structure(t_list *tokens)
 	{
 		str = tokens->content;
 		trim_aux = ft_strtrim(str, "<>");
-		if (ft_strlen(trim_aux) == 0)
+		if (ft_strlen(trim_aux) == 0 && (ft_strchr(str, '<') || ft_strchr(str, '>')))
 		{
 			if (handle_redirects(str, &(new_list->redi), &tokens))
 				return (NULL);
@@ -135,7 +135,7 @@ void	parsing(char *input, char **paths, char **env)
 		aux->content = expand_values(aux->content, env);
 		aux->content = structure(aux->content);
 		if (aux->content == NULL)
-			return ;
+			return (ft_putstr_fd("Bad redirect\n", 2));
 		aux = aux->next;
 	}
 	exec(commands, files, paths, env);
