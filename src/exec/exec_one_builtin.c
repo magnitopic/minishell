@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:39:49 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 14:15:02 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:33:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	exec_one_builtin(t_command *input, t_files *files, char **env)
 		&& input->redi->type != 4)
 		files = create_files(input, files);
 	if (files->read->content)
-		files->fd[0] = read_infile(files->read, files->fd);
+		files->fd = read_infile(files->read, files->fd);
 	if (files->write->content)
 	{
 		files->fd[1] = open(files->write->content, O_WRONLY);

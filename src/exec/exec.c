@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/25 15:47:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:42:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ static int	*execute_first(t_command *input, char **paths, char **env, t_files *f
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
-		files->fd[0] = read_infile(files->read, files->fd);
+		files->fd = read_infile(files->read, files->fd);
 	files->read->content = NULL;
+	pipe(files->fd);
 	files->id[0] = fork();
 	if (files->id[0] == 0)
 	{
@@ -36,6 +37,7 @@ static int	*execute_first(t_command *input, char **paths, char **env, t_files *f
 		exec_cmd(input, files, env, 1);
 	}
 	close(files->fd[1]);
+	waitpid(files->id[0], NULL, 0);
 	return (files->fd);
 }
 
@@ -43,7 +45,6 @@ static void	execute_final(t_command *input, char **paths, char **env, t_files *f
 {
 	if (files->fd[0] != 0)
 	{
-		dprintf(1, "infile: %s\n", files->read->content);
 		dup2(files->fd[0], STDIN_FILENO);
 		close(files->fd[0]);
 	}
@@ -52,7 +53,7 @@ static void	execute_final(t_command *input, char **paths, char **env, t_files *f
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
-		files->fd[0] = read_infile(files->read, files->fd);
+		files->fd = read_infile(files->read, files->fd);
 	files->read->content = NULL;
 	files->id[files->count] = fork();
 	if (files->id[files->count] == 0)
@@ -87,7 +88,7 @@ static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *f
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
-		files->fd[0] = read_infile(files->read, files->fd);
+		files->fd = read_infile(files->read, files->fd);
 	files->read->content = NULL;
 	pipe(fd);
 	files->id[i] = fork();
@@ -100,6 +101,7 @@ static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *f
 		exec_cmd(input, files, env, 1);
 	}
 	close(fd[1]);
+	waitpid(files->id[i - 1], NULL, 0);
 	return (fd);
 }
 
