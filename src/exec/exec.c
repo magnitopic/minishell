@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/26 14:08:30 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:10:51 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	execute_final(t_command *input, char **paths, char **env, t_files *f
 		}
 		if (!files)
 			return ;
-		if (files->fd[0] != 0 && files->fd && !files->read->content)
+		if (files->fd[0] != 0 && files->fd)
 		{
 			dup2(files->fd[0], STDIN_FILENO);
 			close(files->fd[0]);
@@ -100,7 +100,7 @@ static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *f
 		}
 		if (!files)
 			return (files->fd);
-		if (files->fd[0] != 0 && files->fd && !files->read->content)
+		if (files->fd[0] != 0 && files->fd)
 		{
 			dup2(files->fd[0], STDIN_FILENO);
 			close(files->fd[0]);
@@ -165,6 +165,11 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 		}
 		execute_final(com->content, paths, env, files);
 	}
+	/*while (1)
+	{
+		if (waitpid(files->id[i], NULL, 0) == -1)
+			break ;
+	}*/
 	free_commands(aux);
 }
 

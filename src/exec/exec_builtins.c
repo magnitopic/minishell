@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:27:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 15:52:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:46:30 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	exec_cmd(t_command *input, t_files *files, char **env, int flag)
 		bi_pwd(input, flag);
 	else if (ft_strcmp(input->comm, "unset") == 0)
 		bi_unset(input, &env, flag);
-	else if (files->command && access(files->command, F_OK) == 0)
-		execve(files->command, files->arr, env);
-	else
+	else if ((files->command && access(files->command, F_OK) == 0)
+		|| access(files->command, F_OK))
 	{
+		execve(files->command, files->arr, env);
 		dup2(1, STDOUT_FILENO);
 		ft_putstr_fd("\033[0;31mCommand not found\033[0m\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
