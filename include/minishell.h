@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 12:16:49 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:24:51 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct s_redi
 }	t_redi;
 
 /**
- * 
+ *
 */
 typedef struct s_files
 {
@@ -167,7 +167,8 @@ t_files			*create_files(t_command *input, t_files *files);
 char			*check_param(char *argv);
 char			*find_command(char *argv, char **paths);
 void			exec_one_builtin(t_command *input, t_files *files, char **env);
-int				read_infile(t_redi *read, int *fd);
+void			read_infile(t_redi *read);
+void			write_outfile(t_redi *write);
 int				exec_cmd(t_command *input, t_files *files, char **env, int flag);
 int				check_builtin(t_command *input);
 /* Parsing functions */
