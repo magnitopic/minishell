@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/26 17:53:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:39:43 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	execute_final(t_command *input, char **paths, char **env, t_files *f
 		files->read->content = NULL;
 		if (files->write->content)
 			write_outfile(files->write);
-		exec_cmd(input, files, env, 0);
+		exec_cmd(input, files, env, 1);
 	}
 	close(files->fd[0]);
 	//waitpid(files->id[files->count - 1], NULL, 0);
