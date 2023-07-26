@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 12:16:49 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 12:29:32 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ typedef struct s_command
 }	t_command;
 
 /* Global variable */
-t_shell	*g_shell;
+t_shell	*g_sl;
 
 /* Replace_line shenanigans */
 void			rl_replace_line(const char *text, int clear_undo);
@@ -148,18 +148,18 @@ void			rl_replace_line(const char *text, int clear_undo);
 /* Functions */
 
 void			set_prompt(void);
+char			**cpy_env(char **env);
 void			signal_handler(int sig);
+void			ft_perror(char *message);
+char			*heredoc(char *key_word);
 void			free_stacks(t_list **list);
 void			exit_program(char *message);
-void			ft_perror(char *message);
+void			free_commands(t_list *input);
 char			*expand_vars(char *var, char **env);
 char			*create_vars(char *origin, char **env);
 char			**create_arrays(char **comms, char *name);
-void			print_commands(t_command *input, char **paths, char **env);
-void			free_commands(t_list *input);
-char			*heredoc(char *key_word);
-void			ft_newcommand(t_redi **list, void *cont, enum e_redirect type);
 char			**set_for_execve(t_files *files, t_command *input);
+void			ft_newcommand(t_redi **list, void *cont, enum e_redirect type);
 /* Execution */
 void			exec(t_list *com, t_files *files, char **paths, char **env);
 t_files			*handle_file(char *name, int flag, t_files *files);

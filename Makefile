@@ -2,6 +2,7 @@
 NAME			=	minishell
 
 SHELL_SRC	=	src/utils.c \
+				src/utils2.c \
 				src/heredoc.c \
 				src/signals.c \
 				src/minishell.c \
