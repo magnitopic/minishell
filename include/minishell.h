@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 18:36:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 12:16:49 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 # define PROMPT2 "\001\033[0m\002$ "
 
 /* Enums */
+
+/**
+ * Let's us know what type of quotes we are currently in
+*/
 enum e_quotes
 {
 	NONE,
@@ -108,6 +112,9 @@ typedef struct s_redi
 	struct s_redi	*next;
 }	t_redi;
 
+/**
+ * 
+*/
 typedef struct s_files
 {
 	struct s_redi	*write;
@@ -119,6 +126,12 @@ typedef struct s_files
 	int				count;
 }	t_files;
 
+/**
+ * Struct tu represent all the elements of a command.
+ * comm		The command that should be executed
+ * args		A list with all the command's arguments
+ * redi		A list with all the command's redirects
+*/
 typedef struct s_command
 {
 	char		*comm;
@@ -129,7 +142,7 @@ typedef struct s_command
 /* Global variable */
 t_shell	*g_shell;
 
-/* Replace line shenanigans */
+/* Replace_line shenanigans */
 void			rl_replace_line(const char *text, int clear_undo);
 
 /* Functions */
