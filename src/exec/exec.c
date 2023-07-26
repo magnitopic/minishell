@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/26 16:10:51 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:47:32 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	*execute_first(t_command *input, char **paths, char **env, t_files *f
 		exec_cmd(input, files, env, 1);
 	}
 	close(files->fd[1]);
-	waitpid(files->id[0], NULL, 0);
+	//waitpid(files->id[0], NULL, 0);
 	return (files->fd);
 }
 
@@ -78,7 +78,7 @@ static void	execute_final(t_command *input, char **paths, char **env, t_files *f
 		exec_cmd(input, files, env, 0);
 	}
 	close(files->fd[0]);
-	waitpid(files->id[files->count - 1], NULL, 0);
+	//waitpid(files->id[files->count - 1], NULL, 0);
 }
 
 static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *files)
@@ -121,7 +121,7 @@ static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *f
 	}
 	close(fd[1]);
 	free(files->fd);
-	waitpid(files->id[i - 1], NULL, 0);
+	//waitpid(files->id[i - 1], NULL, 0);
 	return (fd);
 }
 
@@ -129,6 +129,7 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 {
 	t_list	*aux;
 	int		i;
+	//int		status;
 
 	aux = com;
 	i = 0;
@@ -165,11 +166,12 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 		}
 		execute_final(com->content, paths, env, files);
 	}
-	/*while (1)
+	//wait(&status);
+	while (1)
 	{
-		if (waitpid(files->id[i], NULL, 0) == -1)
+		if (waitpid(files->id[i++], NULL, 0) == -1)
 			break ;
-	}*/
+	}
 	free_commands(aux);
 }
 
