@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 12:25:05 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:49:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ char	**cpy_env(char **env)
 	len = ft_get_matrix_size(env);
 	new_env = ft_calloc(len + 1, sizeof(char *));
 	if (!new_env)
-		ft_calloc("malloc");
+		ft_perror("malloc");
 	while (++i < len)
-		new_env[i] = env[i];
+		new_env[i] = ft_strdup(env[i]);
 	return (new_env);
 }

@@ -6,16 +6,19 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:20:15 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 18:37:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:12:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	read_infile(t_redi *read, int *fd)
+void	read_infile(t_redi *read)
 {
-	fd[0] = open(read->content, O_RDONLY);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-	return (fd[0]);
+	int	fd;
+	
+	fd = open(read->content, O_RDONLY);
+	if (fd < 0)
+		return ;
+	dup2(fd, STDIN_FILENO);
+	close(fd);
 }

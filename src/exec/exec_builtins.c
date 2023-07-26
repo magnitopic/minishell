@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:27:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 15:52:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:54:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ int	exec_cmd(t_command *input, t_files *files, char **env, int flag)
 	else if (ft_strcmp(input->comm, "echo") == 0)
 		bi_echo(input, flag);
 	else if (ft_strcmp(input->comm, "env") == 0)
-		bi_env(input, env, flag);
+		bi_env(input, flag);
 	else if (ft_strcmp(input->comm, "exit") == 0)
 		bi_exit(input, flag);
 	else if (ft_strcmp(input->comm, "export") == 0)
-		bi_export(input, &env, flag);
+		bi_export(input, flag);
 	else if (ft_strcmp(input->comm, "pwd") == 0)
 		bi_pwd(input, flag);
 	else if (ft_strcmp(input->comm, "unset") == 0)
-		bi_unset(input, &env, flag);
+		bi_unset(input, flag);
 	else if (files->command && access(files->command, F_OK) == 0)
 		execve(files->command, files->arr, env);
 	else

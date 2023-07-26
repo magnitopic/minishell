@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:36 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 16:19:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:55:22 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	find_in_env(char **env, char ***env_cpy, char *str)
+/* static int	find_in_env(char **env, char ***env_cpy, char *str)
 {
 	char	*substr;
 	int		flag;
@@ -32,24 +32,23 @@ static int	find_in_env(char **env, char ***env_cpy, char *str)
 		free(substr);
 	}
 	return (flag);
-}
+} */
 
-void	bi_unset(t_command *input, char ***env, int num)
+void	bi_unset(t_command *input, int num)
 {
 	t_list			*args;
 
 	args = input->args;
-	(void)env;
-	while (args)
+	/* while (args)
 	{
 		find_in_env(env, args->content);
 		args = args->next;
-	}
+	} */
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }
 
-int	main(int argc, char **argv, char **env)
+/* int	main(int argc, char **argv, char **env)
 {
 	t_command	*test = malloc(sizeof(t_command));
 
@@ -57,4 +56,4 @@ int	main(int argc, char **argv, char **env)
 	bi_unset(test, &env, 0);
 	bi_env(test, env, 0);
 	return (0);
-}
+} */

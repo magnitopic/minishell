@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 12:29:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:27:25 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ t_files			*create_files(t_command *input, t_files *files);
 char			*check_param(char *argv);
 char			*find_command(char *argv, char **paths);
 void			exec_one_builtin(t_command *input, t_files *files, char **env);
-int				read_infile(t_redi *read, int *fd);
+void			read_infile(t_redi *read);
 int				exec_cmd(t_command *input, t_files *files, char **env, int flag);
 int				check_builtin(t_command *input);
 /* Parsing functions */
@@ -185,8 +185,8 @@ void			bi_echo(t_command *com, int flag);
 void			bi_exit(t_command *com, int num);
 void			bi_pwd(t_command *com, int num);
 void			bi_cd(t_command *com, char **env, int num);
-void			bi_env(t_command *com, char **env, int num);
-void			bi_export(t_command *input, char ***env, int num);
-void			bi_unset(t_command *input, char ***env, int num);
+void			bi_env(t_command *com, int num);
+void			bi_export(t_command *input, int num);
+void			bi_unset(t_command *input, int num);
 
 #endif

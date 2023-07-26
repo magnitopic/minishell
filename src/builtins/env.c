@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:47 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 16:59:05 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:27:53 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	bi_env(t_command *com, char **env, int num)
+void	bi_env(t_command *com, int num)
 {
 	(void)com;
-	ft_printmatrix(env);
+	ft_printmatrix(g_sl->env);
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }

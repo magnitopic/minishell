@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/26 12:13:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:13:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	*execute_first(t_command *input, char **paths, char **env, t_files *f
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
-		files->fd[0] = read_infile(files->read, files->fd);
+		read_infile(files->read);
 	files->read->content = NULL;
 	pipe(files->fd);
 	files->id[0] = fork();
@@ -47,11 +47,11 @@ static void	execute_final(t_command *input, char **paths, char **env, t_files *f
 	if (!files)
 		return ;
 	if (files->fd[0] != 0 && files->fd && !files->read->content)
-		(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]))
+		(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
-		files->fd[0] = read_infile(files->read, files->fd);
+		read_infile(files->read);
 	files->read->content = NULL;
 	files->id[files->count] = fork();
 	if (files->id[files->count] == 0)
@@ -83,7 +83,7 @@ static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *f
 	files->command = find_command(input->comm, paths);
 	files->arr = set_for_execve(files, input);
 	if (files->read->content)
-		files->fd[0] = read_infile(files->read, files->fd);
+		read_infile(files->read);
 	files->read->content = NULL; // ? Remove to comply with norm
 	(pipe(fd), files->id[i] = fork());
 	if (files->id[i++] == 0)
