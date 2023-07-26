@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 17:04:08 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:01:05 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,18 @@ static int	find_in_env(char **env, char ***env_cpy, char *str)
 	char	*substr;
 	int		flag;
 	int		i;
+	char	*aux;
 
 	i = 0;
 	flag = -1;
 	while (*env)
 	{
-		substr = ft_substr(*env, 0, \
-		ft_strlen(*env) - ft_strlen(ft_strchr(*env, '=')));
+		aux = ft_strchr(*env, '=');
+		if (aux)
+			substr = ft_substr(*env, 0, \
+			ft_strlen(*env) - ft_strlen(aux));
+		else
+			substr = ft_strdup(*env);
 		if (ft_strcmp(str, substr) == 0)
 			flag = i;
 		free(substr);
@@ -57,6 +62,8 @@ static char	**change_env(char **env, char *str, enum e_export flag)
 	else
 		var = str;
 	exists = find_in_env(env, &new_env, var);
+	if (aux != 0)
+		free(var);
 	if (exists == -1)
 	{
 		new_env[ft_get_matrix_size(env)] = str;
@@ -84,20 +91,23 @@ static enum e_export	validate(char *str)
 	return (NEW_VALUE);
 }
 
-void	bi_export(t_command *input, char ***env, int num)
+void	bi_export(t_command *input, int num)
 {
 	t_list			*args;
 	enum e_export	result;
+	char			**env;
 
 	args = input->args;
+	env = cpy_env(g_sl->env);
 	if (ft_lstsize(input->args) == 0)
-		return (print_export(*env));
+		return (print_export(env));
 	while (args)
 	{
 		result = validate(args->content);
 		if (result == INVALID)
 			return (ft_putstr_fd("\033[0;31mInvalid identifier\n\033[0m", 0));
-		*env = change_env(*env, args->content, result);
+		free_matrix(g_sl->env);
+		g_sl->env = change_env(env, args->content, result);
 		args = args->next;
 	}
 	if (num != 0)

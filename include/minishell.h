@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 13:24:51 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:49:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ typedef struct s_command
 }	t_command;
 
 /* Global variable */
-t_shell	*g_shell;
+t_shell	*g_sl;
 
 /* Replace_line shenanigans */
 void			rl_replace_line(const char *text, int clear_undo);
@@ -148,18 +148,18 @@ void			rl_replace_line(const char *text, int clear_undo);
 /* Functions */
 
 void			set_prompt(void);
+char			**cpy_env(char **env);
 void			signal_handler(int sig);
+void			ft_perror(char *message);
+char			*heredoc(char *key_word);
 void			free_stacks(t_list **list);
 void			exit_program(char *message);
-void			ft_perror(char *message);
+void			free_commands(t_list *input);
 char			*expand_vars(char *var, char **env);
 char			*create_vars(char *origin, char **env);
 char			**create_arrays(char **comms, char *name);
-void			print_commands(t_command *input, char **paths, char **env);
-void			free_commands(t_list *input);
-char			*heredoc(char *key_word);
-void			ft_newcommand(t_redi **list, void *cont, enum e_redirect type);
 char			**set_for_execve(t_files *files, t_command *input);
+void			ft_newcommand(t_redi **list, void *cont, enum e_redirect type);
 /* Execution */
 void			exec(t_list *com, t_files *files, char **paths, char **env);
 t_files			*handle_file(char *name, int flag, t_files *files);
@@ -186,8 +186,8 @@ void			bi_echo(t_command *com, int flag);
 void			bi_exit(t_command *com, int num);
 void			bi_pwd(t_command *com, int num);
 void			bi_cd(t_command *com, char **env, int num);
-void			bi_env(t_command *com, char **env, int num);
-void			bi_export(t_command *input, char ***env, int num);
-void			bi_unset(t_command *input, char ***env, int num);
+void			bi_env(t_command *com, int num);
+void			bi_export(t_command *input, int num);
+void			bi_unset(t_command *input, int num);
 
 #endif

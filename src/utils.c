@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/18 12:09:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 12:28:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	exit_program(char *message)
 {
 	printf("%s", message);
-	free(g_shell->prompt);
 	exit(EXIT_SUCCESS);
 }
 
@@ -30,9 +29,9 @@ void	set_prompt(void)
 	char	*aux;
 	char	path[PATH_MAX];
 
-	g_shell->prompt = ft_strjoin(PROMPT1, getcwd(path, sizeof(path)));
-	aux = g_shell->prompt;
-	g_shell->prompt = ft_strjoin(aux, PROMPT2);
+	g_sl->prompt = ft_strjoin(PROMPT1, getcwd(path, sizeof(path)));
+	aux = g_sl->prompt;
+	g_sl->prompt = ft_strjoin(aux, PROMPT2);
 	free(aux);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:36 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 13:20:33 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:50:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@
 	return (flag);
 } */
 
-void	bi_unset(t_command *input, char ***env, int num)
+void	bi_unset(t_command *input, int num)
 {
 	t_list			*args;
 
 	args = input->args;
-	(void)env;
 	/* while (args)
 	{
 		find_in_env(env, args->content);
