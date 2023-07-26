@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 13:52:50 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:01:05 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,18 @@ static int	find_in_env(char **env, char ***env_cpy, char *str)
 	char	*substr;
 	int		flag;
 	int		i;
+	char	*aux;
 
 	i = 0;
 	flag = -1;
 	while (*env)
 	{
-		substr = ft_substr(*env, 0, \
-		ft_strlen(*env) - ft_strlen(ft_strchr(*env, '=')));
+		aux = ft_strchr(*env, '=');
+		if (aux)
+			substr = ft_substr(*env, 0, \
+			ft_strlen(*env) - ft_strlen(aux));
+		else
+			substr = ft_strdup(*env);
 		if (ft_strcmp(str, substr) == 0)
 			flag = i;
 		free(substr);
@@ -57,7 +62,8 @@ static char	**change_env(char **env, char *str, enum e_export flag)
 	else
 		var = str;
 	exists = find_in_env(env, &new_env, var);
-	free(var);
+	if (aux != 0)
+		free(var);
 	if (exists == -1)
 	{
 		new_env[ft_get_matrix_size(env)] = str;

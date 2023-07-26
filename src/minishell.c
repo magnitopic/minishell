@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 12:29:20 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:40:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int argc, char **argv, char **env)
 	((void)argv, (void)argc);
 	input = dup(STDIN_FILENO);
 	output = dup(STDOUT_FILENO);
-	g_sl = malloc(sizeof(g_sl));
+	g_sl = malloc(sizeof(t_shell));
 	g_sl->env = cpy_env(env);
 	if (!g_sl->env[0])
 	{
