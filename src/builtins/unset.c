@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:36 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 19:43:43 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:46:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,25 @@ static char	**find_in_env(char **env, char *str)
 {
 	char	*substr;
 	int		i;
-	char	*env_cpy;
+	int		j;
+	char	**env_cpy;
 
 	i = 0;
+	j = 0;
 	env_cpy = ft_calloc(ft_get_matrix_size(env), sizeof(char *));
-	while (*env)
+	while (env[i])
 	{
-		substr = ft_substr(*env, 0, \
-		ft_strlen(*env) - ft_strlen(ft_strchr(*env, '=')));
-		if (ft_strcmp(str, substr) == 0)
+		substr = ft_substr(env[i], 0, \
+		ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '=')));
+		if (ft_strcmp(str, substr) != 0)
 		{
-			env_cpy[i] = env[i++];
+			env_cpy[j] = env[i];
+			j++;
 		}
+		i++;
 		free(substr);
 	}
+	return (env_cpy);
 }
 
 void	bi_unset(t_command *input, int num)
@@ -48,16 +53,4 @@ void	bi_unset(t_command *input, int num)
 	g_sl->env = env;
 	if (num != 0)
 		exit(EXIT_SUCCESS);
-}
-
-int	main(int argc, char **argv, char **env)
-{
-	t_command	*test = malloc(sizeof(t_command));
-
-	g_sl = ft_calloc(1, sizeof(t_shell));
-	g_sl->env = cpy_env(env);
-	ft_lstadd_new(&test->args, "_");
-	bi_unset(test, 0);
-	bi_env(test, 0);
-	return (0);
 }
