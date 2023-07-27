@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 17:49:34 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/26 19:33:00 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct s_redi
 }	t_redi;
 
 /**
- *
+ * Function to keep track of pipe, redirects, and files in `exec()`
 */
 typedef struct s_files
 {
