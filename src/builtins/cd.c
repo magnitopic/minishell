@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 18:12:34 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:09:03 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	bi_cd(t_command *com, char **env, int num)
+void	bi_cd(t_command *com, int num)
 {
 	char	path[PATH_MAX];
 	t_list	*args;
@@ -24,7 +24,7 @@ void	bi_cd(t_command *com, char **env, int num)
 	pwd = getcwd(path, sizeof(path));
 	if (!args)
 	{
-		home = create_vars("HOME", env);
+		home = create_vars("HOME");
 		chdir(home);
 		free(home);
 	}
@@ -52,12 +52,3 @@ void	bi_cd(t_command *com, char **env, int num)
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }
-
-/* int	main(int argc, char **argv, char **env)
-{
-	t_command	*test = malloc(sizeof(t_command));
-
-	ft_lstadd_new(&test->args, "../../include");
-	bi_cd(test, env);
-	return (0);
-} */

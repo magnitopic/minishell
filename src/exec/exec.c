@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/26 18:39:43 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:27:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	*execute_first(t_command *input, char **paths, char **env, t_files *files)
+static int	*execute_first(t_command *input, char **paths, t_files *files)
 {
 	int	*fd;
 
@@ -42,14 +42,14 @@ static int	*execute_first(t_command *input, char **paths, char **env, t_files *f
 			dup2(files->fd[1], STDOUT_FILENO);
 			close(files->fd[1]);
 		}
-		exec_cmd(input, files, env, 1);
+		exec_cmd(input, files, 1);
 	}
 	close(files->fd[1]);
 	//waitpid(files->id[0], NULL, 0);
 	return (files->fd);
 }
 
-static void	execute_final(t_command *input, char **paths, char **env, t_files *files)
+static void	execute_final(t_command *input, char **paths, t_files *files)
 {
 	files->id[files->count - 1] = fork();
 	if (files->id[files->count - 1] == 0)
@@ -81,7 +81,7 @@ static void	execute_final(t_command *input, char **paths, char **env, t_files *f
 	//waitpid(files->id[files->count - 1], NULL, 0);
 }
 
-static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *files)
+static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 {
 	static int	i = 1;
 	int			*fd;
@@ -117,7 +117,7 @@ static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *f
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 		}
-		exec_cmd(input, files, env, 1);
+		exec_cmd(input, files, 1);
 	}
 	close(fd[1]);
 	free(files->fd);
@@ -125,7 +125,7 @@ static int	*execute_pipes(t_command *input, char **paths, char **env, t_files *f
 	return (fd);
 }
 
-void	exec(t_list *com, t_files *files, char **paths, char **env)
+void	exec(t_list *com, t_files *files, char **paths)
 {
 	t_list	*aux;
 	int		i;
@@ -138,33 +138,33 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 	files->read = ft_calloc(1, sizeof(t_redi));
 	if ((!com->next && check_builtin(com->content)) || !com->content)
 	{
-		exec_one_builtin(com->content, files, env);
+		exec_one_builtin(com->content, files);
 		com = NULL;
 	}
 	files->count = ft_lstsize(com);
 	if (files->count == 1 && com)
 	{
-		execute_final(com->content, paths, env, files);
+		execute_final(com->content, paths, files);
 		com = NULL;
 	}
 	pipe(files->fd);
 	if (files->count == 2 && com)
 	{
-		files->fd = execute_first(com->content, paths, env, files);
+		files->fd = execute_first(com->content, paths, files);
 		com = com->next;
-		execute_final(com->content, paths, env, files);
+		execute_final(com->content, paths, files);
 		com = NULL;
 	}
 	else if (files->count > 2 && com)
 	{
-		files->fd = execute_first(com->content, paths, env, files);
+		files->fd = execute_first(com->content, paths, files);
 		com = com->next;
 		while (com->next)
 		{
-			files->fd = execute_pipes(com->content, paths, env, files);
+			files->fd = execute_pipes(com->content, paths, files);
 			com = com->next;
 		}
-		execute_final(com->content, paths, env, files);
+		execute_final(com->content, paths, files);
 	}
 	//wait(&status);
 	while (1)
@@ -175,7 +175,7 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 	free_commands(aux);
 }
 
-/* static void	print_commands(t_command *input, char **paths, char **env)
+/* static void	print_commands(t_command *input, char **paths)
 {
 	t_redi	*aux;
 	t_list	*aux_two;
@@ -186,7 +186,6 @@ void	exec(t_list *com, t_files *files, char **paths, char **env)
 	if (input->comm)
 	{
 		printf("command: %s\n", input->comm);
-		//execute_one(&input->comm, paths, env);
 	}
 	while (aux)
 	{
