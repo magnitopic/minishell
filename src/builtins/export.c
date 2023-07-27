@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 17:01:05 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/27 12:28:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ static int	find_in_env(char **env, char ***env_cpy, char *str)
 	{
 		aux = ft_strchr(*env, '=');
 		if (aux)
-			substr = ft_substr(*env, 0, \
-			ft_strlen(*env) - ft_strlen(aux));
+			substr = ft_substr(*env, 0, ft_strlen(*env) - ft_strlen(aux));
 		else
 			substr = ft_strdup(*env);
 		if (ft_strcmp(str, substr) == 0)
