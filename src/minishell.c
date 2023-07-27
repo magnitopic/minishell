@@ -6,18 +6,20 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 17:49:57 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:17:32 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	**put_path(char **paths, char **env)
+static char	**put_path(char **paths)
 {
 	char	*line;
 	int		y;
+	char	**env;
 
 	y = 0;
+	env = g_sl->env;
 	while (env[y] != NULL && ft_strncmp("PATH=", env[y], 5) != 0)
 		y++;
 	line = ft_calloc(ft_strlen(env[y]) - 4, sizeof(char));
@@ -31,7 +33,7 @@ static char	**put_path(char **paths, char **env)
 	return (paths);
 }
 
-static void	user_input(char **paths, char **env, int in, int out)
+static void	user_input(char **paths, int in, int out)
 {
 	char	*input;
 	char	*aux;
@@ -54,7 +56,7 @@ static void	user_input(char **paths, char **env, int in, int out)
 	if (ft_strlen(input) != 0)
 	{
 		add_history(input);
-		parsing(input, paths, env);
+		parsing(input, paths);
 	}
 	free(input);
 	free(g_sl->prompt);
@@ -76,11 +78,11 @@ int	main(int argc, char **argv, char **env)
 		ft_putstr_fd("\033[0;31mError: No environment provided\033[0;\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	paths = put_path(NULL, env);
+	paths = put_path(NULL);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
 	while (1)
-		user_input(paths, env, input, output);
+		user_input(paths, input, output);
 	close(input);
 	close(output);
 	free_matrix(paths);

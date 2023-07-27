@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/05 16:46:51 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:14:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ static void	quote_split(char *str, t_list **splitted)
 	free(str);
 }
 
-static void	parse_phrase(t_list **list, char **env)
+static void	parse_phrase(t_list **list)
 {
 	t_list			*aux;
 
 	aux = *list;
 	while (aux)
 	{
-		aux->content = split_quotes(aux->content, env);
+		aux->content = split_quotes(aux->content);
 		aux = aux->next;
 	}
 }
@@ -66,7 +66,7 @@ static char	*join_phrases(t_list *list)
 	return (str);
 }
 
-t_list	*expand_values(t_list *args, char **env)
+t_list	*expand_values(t_list *args)
 {
 	t_list	*splitted;
 	t_list	*aux;
@@ -78,7 +78,7 @@ t_list	*expand_values(t_list *args, char **env)
 		while (!args->content || ft_strlen(ft_strtrim(args->content, " 	")) < 1)
 			args = args->next;
 		quote_split(ft_strtrim(args->content, " 	"), &splitted);
-		parse_phrase(&splitted, env);
+		parse_phrase(&splitted);
 		args->content = join_phrases(splitted);
 		(free_stacks(&splitted), splitted = NULL);
 		args = args->next;

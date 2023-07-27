@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 20:07:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:17:03 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static t_command	*structure(t_list *tokens)
  * Main parsing function which will call all other functions needed for parsing.
  * Once finished, the parsed input will be passed on to the `exec` function.
 */
-void	parsing(char *input, char **paths, char **env)
+void	parsing(char *input, char **paths)
 {
 	t_list	*commands;
 	t_list	*aux;
@@ -132,11 +132,11 @@ void	parsing(char *input, char **paths, char **env)
 	{
 		aux->content = split_words(aux->content);
 		aux->content = delete_emptiness(aux->content);
-		aux->content = expand_values(aux->content, env);
+		aux->content = expand_values(aux->content);
 		aux->content = structure(aux->content);
 		if (aux->content == NULL)
 			return (ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2));
 		aux = aux->next;
 	}
-	exec(commands, files, paths, env);
+	exec(commands, files, paths);
 }

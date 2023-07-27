@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 18:05:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:16:16 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ static t_list	*find_name_vars(char *var)
 	return (vars);
 }
 
-char	*get_var_value(char *name, char **env)
+char	*get_var_value(char *name)
 {
 	char	*line;
 	char	*temp;
+	char	**env;
 	int		y;
 
 	y = 0;
+	env = g_sl->env;
 	temp = ft_strjoin(name, "=");
 	while (env[y] != NULL && ft_strncmp(temp, env[y], ft_strlen(temp)) != 0)
 		y++;
@@ -75,7 +77,7 @@ static int	find_dollar_pos(char *str, int pos)
 	return (pos);
 }
 
-static char	*get_string(char *command, char **env, t_vars v, t_list *vars)
+static char	*get_string(char *command, t_vars v, t_list *vars)
 {
 	int	i;
 
@@ -87,7 +89,7 @@ static char	*get_string(char *command, char **env, t_vars v, t_list *vars)
 			v.path = ft_substr("0", 0, 1);		// TODO: Crear una función que nos retorne de manera correcta el código de exit de la ejecución anterior;
 			return (v.path);
 		}
-		v.path = get_var_value(vars->content, env);
+		v.path = get_var_value(vars->content);
 		i = find_dollar_pos(command, i);
 		v.temp = ft_substr(command, 0, i);
 		if (ft_strlen(v.path) < 1)
@@ -118,7 +120,7 @@ static char	*get_string(char *command, char **env, t_vars v, t_list *vars)
 	return (v.str);
 }
 
-char	*add_values(char *command, char **env)
+char	*add_values(char *command)
 {
 	t_vars	v;
 	t_list	*vars;
@@ -131,6 +133,6 @@ char	*add_values(char *command, char **env)
 		free(command);
 		return (v.str);
 	}
-	v.str = get_string(command, env, v, vars);
+	v.str = get_string(command, v, vars);
 	return (v.str);
 }
