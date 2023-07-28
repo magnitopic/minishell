@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:20:15 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 17:51:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/28 13:26:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,3 +33,16 @@ void	write_outfile(t_redi *write)
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 }
+
+/* void	del_heredoc_file(t_redi *redi)
+{
+	char	*file;
+	int		fd;
+
+	file = redi->content;
+	fd = fork();
+	if (fd == 0)
+	{
+		execve();
+	}
+} */

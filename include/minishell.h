@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 12:56:42 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:46:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ typedef struct s_vars
 
 /**
  * Struct for storing redirects
- *
 */
 typedef struct s_redi
 {
@@ -127,7 +126,7 @@ typedef struct s_files
 }	t_files;
 
 /**
- * Struct tu represent all the elements of a command.
+ * Struct to represent all the elements of a command.
  * comm		The command that should be executed
  * args		A list with all the command's arguments
  * redi		A list with all the command's redirects

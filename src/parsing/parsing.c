@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 13:17:03 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:36:04 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static int	split_commands(char *input, t_list **com)
 */
 static t_command	*structure(t_list *tokens)
 {
-	// TODO: add flag to check if there is a command and send appropriate error message
 	t_command		*new_list;
 	int				i;
 	char			*str;
@@ -96,7 +95,8 @@ static t_command	*structure(t_list *tokens)
 	{
 		str = tokens->content;
 		trim_aux = ft_strtrim(str, "<>");
-		if (ft_strlen(trim_aux) == 0 && (ft_strchr(str, '<') || ft_strchr(str, '>')))
+		if (ft_strlen(trim_aux) == 0 && (ft_strchr(str, '<')
+				|| ft_strchr(str, '>')))
 		{
 			if (handle_redirects(str, &(new_list->redi), &tokens))
 				return (NULL);

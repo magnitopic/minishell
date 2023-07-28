@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/27 13:29:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:48:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ static int	*execute_first(t_command *input, char **paths, t_files *files)
 	{
 		if (input->redi && input->redi->type != 4)
 			files = create_files(input, files);
-		else
-		{
-			files->write->content = NULL;
-			files->read->content = NULL;
-		}
 		if (!files)
 			return (fd);
 		files->command = find_command(input->comm, paths);
@@ -38,14 +33,10 @@ static int	*execute_first(t_command *input, char **paths, t_files *files)
 		if (files->write->content)
 			write_outfile(files->write);
 		else
-		{
-			dup2(files->fd[1], STDOUT_FILENO);
-			close(files->fd[1]);
-		}
+			(dup2(files->fd[1], STDOUT_FILENO), close(files->fd[1]));
 		exec_cmd(input, files, 1);
 	}
 	close(files->fd[1]);
-	//waitpid(files->id[0], NULL, 0);
 	return (files->fd);
 }
 
@@ -56,18 +47,10 @@ static void	execute_final(t_command *input, char **paths, t_files *files)
 	{
 		if (input->redi && input->redi->type != 4)
 			files = create_files(input, files);
-		else
-		{
-			files->write->content = NULL;
-			files->read->content = NULL;
-		}
 		if (!files)
 			return ;
 		if (files->fd[0] != 0 && files->fd)
-		{
-			dup2(files->fd[0], STDIN_FILENO);
-			close(files->fd[0]);
-		}
+			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
 		files->command = find_command(input->comm, paths);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
@@ -78,7 +61,6 @@ static void	execute_final(t_command *input, char **paths, t_files *files)
 		exec_cmd(input, files, 1);
 	}
 	close(files->fd[0]);
-	//waitpid(files->id[files->count - 1], NULL, 0);
 }
 
 static int	*execute_pipes(t_command *input, char **paths, t_files *files)
@@ -93,18 +75,10 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 	{
 		if (input->redi && input->redi->type != 4)
 			files = create_files(input, files);
-		else
-		{
-			files->write->content = NULL;
-			files->read->content = NULL;
-		}
 		if (!files)
 			return (files->fd);
 		if (files->fd[0] != 0 && files->fd)
-		{
-			dup2(files->fd[0], STDIN_FILENO);
-			close(files->fd[0]);
-		}
+			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
 		files->command = find_command(input->comm, paths);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
@@ -121,7 +95,6 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 	}
 	close(fd[1]);
 	free(files->fd);
-	//waitpid(files->id[i - 1], NULL, 0);
 	return (fd);
 }
 
