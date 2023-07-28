@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 13:16:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/28 15:48:42 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*split_quotes(char *input)
 		if ((input[v.n] == '\'' || input[v.n] == '"') && c == 1)
 			c = input[v.n];
 		if (input[v.n] != c)
-			parsed[v.st++] = input[v.n];
+			parsed[v.st++] = input[v.n]; // TODO Fix leak
 		v.n++;
 		if (input[v.n] == c)
 		{

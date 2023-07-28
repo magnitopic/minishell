@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/28 12:46:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/28 15:34:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,10 @@ void			set_prompt(void);
 char			**cpy_env(char **env);
 void			signal_handler(int sig);
 void			ft_perror(char *message);
+void			free_redi(t_redi **redi);
 char			*heredoc(char *key_word);
-void			free_stacks(t_list **list);
+void			free_files(t_files *file);
+void			free_lists(t_list **list);
 void			exit_program(char *message);
 void			free_commands(t_list *input);
 char			*expand_vars(char *var);

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/28 12:48:36 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/28 17:32:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,7 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 		if (files->write->content)
 			write_outfile(files->write);
 		else
-		{
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
-		}
+			(dup2(fd[1], STDOUT_FILENO), close(fd[1]));
 		exec_cmd(input, files, 1);
 	}
 	close(fd[1]);
@@ -139,13 +136,13 @@ void	exec(t_list *com, t_files *files, char **paths)
 		}
 		execute_final(com->content, paths, files);
 	}
-	//wait(&status);
 	while (1)
 	{
 		if (waitpid(files->id[i++], NULL, 0) == -1)
 			break ;
 	}
 	free_commands(aux);
+	free_files(files);
 }
 
 /* static void	print_commands(t_command *input, char **paths)

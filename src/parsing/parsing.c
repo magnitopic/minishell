@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 15:36:04 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/28 17:33:53 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_list	*delete_emptiness(t_list *list)
 			(free(temp), temp = NULL);
 		aux = aux->next;
 	}
-	free_stacks(&list);
+	free_lists(&list);
 	return (list_cpy);
 }
 

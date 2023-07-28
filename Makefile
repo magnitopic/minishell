@@ -2,13 +2,13 @@
 NAME			=	minishell
 
 SHELL_SRC	=	src/utils.c \
-				src/utils2.c \
 				src/heredoc.c \
 				src/signals.c \
 				src/minishell.c \
 				src/create_vars.c \
 				src/comand_list.c \
 				src/create_arrays.c \
+				src/mem_management.c \
 				src/exec/exec.c \
 				src/exec/exec_redis.c \
 				src/exec/exec_builtins.c \
