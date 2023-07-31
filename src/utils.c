@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 12:28:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 11:49:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,38 +29,24 @@ void	set_prompt(void)
 	char	*aux;
 	char	path[PATH_MAX];
 
-	g_sl->prompt = ft_strjoin(PROMPT1, getcwd(path, sizeof(path)));
-	aux = g_sl->prompt;
-	g_sl->prompt = ft_strjoin(aux, PROMPT2);
+	g_shell->prompt = ft_strjoin(PROMPT1, getcwd(path, sizeof(path)));
+	aux = g_shell->prompt;
+	g_shell->prompt = ft_strjoin(aux, PROMPT2);
 	free(aux);
 }
 
-void	free_stacks(t_list **list)
+char	**cpy_env(char **env)
 {
-	if (*list == NULL)
-		return ;
-	if ((*list)->next != NULL)
-		free_stacks(&(*list)->next);
-	(free(*list), *list = NULL);
-}
+	int		len;
+	int		i;
+	char	**new_env;
 
-void	free_commands(t_list *cmd)
-{
-	t_list		*input;
-	t_command	*command;
-
-	input = cmd;
-	while (input)
-	{
-		command = input->content;
-		if (command == NULL)
-			return ;
-		if (command->args != NULL)
-			free_stacks(&(command->args));
-		/* if (command->redi != NULL)
-			free_stacks(&(command->redi)); */
-		free(command);
-		input = input->next;
-	}
-	free(cmd);
+	i = -1;
+	len = ft_get_matrix_size(env);
+	new_env = ft_calloc(len + 1, sizeof(char *));
+	if (!new_env)
+		ft_perror("malloc");
+	while (++i < len)
+		new_env[i] = ft_strdup(env[i]);
+	return (new_env);
 }

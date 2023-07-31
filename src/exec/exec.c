@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/31 17:39:10 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:49:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ static int	*execute_first(t_command *input, char **paths, t_files *files)
 	{
 		if (input->redi && input->redi->type != 4)
 			files = create_files(input, files);
-		else
-		{
-			files->write->content = NULL;
-			files->read->content = NULL;
-		}
 		if (!files)
 			return (fd);
 		files->command = find_command(input->comm, paths);
@@ -38,10 +33,7 @@ static int	*execute_first(t_command *input, char **paths, t_files *files)
 		if (files->write->content)
 			write_outfile(files->write);
 		else
-		{
-			dup2(files->fd[1], STDOUT_FILENO);
-			close(files->fd[1]);
-		}
+			(dup2(files->fd[1], STDOUT_FILENO), close(files->fd[1]));
 		exec_cmd(input, files, 1);
 	}
 	close(files->fd[1]);
@@ -55,18 +47,10 @@ static void	execute_final(t_command *input, char **paths, t_files *files)
 	{
 		if (input->redi && input->redi->type != 4)
 			files = create_files(input, files);
-		else
-		{
-			files->write->content = NULL;
-			files->read->content = NULL;
-		}
 		if (!files)
 			return ;
 		if (files->fd[0] != 0 && files->fd)
-		{
-			dup2(files->fd[0], STDIN_FILENO);
-			close(files->fd[0]);
-		}
+			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
 		files->command = find_command(input->comm, paths);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
@@ -91,18 +75,10 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 	{
 		if (input->redi && input->redi->type != 4)
 			files = create_files(input, files);
-		else
-		{
-			files->write->content = NULL;
-			files->read->content = NULL;
-		}
 		if (!files)
 			return (files->fd);
 		if (files->fd[0] != 0 && files->fd)
-		{
-			dup2(files->fd[0], STDIN_FILENO);
-			close(files->fd[0]);
-		}
+			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
 		files->command = find_command(input->comm, paths);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
@@ -111,10 +87,7 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 		if (files->write->content)
 			write_outfile(files->write);
 		else
-		{
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
-		}
+			(dup2(fd[1], STDOUT_FILENO), close(fd[1]));
 		exec_cmd(input, files, 1);
 	}
 	close(fd[1]);
@@ -169,6 +142,7 @@ void	exec(t_list *com, t_files *files, char **paths)
 	wait_function(files);
 	there_doc();
 	free_commands(aux);
+	free_files(files);
 }
 
 /* static void	print_commands(t_command *input, char **paths)

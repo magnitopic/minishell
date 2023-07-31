@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 15:08:13 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:19:03 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_var_value(char *name)
 	int		y;
 
 	y = 0;
-	env = g_sl->env;
+	env = g_shell->env;
 	temp = ft_strjoin(name, "=");
 	while (env[y] != NULL && ft_strncmp(temp, env[y], ft_strlen(temp)) != 0)
 		y++;

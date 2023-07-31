@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:36 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 12:42:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 11:49:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	bi_unset(t_command *input, int num)
 	char		**env_cpy;
 
 	args = input->args;
-	env = cpy_env(g_sl->env);
+	env = cpy_env(g_shell->env);
 	while (args)
 	{
 		env_cpy = ft_calloc(ft_get_matrix_size(env), sizeof(char *));
@@ -54,8 +54,8 @@ void	bi_unset(t_command *input, int num)
 		env = env_cpy;
 		args = args->next;
 	}
-	free(g_sl->env);
-	g_sl->env = env;
+	free(g_shell->env);
+	g_shell->env = env;
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }
