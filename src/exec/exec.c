@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/31 15:26:43 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:13:44 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	*execute_first(t_command *input, char **paths, t_files *files)
 		files->command = find_command(input->comm, paths);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
-			read_infile(files->read);
+			read_infile(files->read, 1);
 		files->read->content = NULL;
 		if (files->write->content)
 			write_outfile(files->write);
@@ -71,7 +71,7 @@ static void	execute_final(t_command *input, char **paths, t_files *files)
 		files->command = find_command(input->comm, paths);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
-			read_infile(files->read);
+			read_infile(files->read, 1);
 		files->read->content = NULL;
 		if (files->write->content)
 			write_outfile(files->write);
@@ -108,7 +108,7 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 		files->command = find_command(input->comm, paths);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
-			read_infile(files->read);
+			read_infile(files->read, 1);
 		files->read->content = NULL;
 		if (files->write->content)
 			write_outfile(files->write);
@@ -125,35 +125,37 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 	return (fd);
 }
 
+void	wait_function(t_files *files)
+{
+	int	i;
+
+	i = 0;
+	while (1)
+	{
+		if (waitpid(files->id[i++], NULL, 0) == -1)
+			break ;
+	}
+}
+
 void	exec(t_list *com, t_files *files, char **paths)
 {
 	t_list	*aux;
-	int		i;
-	//int		status;
 
 	aux = com;
-	i = 0;
 	files->fd = ft_calloc(2, sizeof(int));
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
-	if ((!com->next && check_builtin(com->content)) || !com->content)
-	{
-		exec_one_builtin(com->content, files);
-		com = NULL;
-	}
 	files->count = ft_lstsize(com);
-	if (files->count == 1 && com)
-	{
-		execute_final(com->content, paths, files);
-		com = NULL;
-	}
 	pipe(files->fd);
-	if (files->count == 2 && com)
+	if ((!com->next && check_builtin(com->content)) || !com->content)
+		exec_one_builtin(com->content, files);
+	else if (files->count == 1 && com)
+		execute_final(com->content, paths, files);
+	else if (files->count == 2 && com)
 	{
 		files->fd = execute_first(com->content, paths, files);
 		com = com->next;
 		execute_final(com->content, paths, files);
-		com = NULL;
 	}
 	else if (files->count > 2 && com)
 	{
@@ -166,12 +168,7 @@ void	exec(t_list *com, t_files *files, char **paths)
 		}
 		execute_final(com->content, paths, files);
 	}
-	//wait(&status);
-	while (1)
-	{
-		if (waitpid(files->id[i++], NULL, 0) == -1)
-			break ;
-	}
+	wait_function(files);
 	there_doc();
 	free_commands(aux);
 }

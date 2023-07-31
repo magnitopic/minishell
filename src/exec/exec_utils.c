@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 13:56:40 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:08:44 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 	}
 	else if (flag == 0 || flag == 2)
 	{
-		if (flag == 0 && access(name, R_OK) != 0)
-			return (ft_printf("\033[0;31mUnable to read file\033[0m\n"), NULL);
 		files->read->content = ft_substr(name, 0, ft_strlen(name));
 		files->read->type = flag;
 	}

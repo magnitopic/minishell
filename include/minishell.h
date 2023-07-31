@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 16:43:30 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:26:04 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,8 @@ t_files			*create_files(t_command *input, t_files *files);
 char			*check_param(char *argv);
 char			*find_command(char *argv, char **paths);
 void			exec_one_builtin(t_command *input, t_files *files);
-void			read_infile(t_redi *read);
-void			write_outfile(t_redi *write);
+int				read_infile(t_redi *read, int num);
+int				write_outfile(t_redi *write);
 int				exec_cmd(t_command *input, t_files *files, int flag);
 int				check_builtin(t_command *input);
 /* Parsing functions */
