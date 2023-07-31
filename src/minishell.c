@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 13:17:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:29:29 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,8 @@ static void	user_input(char **paths, int in, int out)
 {
 	char	*input;
 	char	*aux;
-	//int		status;
 
 	set_prompt();
-	/*while (1)
-	{
-		if (waitpid(-1, &status, 0) == -1)
-			break ;
-	}*/
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
 	input = readline(g_sl->prompt);

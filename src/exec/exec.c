@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/31 17:13:44 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:32:20 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,18 +146,19 @@ void	exec(t_list *com, t_files *files, char **paths)
 	files->write = ft_calloc(1, sizeof(t_redi));
 	files->read = ft_calloc(1, sizeof(t_redi));
 	files->count = ft_lstsize(com);
-	pipe(files->fd);
+	if (files->count > 1)
+		pipe(files->fd);
 	if ((!com->next && check_builtin(com->content)) || !com->content)
 		exec_one_builtin(com->content, files);
-	else if (files->count == 1 && com)
+	else if (files->count == 1)
 		execute_final(com->content, paths, files);
-	else if (files->count == 2 && com)
+	else if (files->count == 2)
 	{
 		files->fd = execute_first(com->content, paths, files);
 		com = com->next;
 		execute_final(com->content, paths, files);
 	}
-	else if (files->count > 2 && com)
+	else if (files->count > 2)
 	{
 		files->fd = execute_first(com->content, paths, files);
 		com = com->next;
