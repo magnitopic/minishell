@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 13:16:16 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:08:13 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_list	*find_name_vars(char *var)
 	vars = NULL;
 	while (var[n])
 	{
-		if (var[n] == '$')
+		if (var[n] == '$' && var[n + 1] && ft_isalpha(var[n + 1]))
 		{
 			if (!var[n + 1])
 			{
@@ -64,7 +64,7 @@ char	*get_var_value(char *name)
 	return (line);
 }
 
-static int	find_dollar_pos(char *str, int pos)
+int	find_dollar_pos(char *str, int pos)
 {
 	if (!pos)
 		pos = 0;

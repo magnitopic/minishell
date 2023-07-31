@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:20:15 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/26 17:51:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 14:30:36 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	write_outfile(t_redi *write)
 {
 	int	fd;
 
-	fd = open(write->content, O_WRONLY);
+	if (write->type == 1)
+		fd = open(write->content, O_WRONLY);
+	else
+		fd = open(write->content, O_APPEND | O_WRONLY);
 	if (fd < 0)
 		return ;
 	dup2(fd, STDOUT_FILENO);

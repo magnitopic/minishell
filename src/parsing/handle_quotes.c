@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 13:16:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:20:02 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,29 +55,29 @@ char	*split_quotes(char *input)
 {
 	char	c;
 	t_vars	v;
-	char	*parsed;
 
 	c = 1;
 	v.n = 0;
 	v.st = 0;
-	parsed = count_quotes(c, v.n, v.st, input);
+	v.parsed = count_quotes(c, v.n, v.st, input);
 	while (input[v.n])
 	{
 		if ((input[v.n] == '\'' || input[v.n] == '"') && c == 1)
 			c = input[v.n];
 		if (input[v.n] != c)
-			parsed[v.st++] = input[v.n];
+			v.parsed[v.st++] = input[v.n];
 		v.n++;
 		if (input[v.n] == c)
 		{
 			if (c == '"')
-				parsed = add_values(parsed);
+				v.parsed = add_values(v.parsed);
 			break ;
 		}
 	}
-	while (ft_strchr(parsed, '$') != NULL && c != '\'')
-		parsed = add_values(parsed);
-	return (parsed);
+	while (ft_strchr(v.parsed, '$') != NULL
+		&& ft_isalpha(v.parsed[find_dollar_pos(v.parsed, 0) + 1]) && c != '\'')
+		v.parsed = add_values(v.parsed);
+	return (v.parsed);
 }
 
 enum e_quotes	check_flag(char *str, int pos)

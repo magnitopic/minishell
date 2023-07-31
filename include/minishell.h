@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 12:56:42 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:18:27 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_vars
 	int		i;
 	int		index;
 	int		j;
+	char	*parsed;
 	char	*value;
 	char	*temp;
 	char	*aux;
@@ -176,6 +177,7 @@ t_list			*split_words(char *str);
 enum e_quotes	check_flag(char *str, int n);
 int				check_unclosed_quotes(char *input);
 char			*get_var_value(char *name);
+int				find_dollar_pos(char *str, int pos);
 char			*add_values(char *command);
 char			*split_quotes(char *input);
 t_list			*expand_values(t_list *args);
