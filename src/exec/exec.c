@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/31 14:09:17 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:26:43 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ void	exec(t_list *com, t_files *files, char **paths)
 		if (waitpid(files->id[i++], NULL, 0) == -1)
 			break ;
 	}
+	there_doc();
 	free_commands(aux);
 }
 

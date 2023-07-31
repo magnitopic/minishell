@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/24 17:25:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:38:54 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	there_doc(void)
+{
+	char	*file_name;
+	int		i;
+	char	*nbr;
+
+	i = 0;
+	while (i < 100000)
+	{
+		nbr = ft_itoa(i);
+		file_name = ft_strjoin("/tmp/.heredoc_", nbr);
+		free(nbr);
+		if (!access(file_name, F_OK))
+			unlink(file_name);
+		else
+			i = -2;
+		free(file_name);
+		i++;
+		if (i == -1)
+			break ;
+	}
+}
 
 static char	*create_file(char *str)
 {

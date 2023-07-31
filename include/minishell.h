@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 15:18:27 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:31:16 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ char			**cpy_env(char **env);
 void			signal_handler(int sig);
 void			ft_perror(char *message);
 char			*heredoc(char *key_word);
+void			there_doc(void);
 void			free_stacks(t_list **list);
 void			exit_program(char *message);
 void			free_commands(t_list *input);
