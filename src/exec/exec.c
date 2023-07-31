@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/31 17:32:20 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:39:10 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static int	*execute_first(t_command *input, char **paths, t_files *files)
 		exec_cmd(input, files, 1);
 	}
 	close(files->fd[1]);
-	//waitpid(files->id[0], NULL, 0);
 	return (files->fd);
 }
 
@@ -78,7 +77,6 @@ static void	execute_final(t_command *input, char **paths, t_files *files)
 		exec_cmd(input, files, 1);
 	}
 	close(files->fd[0]);
-	//waitpid(files->id[files->count - 1], NULL, 0);
 }
 
 static int	*execute_pipes(t_command *input, char **paths, t_files *files)
@@ -121,7 +119,6 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 	}
 	close(fd[1]);
 	free(files->fd);
-	//waitpid(files->id[i - 1], NULL, 0);
 	return (fd);
 }
 
