@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/28 17:33:53 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:41:42 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,26 +87,23 @@ static t_command	*structure(t_list *tokens)
 	t_command		*new_list;
 	int				i;
 	char			*str;
-	char			*trim_aux;
 
 	i = 0;
 	new_list = ft_calloc(1, sizeof(t_command));
 	while (tokens)
 	{
 		str = tokens->content;
-		trim_aux = ft_strtrim(str, "<>");
-		if (ft_strlen(trim_aux) == 0 && (ft_strchr(str, '<')
-				|| ft_strchr(str, '>')))
+		printf("|%s|\n", str);
+		if ((ft_strchr(str, '<') || ft_strchr(str, '>')))
 		{
-			if (handle_redirects(str, &(new_list->redi), &tokens))
-				return (NULL);
+			ft_printf("Jsarabia\n");
+			handle_redirects(str, &(new_list->redi), &tokens);
 		}
 		else if (i++ == 0)
 			new_list->comm = str;
 		else
 			ft_lstadd_new(&new_list->args, str);
 		tokens = tokens->next;
-		free(trim_aux);
 	}
 	return (new_list);
 }
@@ -125,6 +122,8 @@ void	parsing(char *input, char **paths)
 	commands = NULL;
 	if (check_unclosed_quotes(input))
 		return (ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2));
+	if (!check_invalid_redirects(input))
+		return (ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2));
 	if (split_commands(input, &commands))
 		return (ft_putstr_fd("\033[0;31mError: Syntax error '|'\033[0;\n", 2));
 	aux = commands;
@@ -134,8 +133,6 @@ void	parsing(char *input, char **paths)
 		aux->content = delete_emptiness(aux->content);
 		aux->content = expand_values(aux->content);
 		aux->content = structure(aux->content);
-		if (aux->content == NULL)
-			return (ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2));
 		aux = aux->next;
 	}
 	exec(commands, files, paths);

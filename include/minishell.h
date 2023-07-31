@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 17:45:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:56:15 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ enum e_redirect
 	OUTPUT,
 	HEREDOC,
 	APPEND,
-	BAD_INPUT
+	BAD_INPUT,
+	NO
 };
 
 /**
@@ -161,6 +162,7 @@ void			free_files(t_files *file);
 void			free_lists(t_list **list);
 void			exit_program(char *message);
 void			free_commands(t_list *input);
+int				check_invalid_redirects(char *str);
 char			*expand_vars(char *var);
 char			*create_vars(char *origin);
 char			**create_arrays(char **comms, char *name);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   comand_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:35:51 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/18 12:35:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:47:42 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,3 +47,5 @@ void	ft_newcommand(t_redi **list, void *cont, enum e_redirect type)
 	else
 		ft_add_back_command(list, new_redirect);
 }
+
+void	ft_new_arg()    // TODO: hay que hacer esta función <3
