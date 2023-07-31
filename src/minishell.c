@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 13:17:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 11:49:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	**put_path(char **paths)
 	char	**env;
 
 	y = 0;
-	env = g_sl->env;
+	env = g_shell->env;
 	while (env[y] != NULL && ft_strncmp("PATH=", env[y], 5) != 0)
 		y++;
 	line = ft_calloc(ft_strlen(env[y]) - 4, sizeof(char));
@@ -47,7 +47,7 @@ static void	user_input(char **paths, int in, int out)
 	}*/
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
-	input = readline(g_sl->prompt);
+	input = readline(g_shell->prompt);
 	aux = input;
 	input = ft_strtrim(input, " \n\t\r\v\f");
 	free(aux);
@@ -59,7 +59,7 @@ static void	user_input(char **paths, int in, int out)
 		parsing(input, paths);
 	}
 	free(input);
-	free(g_sl->prompt);
+	free(g_shell->prompt);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -71,9 +71,9 @@ int	main(int argc, char **argv, char **env)
 	((void)argv, (void)argc);
 	input = dup(STDIN_FILENO);
 	output = dup(STDOUT_FILENO);
-	g_sl = malloc(sizeof(t_shell));
-	g_sl->env = cpy_env(env);
-	if (!g_sl->env[0])
+	g_shell = malloc(sizeof(t_shell));
+	g_shell->env = cpy_env(env);
+	if (!g_shell->env[0])
 	{
 		ft_putstr_fd("\033[0;31mError: No environment provided\033[0;\n", 2);
 		exit(EXIT_FAILURE);

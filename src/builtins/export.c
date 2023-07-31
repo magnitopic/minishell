@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 13:09:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 11:49:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	bi_export(t_command *input, int num)
 	char			**env;
 
 	args = input->args;
-	env = cpy_env(g_sl->env);
+	env = cpy_env(g_shell->env);
 	if (ft_lstsize(input->args) == 0)
 		return (print_export(env));
 	while (args)
@@ -105,8 +105,8 @@ void	bi_export(t_command *input, int num)
 		result = validate(args->content);
 		if (result == INVALID)
 			return (ft_putstr_fd("\033[0;31mInvalid identifier\n\033[0m", 0));
-		free_matrix(g_sl->env);
-		g_sl->env = change_env(env, args->content, result);
+		free_matrix(g_shell->env);
+		g_shell->env = change_env(env, args->content, result);
 		args = args->next;
 	}
 	if (num != 0)

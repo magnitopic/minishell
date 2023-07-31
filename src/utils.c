@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/28 15:20:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 11:49:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	set_prompt(void)
 	char	*aux;
 	char	path[PATH_MAX];
 
-	g_sl->prompt = ft_strjoin(PROMPT1, getcwd(path, sizeof(path)));
-	aux = g_sl->prompt;
-	g_sl->prompt = ft_strjoin(aux, PROMPT2);
+	g_shell->prompt = ft_strjoin(PROMPT1, getcwd(path, sizeof(path)));
+	aux = g_shell->prompt;
+	g_shell->prompt = ft_strjoin(aux, PROMPT2);
 	free(aux);
 }
 

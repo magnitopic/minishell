@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/28 15:34:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/31 11:52:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ enum e_export
 typedef struct s_shell
 {
 	char	*prompt;
-	int		ex_sta;
+	int		exit_stat;
 	char	**env;
 }	t_shell;
 
@@ -139,7 +139,7 @@ typedef struct s_command
 }	t_command;
 
 /* Global variable */
-t_shell	*g_sl;
+t_shell	*g_shell;
 
 /* Replace_line shenanigans */
 void			rl_replace_line(const char *text, int clear_undo);
