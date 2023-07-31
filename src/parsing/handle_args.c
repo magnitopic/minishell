@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/27 13:14:23 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/07/28 17:44:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ static void	quote_split(char *str, t_list **splitted)
 
 static void	parse_phrase(t_list **list)
 {
-	t_list			*aux;
+	t_list	*aux;
+	char	*str_aux;
 
 	aux = *list;
 	while (aux)
 	{
+		str_aux = aux->content;
 		aux->content = split_quotes(aux->content);
+		free(str_aux);
 		aux = aux->next;
 	}
 }
@@ -70,17 +73,23 @@ t_list	*expand_values(t_list *args)
 {
 	t_list	*splitted;
 	t_list	*aux;
+	char	*str_aux;
 
 	aux = args;
 	splitted = NULL;
 	while (args)
 	{
-		while (!args->content || ft_strlen(ft_strtrim(args->content, " 	")) < 1)
+		str_aux = ft_strtrim(args->content, " 	");
+		while (!args->content || ft_strlen(str_aux) < 1)
+		{
+			free(str_aux);
 			args = args->next;
-		quote_split(ft_strtrim(args->content, " 	"), &splitted);
+			str_aux = ft_strtrim(args->content, " 	");
+		}
+		quote_split(str_aux, &splitted);
 		parse_phrase(&splitted);
 		args->content = join_phrases(splitted);
-		(free_stacks(&splitted), splitted = NULL);
+		(free_lists(&splitted), splitted = NULL);
 		args = args->next;
 	}
 	return (aux);

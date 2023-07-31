@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 15:31:16 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:01:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ enum e_export
 typedef struct s_shell
 {
 	char	*prompt;
-	int		ex_sta;
+	int		exit_stat;
 	char	**env;
 }	t_shell;
 
@@ -104,7 +104,6 @@ typedef struct s_vars
 
 /**
  * Struct for storing redirects
- *
 */
 typedef struct s_redi
 {
@@ -128,7 +127,7 @@ typedef struct s_files
 }	t_files;
 
 /**
- * Struct tu represent all the elements of a command.
+ * Struct to represent all the elements of a command.
  * comm		The command that should be executed
  * args		A list with all the command's arguments
  * redi		A list with all the command's redirects
@@ -141,7 +140,7 @@ typedef struct s_command
 }	t_command;
 
 /* Global variable */
-t_shell	*g_sl;
+t_shell	*g_shell;
 
 /* Replace_line shenanigans */
 void			rl_replace_line(const char *text, int clear_undo);
@@ -152,9 +151,12 @@ void			set_prompt(void);
 char			**cpy_env(char **env);
 void			signal_handler(int sig);
 void			ft_perror(char *message);
+void			free_redi(t_redi **redi);
 char			*heredoc(char *key_word);
 void			there_doc(void);
 void			free_stacks(t_list **list);
+void			free_files(t_files *file);
+void			free_lists(t_list **list);
 void			exit_program(char *message);
 void			free_commands(t_list *input);
 char			*expand_vars(char *var);

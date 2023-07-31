@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 15:20:02 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:39:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*split_quotes(char *input)
 		if ((input[v.n] == '\'' || input[v.n] == '"') && c == 1)
 			c = input[v.n];
 		if (input[v.n] != c)
-			v.parsed[v.st++] = input[v.n];
+			v.parsed[v.st++] = input[v.n]; // TODO Fix leak
 		v.n++;
 		if (input[v.n] == c)
 		{
