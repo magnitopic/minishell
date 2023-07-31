@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 15:31:16 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:43:30 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ typedef struct s_vars
 	int		i;
 	int		index;
 	int		j;
+	char	*home;
+	char	*pwd;
 	char	*parsed;
 	char	*value;
 	char	*temp;
