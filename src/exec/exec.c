@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/01 17:39:57 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 17:42:14 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,23 +108,7 @@ void	wait_function(t_files *files)
 		if (waitpid(files->id[i++], NULL, 0) == -1)
 			break ;
 	}
-	if (WIFEXITED(files->id[i]))
-		printf("Exit status: %d\n", WEXITSTATUS(files->id[i]));
 	signal(SIGINT, signal_handler);
-}
-
-void	close_fds(t_list *fds)
-{
-	if (!fds)
-		return ;
-	while (fds)
-	{
-		ft_printf("c: %d\n", ((int *)(fds->content))[0]);
-		close(((int *)(fds->content))[0]);
-		close(((int *)(fds->content))[1]);
-		fds = fds->next;
-	}
-	free_lists(&fds);
 }
 
 void	exec(t_list *com, t_files *files, char **paths)
@@ -162,8 +146,6 @@ void	exec(t_list *com, t_files *files, char **paths)
 		}
 		execute_final(com->content, paths, files);
 	}
-	/*if (files->file_d)
-		close_fds(files->file_d);*/
 	wait_function(files);
 	there_doc();
 	free_commands(aux);
