@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 19:41:42 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:16:15 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,8 @@ static t_command	*structure(t_list *tokens)
 	while (tokens)
 	{
 		str = tokens->content;
-		printf("|%s|\n", str);
 		if ((ft_strchr(str, '<') || ft_strchr(str, '>')))
-		{
-			ft_printf("Jsarabia\n");
 			handle_redirects(str, &(new_list->redi), &tokens);
-		}
 		else if (i++ == 0)
 			new_list->comm = str;
 		else

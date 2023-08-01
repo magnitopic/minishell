@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/01 11:38:19 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/01 17:39:57 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	*execute_first(t_command *input, char **paths, t_files *files)
+t_files	*execute_first(t_command *input, char **paths, t_files *files)
 {
-	int	*fd;
-
-	fd = files->fd;
 	pipe(files->fd);
+	ft_lstadd_new(&files->file_d, files->fd);
 	files->id[0] = fork();
 	if (files->id[0] == 0)
 	{
+		close(files->fd[0]);
 		if (input->redi && input->redi->type != 4)
 			files = create_files(input, files);
 		if (!files)
-			return (fd);
+			return (files);
 		files->command = find_command(input->comm, paths);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
@@ -37,10 +36,10 @@ static int	*execute_first(t_command *input, char **paths, t_files *files)
 		exec_cmd(input, files, 1);
 	}
 	close(files->fd[1]);
-	return (files->fd);
+	return (files);
 }
 
-static void	execute_final(t_command *input, char **paths, t_files *files)
+t_files	*execute_final(t_command *input, char **paths, t_files *files)
 {
 	files->id[files->count - 1] = fork();
 	if (files->id[files->count - 1] == 0)
@@ -48,7 +47,7 @@ static void	execute_final(t_command *input, char **paths, t_files *files)
 		if (input->redi && input->redi->type != 4)
 			files = create_files(input, files);
 		if (!files)
-			return ;
+			return (NULL);
 		if (files->fd[0] != 0 && files->fd)
 			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
 		files->command = find_command(input->comm, paths);
@@ -61,11 +60,12 @@ static void	execute_final(t_command *input, char **paths, t_files *files)
 		exec_cmd(input, files, 1);
 	}
 	close(files->fd[0]);
+	close(files->fd[1]);
+	return (files);
 }
 
-static int	*execute_pipes(t_command *input, char **paths, t_files *files)
+t_files	*execute_pipes(t_command *input, char **paths, t_files *files, int i)
 {
-	static int	i = 1;
 	int			*fd;
 
 	fd = ft_calloc(2, sizeof(int));
@@ -73,11 +73,12 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 	files->id[i] = fork();
 	if (files->id[i++] == 0)
 	{
+		close(fd[0]);
 		if (input->redi && input->redi->type != 4)
 			files = create_files(input, files);
 		if (!files)
-			return (files->fd);
-		if (files->fd[0] != 0 && files->fd)
+			return (files);
+		if (files->fd[0] != 0)
 			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
 		files->command = find_command(input->comm, paths);
 		files->arr = set_for_execve(files, input);
@@ -91,8 +92,9 @@ static int	*execute_pipes(t_command *input, char **paths, t_files *files)
 		exec_cmd(input, files, 1);
 	}
 	close(fd[1]);
-	free(files->fd);
-	return (fd);
+	close(files->fd[0]);
+	files->fd = fd;
+	return (files);
 }
 
 void	wait_function(t_files *files)
@@ -106,13 +108,31 @@ void	wait_function(t_files *files)
 		if (waitpid(files->id[i++], NULL, 0) == -1)
 			break ;
 	}
+	if (WIFEXITED(files->id[i]))
+		printf("Exit status: %d\n", WEXITSTATUS(files->id[i]));
 	signal(SIGINT, signal_handler);
+}
+
+void	close_fds(t_list *fds)
+{
+	if (!fds)
+		return ;
+	while (fds)
+	{
+		ft_printf("c: %d\n", ((int *)(fds->content))[0]);
+		close(((int *)(fds->content))[0]);
+		close(((int *)(fds->content))[1]);
+		fds = fds->next;
+	}
+	free_lists(&fds);
 }
 
 void	exec(t_list *com, t_files *files, char **paths)
 {
 	t_list	*aux;
+	int		i;
 
+	i = 1;
 	aux = com;
 	files->fd = ft_calloc(2, sizeof(int));
 	files->write = ft_calloc(1, sizeof(t_redi));
@@ -126,21 +146,24 @@ void	exec(t_list *com, t_files *files, char **paths)
 		execute_final(com->content, paths, files);
 	else if (files->count == 2)
 	{
-		files->fd = execute_first(com->content, paths, files);
+		files = execute_first(com->content, paths, files);
 		com = com->next;
 		execute_final(com->content, paths, files);
 	}
 	else if (files->count > 2)
 	{
-		files->fd = execute_first(com->content, paths, files);
+		files = execute_first(com->content, paths, files);
 		com = com->next;
 		while (com->next)
 		{
-			files->fd = execute_pipes(com->content, paths, files);
+			files = execute_pipes(com->content, paths, files, i);
+			i++;
 			com = com->next;
 		}
 		execute_final(com->content, paths, files);
 	}
+	/*if (files->file_d)
+		close_fds(files->file_d);*/
 	wait_function(files);
 	there_doc();
 	free_commands(aux);

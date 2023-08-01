@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 18:56:15 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 17:00:40 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct s_files
 	int				*fd;
 	int				id[1024];
 	int				count;
+	t_list			*file_d;
 }	t_files;
 
 /**
