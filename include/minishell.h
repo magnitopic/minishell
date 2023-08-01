@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 17:00:40 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:46:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,133 +21,15 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <string.h>
-
-/* Defines */
-# define PROMPT1 "\001\033[0;32m\002MiniShell\001\033[0m\002:\001\033[0;34m\002"
-# define PROMPT2 "\001\033[0m\002$ "
-
 /* Enums */
-
-/**
- * Let's us know what type of quotes we are currently in
-*/
-enum e_quotes
-{
-	NONE,
-	SINGLE,
-	DOUBLE
-};
-
-/**
- * INPUT		<
- * OUTPUT		>
- * HEREDOC		<<
- * APPEND		>>
- * BAD_INPUT	something different
- */
-enum e_redirect
-{
-	INPUT,
-	OUTPUT,
-	HEREDOC,
-	APPEND,
-	BAD_INPUT,
-	NO
-};
-
-/**
- * INVALID		syntax error
- * NEW_VALUE	adds value to env or replaces existing value
- * CREATE		it creates variable. If it exists it's not modified
-*/
-enum e_export
-{
-	INVALID,
-	NEW_VALUE,
-	CREATE
-};
-
+# include "enums.h"
 /* Structs */
-
-/**
- * Global variable struct
- */
-typedef struct s_shell
-{
-	char	*prompt;
-	int		exit_stat;
-	char	**env;
-}	t_shell;
-
-/**
- * General variable struct
-*/
-typedef struct s_vars
-{
-	int		flag;
-	int		in;
-	int		end;
-	int		n;
-	int		len;
-	int		st;
-	int		i;
-	int		index;
-	int		j;
-	char	*home;
-	char	*pwd;
-	char	*parsed;
-	char	*value;
-	char	*temp;
-	char	*aux;
-	char	*str;
-	char	*path;
-	char	*other_aux;
-	char	**arr;
-}	t_vars;
-
-/**
- * Struct for storing redirects
-*/
-typedef struct s_redi
-{
-	void			*content;
-	enum e_redirect	type;
-	struct s_redi	*next;
-}	t_redi;
-
-/**
- * Function to keep track of pipe, redirects, and files in `exec()`
-*/
-typedef struct s_files
-{
-	struct s_redi	*write;
-	struct s_redi	*read;
-	char			**arr;
-	char			*command;
-	int				*fd;
-	int				id[1024];
-	int				count;
-	t_list			*file_d;
-}	t_files;
-
-/**
- * Struct to represent all the elements of a command.
- * comm		The command that should be executed
- * args		A list with all the command's arguments
- * redi		A list with all the command's redirects
-*/
-typedef struct s_command
-{
-	char		*comm;
-	t_list		*args;
-	t_redi		*redi;
-}	t_command;
+# include "structs.h"
+/* Readline */
+# include "readline.h"
 
 /* Global variable */
 t_shell	*g_shell;
-
-/* Replace_line shenanigans */
-void			rl_replace_line(const char *text, int clear_undo);
 
 /* Functions */
 
