@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/07/31 17:49:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/01 11:38:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,13 @@ void	wait_function(t_files *files)
 	int	i;
 
 	i = 0;
+	signal(SIGINT, SIG_IGN);
 	while (1)
 	{
 		if (waitpid(files->id[i++], NULL, 0) == -1)
 			break ;
 	}
+	signal(SIGINT, signal_handler);
 }
 
 void	exec(t_list *com, t_files *files, char **paths)

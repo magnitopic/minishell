@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 15:38:54 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 11:40:33 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+/**
+ * Deletes all heredoc temp files
+*/
 void	there_doc(void)
 {
 	char	*file_name;
@@ -35,6 +38,9 @@ void	there_doc(void)
 	}
 }
 
+/**
+ * Creates the temp files that heredoc needs to function. /tmp/.heredoc_*
+*/
 static char	*create_file(char *str)
 {
 	char	*file_name;

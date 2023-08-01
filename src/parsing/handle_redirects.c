@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirects.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 19:46:14 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 11:36:16 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	handle_redirects(char *str, t_redi **redi, t_list **tokens)
 		str = heredoc(str);
 	if (flag != 5)
 		ft_newcommand(redi, str, flag);
-	else
-		ft_
+/* 	else
+		ft_ */
 	return (0);
 }
