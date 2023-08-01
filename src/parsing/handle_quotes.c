@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 16:39:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/01 18:04:23 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ char	*split_quotes(char *input)
 		}
 	}
 	while (ft_strchr(v.parsed, '$') != NULL
-		&& ft_isalpha(v.parsed[find_dollar_pos(v.parsed, 0) + 1]) && c != '\'')
+		&& (ft_isalpha(v.parsed[find_dollar_pos(v.parsed, 0) + 1])
+			|| v.parsed[find_dollar_pos(v.parsed, 0) + 1] == '?')
+		&& c != '\'')
 		v.parsed = add_values(v.parsed);
 	return (v.parsed);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 16:19:03 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/01 18:11:46 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_list	*find_name_vars(char *var)
 	vars = NULL;
 	while (var[n])
 	{
-		if (var[n] == '$' && var[n + 1] && ft_isalpha(var[n + 1]))
+		if (var[n] == '$' && var[n + 1] && (ft_isalpha(var[n + 1]) || var[n + 1] == '?'))
 		{
 			if (!var[n + 1])
 			{
@@ -31,7 +31,7 @@ static t_list	*find_name_vars(char *var)
 				break ;
 			}
 			i.st = n + 1;
-			while (var[++n + 1] && ft_isalpha(var[n + 1]))
+			while (var[++n + 1] && (ft_isalpha(var[n + 1]) || var[n + 1] == '?'))
 				i.len++;
 			ft_lstadd_new(&vars, ft_substr(var, i.st, ++i.len));
 			i.len = 0;
@@ -86,7 +86,9 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 	{
 		if (!ft_strcmp(vars->content, "?"))
 		{
-			v.path = ft_substr("0", 0, 1);		// TODO: Crear una función que nos retorne de manera correcta el código de exit de la ejecución anterior;
+			ft_printf("int: %d\n", g_shell->exit_stat);
+			printf("WTF: %s\n", ft_itoa(g_shell->exit_stat));
+			v.path = ft_itoa(g_shell->exit_stat);
 			return (v.path);
 		}
 		v.path = get_var_value(vars->content);

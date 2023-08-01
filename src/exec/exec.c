@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/01 17:51:37 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 18:19:55 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_files	*execute_pipes(t_command *input, char **paths, t_files *files, int i)
 void	wait_function(t_files *files)
 {
 	int	i;
+	int	status;
 
 	i = 0;
 	signal(SIGINT, SIG_IGN);
@@ -108,6 +109,10 @@ void	wait_function(t_files *files)
 		if (waitpid(files->id[i++], NULL, 0) == -1)
 			break ;
 	}
+	if (WTERMSIG(status))
+		g_shell->exit_stat = WTERMSIG(status);
+	if (WIFSIGNALED(status))
+		g_shell->exit_stat = WTERMSIG(status) + 128;
 	signal(SIGINT, signal_handler);
 }
 
