@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 15:16:15 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 18:32:48 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ static t_list	*delete_emptiness(t_list *list)
 	aux = list;
 	list_cpy = NULL;
 	temp = "";
-	while (aux != NULL)
+	while (list != NULL)
 	{
 		if (temp && ft_strlen(temp) > 0)
 			temp = NULL;
-		temp = ft_strtrim(aux->content, " 	");
+		temp = ft_strtrim(list->content, " 	");
 		if (ft_strlen(temp) >= 1)
 			ft_lstadd_new(&list_cpy, temp);
 		else
 			(free(temp), temp = NULL);
-		aux = aux->next;
+		list = list->next;
 	}
-	free_lists(&list);
+	free_lists(&aux);
 	return (list_cpy);
 }
 
@@ -84,11 +84,13 @@ static int	split_commands(char *input, t_list **com)
 */
 static t_command	*structure(t_list *tokens)
 {
-	t_command		*new_list;
-	int				i;
-	char			*str;
+	t_command	*new_list;
+	int			i;
+	char		*str;
+	t_list		*aux;
 
 	i = 0;
+	aux = tokens;
 	new_list = ft_calloc(1, sizeof(t_command));
 	while (tokens)
 	{
@@ -101,6 +103,7 @@ static t_command	*structure(t_list *tokens)
 			ft_lstadd_new(&new_list->args, str);
 		tokens = tokens->next;
 	}
+	free_lists(&aux);
 	return (new_list);
 }
 
