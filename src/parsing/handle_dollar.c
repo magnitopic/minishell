@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 18:11:46 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:32:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 	{
 		if (!ft_strcmp(vars->content, "?"))
 		{
-			ft_printf("int: %d\n", g_shell->exit_stat);
-			printf("WTF: %s\n", ft_itoa(g_shell->exit_stat));
 			v.path = ft_itoa(g_shell->exit_stat);
 			return (v.path);
 		}

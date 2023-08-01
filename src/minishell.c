@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 11:38:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:31:16 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char **env)
 	output = dup(STDOUT_FILENO);
 	g_shell = malloc(sizeof(t_shell));
 	g_shell->env = cpy_env(env);
+	g_shell->exit_stat = 0;
 	if (!g_shell->env[0])
 	{
 		ft_putstr_fd("\033[0;31mError: No environment provided\033[0;\n", 2);

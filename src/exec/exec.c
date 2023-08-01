@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/01 18:19:55 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:34:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,29 @@ t_files	*execute_pipes(t_command *input, char **paths, t_files *files, int i)
 
 void	wait_function(t_files *files)
 {
-	int	i;
-	int	status;
+	int		i;
+	int		status;
+	pid_t	result;
 
 	i = 0;
 	signal(SIGINT, SIG_IGN);
 	while (1)
 	{
-		if (waitpid(files->id[i++], NULL, 0) == -1)
+		result = waitpid(files->id[i++], &status, 0);
+		if (result == -1)
+		{
+			if (errno == ECHILD)
+				break ;
+			perror("waitpid");
 			break ;
+		}
 	}
-	if (WTERMSIG(status))
-		g_shell->exit_stat = WTERMSIG(status);
-	if (WIFSIGNALED(status))
+	if (WIFEXITED(status))
+		g_shell->exit_stat = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
 		g_shell->exit_stat = WTERMSIG(status) + 128;
+	else
+		g_shell->exit_stat = 1;
 	signal(SIGINT, signal_handler);
 }
 
