@@ -3,37 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 19:31:16 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:27:04 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	**put_path(char **paths)
-{
-	char	*line;
-	int		y;
-	char	**env;
-
-	y = 0;
-	env = g_shell->env;
-	while (env[y] != NULL && ft_strncmp("PATH=", env[y], 5) != 0)
-		y++;
-	line = ft_calloc(ft_strlen(env[y]) - 4, sizeof(char));
-	if (!line)
-		ft_perror("malloc");
-	ft_strlcpy(line, env[y] + 5, ft_strlen(env[y]) - 4);
-	paths = ft_split(line, ':');
-	if (!paths)
-		ft_perror("split");
-	free(line);
-	return (paths);
-}
-
-static void	user_input(char **paths, int in, int out)
+static void	user_input(int in, int out)
 {
 	char	*input;
 	char	*aux;
@@ -50,7 +29,7 @@ static void	user_input(char **paths, int in, int out)
 	if (ft_strlen(input) != 0)
 	{
 		add_history(input);
-		parsing(input, paths);
+		parsing(input);
 	}
 	free(input);
 	free(g_shell->prompt);
@@ -58,7 +37,6 @@ static void	user_input(char **paths, int in, int out)
 
 int	main(int argc, char **argv, char **env)
 {
-	char	**paths;
 	int		input;
 	int		output;
 
@@ -73,13 +51,11 @@ int	main(int argc, char **argv, char **env)
 		ft_putstr_fd("\033[0;31mError: No environment provided\033[0;\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	paths = put_path(NULL);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
-		user_input(paths, input, output);
+		user_input(input, output);
 	close(input);
 	close(output);
-	free_matrix(paths);
 	return (0);
 }

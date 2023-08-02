@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 16:53:03 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:31:19 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,36 +70,41 @@ t_files	*create_files(t_command *input, t_files *files)
 	return (files);
 }
 
-char	*check_param(char *argv)
+char	**get_paths(void)
 {
-	char	*str;
-	//char	**aux;
+	char	*line;
+	int		y;
+	char	**env;
+	char	**paths;
 
-	str = NULL;
-	if (!argv)
-		argv = ft_substr("echo", 0, 4);
-	else
-		str = argv;
-	/*ft_printf("arg: %s|\n", argv);
-	aux = ft_split(argv, ' ');
-	if (!aux)
-	{
-		str = ft_substr(argv, 0, ft_strlen(argv));      // ! He eliminado esta función porque creo que es useless
-		free_matrix(aux);
-		return (str);
-	}
-	str = ft_substr(aux[0], 0, ft_strlen(aux[0]));
-	free_matrix(aux);*/
-	return (str);
+	y = 0;
+	env = g_shell->env;
+	while (env[y] != NULL && ft_strncmp("PATH=", env[y], 5) != 0)
+		y++;
+	if (env[y] == NULL)
+		return (NULL);
+	line = ft_calloc(ft_strlen(env[y]) - 4, sizeof(char));
+	if (!line)
+		ft_perror("malloc");
+	ft_strlcpy(line, env[y] + 5, ft_strlen(env[y]) - 4);
+	paths = ft_split(line, ':');
+	if (!paths)
+		ft_perror("split");
+	free(line);
+	return (paths);
 }
 
-char	*find_command(char *argv, char **paths)
+char	*find_command(char *argv)
 {
 	char	*str;
 	char	*temp;
 	char	*aux;
+	char	**paths;
 
 	//argv = check_param(argv);
+	paths = get_paths();
+	if (paths == NULL)
+		return (NULL);
 	if (access(argv, F_OK) == 0 && !check_builtin_str(argv)
 		&& !check_path(argv, paths))
 		return (argv);

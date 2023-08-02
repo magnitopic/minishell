@@ -6,13 +6,13 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/02 15:41:35 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:19:43 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_files	*execute_first(t_command *input, char **paths, t_files *files)
+t_files	*execute_first(t_command *input, t_files *files)
 {
 	pipe(files->fd);
 	ft_lstadd_new(&files->file_d, files->fd);
@@ -24,7 +24,7 @@ t_files	*execute_first(t_command *input, char **paths, t_files *files)
 			files = create_files(input, files);
 		if (!files)
 			return (files);
-		files->command = find_command(input->comm, paths);
+		files->command = find_command(input->comm);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
 			read_infile(files->read, 1);
@@ -39,7 +39,7 @@ t_files	*execute_first(t_command *input, char **paths, t_files *files)
 	return (files);
 }
 
-t_files	*execute_final(t_command *input, char **paths, t_files *files)
+t_files	*execute_final(t_command *input, t_files *files)
 {
 	files->id[files->count - 1] = fork();
 	if (files->id[files->count - 1] == 0)
@@ -50,7 +50,7 @@ t_files	*execute_final(t_command *input, char **paths, t_files *files)
 			return (NULL);
 		if (files->fd[0] != 0 && files->fd)
 			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
-		files->command = find_command(input->comm, paths);
+		files->command = find_command(input->comm);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
 			read_infile(files->read, 1);
@@ -64,7 +64,7 @@ t_files	*execute_final(t_command *input, char **paths, t_files *files)
 	return (files);
 }
 
-t_files	*execute_pipes(t_command *input, char **paths, t_files *files, int i)
+t_files	*execute_pipes(t_command *input, t_files *files, int i)
 {
 	int			*fd;
 
@@ -80,7 +80,7 @@ t_files	*execute_pipes(t_command *input, char **paths, t_files *files, int i)
 			return (files);
 		if (files->fd[0] != 0)
 			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
-		files->command = find_command(input->comm, paths);
+		files->command = find_command(input->comm);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
 			read_infile(files->read, 1);
@@ -125,7 +125,7 @@ void	wait_function(t_files *files)
 	signal(SIGINT, signal_handler);
 }
 
-void	exec(t_list *com, t_files *files, char **paths)
+void	exec(t_list *com, t_files *files)
 {
 	t_list	*aux;
 	int		i;
@@ -139,24 +139,24 @@ void	exec(t_list *com, t_files *files, char **paths)
 	if ((!com->next && check_builtin(com->content)) || !com->content)
 		exec_one_builtin(com->content, files);
 	else if (files->count == 1)
-		execute_final(com->content, paths, files);
+		execute_final(com->content, files);
 	else if (files->count == 2)
 	{
-		files = execute_first(com->content, paths, files);
+		files = execute_first(com->content, files);
 		com = com->next;
-		execute_final(com->content, paths, files);
+		execute_final(com->content, files);
 	}
 	else if (files->count > 2)
 	{
-		files = execute_first(com->content, paths, files);
+		files = execute_first(com->content, files);
 		com = com->next;
 		while (com->next)
 		{
-			files = execute_pipes(com->content, paths, files, i);
+			files = execute_pipes(com->content, files, i);
 			i++;
 			com = com->next;
 		}
-		execute_final(com->content, paths, files);
+		execute_final(com->content, files);
 	}
 	wait_function(files);
 	there_doc();
@@ -164,14 +164,13 @@ void	exec(t_list *com, t_files *files, char **paths)
 	free_files(files);
 }
 
-/* static void	print_commands(t_command *input, char **paths)
+/* static void	print_commands(t_command *input)
 {
 	t_redi	*aux;
 	t_list	*aux_two;
 
 	aux = input->redi;
 	aux_two = input->args;
-	((void)paths, (void)env);
 	if (input->comm)
 	{
 		printf("command: %s\n", input->comm);

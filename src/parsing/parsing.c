@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 18:32:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:20:00 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static t_command	*structure(t_list *tokens)
  * Main parsing function which will call all other functions needed for parsing.
  * Once finished, the parsed input will be passed on to the `exec` function.
 */
-void	parsing(char *input, char **paths)
+void	parsing(char *input)
 {
 	t_list	*commands;
 	t_list	*aux;
@@ -134,5 +134,5 @@ void	parsing(char *input, char **paths)
 		aux->content = structure(aux->content);
 		aux = aux->next;
 	}
-	exec(commands, files, paths);
+	exec(commands, files);
 }
