@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:36:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 19:38:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:20:07 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,16 @@ typedef struct s_vars
 	char	*other_aux;
 	char	**arr;
 }	t_vars;
+
+/**
+ * For parsing. Let's us know if the content had quotes or not
+*/
+typedef struct s_tokens
+{
+	char			*content;
+	int				flag;
+	struct s_tokens	*next;
+}	t_tokens;
 
 /**
  * Struct for storing redirects

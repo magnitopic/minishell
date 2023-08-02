@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 18:04:23 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:42:57 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*split_quotes(char *input)
 	v.n = 0;
 	v.st = 0;
 	v.parsed = count_quotes(c, v.n, v.st, input);
+	//ft_printf("input: %s\n", input);
 	while (input[v.n])
 	{
 		if ((input[v.n] == '\'' || input[v.n] == '"') && c == 1)

@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 17:23:48 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:35:58 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char			*get_var_value(char *name);
 int				find_dollar_pos(char *str, int pos);
 char			*add_values(char *command);
 char			*split_quotes(char *input);
-t_list			*expand_values(t_list *args);
+t_tokens		*expand_values(t_list *old_args);
 void			parsing(char *input);
 int				handle_redirects(char *str, t_redi **redi, t_list **tokens);
 /* BuiltIn Functions */
