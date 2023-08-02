@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 19:46:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:29:26 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int				read_infile(t_redi *read, int num);
 int				write_outfile(t_redi *write);
 int				exec_cmd(t_command *input, t_files *files, int flag);
 int				check_builtin(t_command *input);
+int				check_builtin_str(char *str);
+int				check_path(char *str, char **paths);
 /* Parsing functions */
 t_list			*split_words(char *str);
 enum e_quotes	check_flag(char *str, int n);
