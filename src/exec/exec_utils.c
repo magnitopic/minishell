@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 15:43:36 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:53:03 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,23 @@ t_files	*create_files(t_command *input, t_files *files)
 char	*check_param(char *argv)
 {
 	char	*str;
-	char	**aux;
+	//char	**aux;
 
+	str = NULL;
 	if (!argv)
 		argv = ft_substr("echo", 0, 4);
+	else
+		str = argv;
+	/*ft_printf("arg: %s|\n", argv);
 	aux = ft_split(argv, ' ');
 	if (!aux)
 	{
-		str = ft_substr(argv, 0, ft_strlen(argv));
+		str = ft_substr(argv, 0, ft_strlen(argv));      // ! He eliminado esta función porque creo que es useless
 		free_matrix(aux);
 		return (str);
 	}
 	str = ft_substr(aux[0], 0, ft_strlen(aux[0]));
-	free_matrix(aux);
+	free_matrix(aux);*/
 	return (str);
 }
 
@@ -95,12 +99,10 @@ char	*find_command(char *argv, char **paths)
 	char	*temp;
 	char	*aux;
 
-	argv = check_param(argv);
-	if (access(argv, F_OK) == 0 && !check_builtin_str(argv) && !check_path(argv, paths))
-	{
-		ft_printf("ey: %s\n", argv);
+	//argv = check_param(argv);
+	if (access(argv, F_OK) == 0 && !check_builtin_str(argv)
+		&& !check_path(argv, paths))
 		return (argv);
-	}
 	while (*paths != NULL)
 	{
 		aux = ft_strjoin(*paths, "/");
