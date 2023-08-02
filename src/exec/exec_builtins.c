@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:27:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 16:27:45 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 14:54:08 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	exec_cmd(t_command *input, t_files *files, int flag)
 		execve(files->command, files->arr, g_shell->env);
 		dup2(1, STDOUT_FILENO);
 		ft_putstr_fd("\033[0;31mCommand not found\033[0m\n", STDERR_FILENO);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	return (0);
 }
