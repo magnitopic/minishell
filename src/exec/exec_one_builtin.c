@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:39:49 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 17:26:42 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:41:08 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exec_one_builtin(t_command *input, t_files *files)
 	if (files->read->content)
 		num = read_infile(files->read, 0);
 	if (files->write->content)
-		write_outfile(files->write);
+		write_outfile(files->write, 0);
 	if (num != 0)
 		exec_cmd(input, files, 0);
 }

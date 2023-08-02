@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 15:29:26 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:40:57 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char			*check_param(char *argv);
 char			*find_command(char *argv, char **paths);
 void			exec_one_builtin(t_command *input, t_files *files);
 int				read_infile(t_redi *read, int num);
-int				write_outfile(t_redi *write);
+int				write_outfile(t_redi *write, int num);
 int				exec_cmd(t_command *input, t_files *files, int flag);
 int				check_builtin(t_command *input);
 int				check_builtin_str(char *str);

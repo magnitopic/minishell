@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/02 14:53:45 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:41:35 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_files	*execute_first(t_command *input, char **paths, t_files *files)
 			read_infile(files->read, 1);
 		files->read->content = NULL;
 		if (files->write->content)
-			write_outfile(files->write);
+			write_outfile(files->write, 1);
 		else
 			(dup2(files->fd[1], STDOUT_FILENO), close(files->fd[1]));
 		exec_cmd(input, files, 1);
@@ -56,7 +56,7 @@ t_files	*execute_final(t_command *input, char **paths, t_files *files)
 			read_infile(files->read, 1);
 		files->read->content = NULL;
 		if (files->write->content)
-			write_outfile(files->write);
+			write_outfile(files->write, 1);
 		exec_cmd(input, files, 1);
 	}
 	close(files->fd[0]);
@@ -86,7 +86,7 @@ t_files	*execute_pipes(t_command *input, char **paths, t_files *files, int i)
 			read_infile(files->read, 1);
 		files->read->content = NULL;
 		if (files->write->content)
-			write_outfile(files->write);
+			write_outfile(files->write, 1);
 		else
 			(dup2(fd[1], STDOUT_FILENO), close(fd[1]));
 		exec_cmd(input, files, 1);

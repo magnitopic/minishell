@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 15:28:17 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:43:36 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 {
 	if (flag == 1 || flag == 3)
 	{
-		if (flag == 1)
-			unlink(name);
-		open(name, O_CREAT, 0644);
+		/*if (flag == 1)
+			unlink(name);*/
+		if (access(name, F_OK))
+			open(name, O_CREAT, 0644);
 		files->write->content = ft_substr(name, 0, ft_strlen(name));
 		files->write->type = flag;
 	}
