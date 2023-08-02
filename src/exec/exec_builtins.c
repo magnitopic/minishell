@@ -6,11 +6,36 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:27:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 14:54:08 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:31:49 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	check_path(char *str, char **paths)
+{
+	int		n;
+	char	*temp;
+	char	*aux;
+
+	n = 0;
+	str = NULL;
+	while (paths[n])
+	{
+		temp = ft_strjoin(paths[n], "/");
+		aux =  ft_strjoin(temp, str);
+		if (access(aux, F_OK) == 0)
+		{
+			free(temp);
+			free(aux);
+			return (0);
+		}
+		free(temp);
+		free(aux);
+		n++;
+	}
+	return (1);
+}
 
 int	exec_cmd(t_command *input, t_files *files, int flag)
 {
@@ -57,6 +82,27 @@ int	check_builtin(t_command *input)
 	else if (ft_strcmp(input->comm, "pwd") == 0)
 		return (1);
 	else if (ft_strcmp(input->comm, "unset") == 0)
+		return (1);
+	return (0);
+}
+
+int	check_builtin_str(char *str)
+{
+	if (!str)
+		return (1);
+	if (ft_strcmp(str, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(str, "echo") == 0)
+		return (1);
+	else if (ft_strcmp(str, "env") == 0)
+		return (1);
+	else if (ft_strcmp(str, "exit") == 0)
+		return (1);
+	else if (ft_strcmp(str, "export") == 0)
+		return (1);
+	else if (ft_strcmp(str, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(str, "unset") == 0)
 		return (1);
 	return (0);
 }

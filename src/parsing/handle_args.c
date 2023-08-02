@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/28 17:44:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:09:29 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,15 @@ static char	*join_phrases(t_list *list)
 	char	*str;
 	char	*aux;
 
-	str = ft_strtrim(list->content, " 	");
+	//str = ft_strtrim(list->content, " 	");
+	str = list->content;
 	while (list->next)
 	{
 		list = list->next;
 		aux = str;
 		if (list->content && ft_strtrim(list->content, " 	") != NULL)
-			str = ft_strjoin(str, ft_strtrim(list->content, " 	"));
+			//str = ft_strjoin(str, ft_strtrim(list->content, " 	"));    // ! Si hay segfault, seguramente sea porque hemos cambiado esto recientemente
+			str = ft_strjoin(str, list->content);
 		free(aux);
 	}
 	return (str);
