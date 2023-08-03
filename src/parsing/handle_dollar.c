@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 19:32:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:55:17 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../include/minishell.h"
 
 #include "../../include/minishell.h"
 
