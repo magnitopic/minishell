@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 18:59:53 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 13:05:28 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,35 +64,11 @@ static char	*join_phrases(t_list *list)
 		list = list->next;
 		aux = str;
 		if (list->content && ft_strtrim(list->content, " 	") != NULL)
-			//str = ft_strjoin(str, ft_strtrim(list->content, " 	"));    // ! Si hay segfault, seguramente sea porque hemos cambiado esto recientemente
+			//str = ft_strjoin(str, ft_strtrim(list->content, " 	"));	// ! Si hay segfault, seguramente sea porque hemos cambiado esto recientemente
 			str = ft_strjoin(str, list->content);
 		free(aux);
 	}
 	return (str);
-}
-
-void	ft_lstadd_token(t_tokens **token, char *str)
-{
-	t_tokens	*new_node;
-
-	new_node = (t_tokens *)(ft_lstnew(str));
-	if (!*token)
-		*token = new_node;
-	else
-		ft_lstadd_back((t_list **)token, (t_list *)new_node);
-}
-
-t_tokens	*list_to_token(t_list *lst)
-{
-	t_tokens	*tok;
-
-	tok = NULL;
-	while (lst)
-	{
-		ft_lstadd_token(&tok, lst->content);
-		lst = lst->next;
-	}
-	return (tok);
 }
 
 t_tokens	*expand_values(t_list *old_args)
@@ -103,13 +79,7 @@ t_tokens	*expand_values(t_list *old_args)
 	char		*str_aux;
 
 	args = list_to_token(old_args);
-	ft_printf("size: %d\n", ft_lstsize((t_list *)args));
 	aux = args;
-	while ((t_list *)args)
-	{
-		ft_printf("jamon\n"); // ! Esto peta y hay que cambiarlo
-		args = args->next;
-	}
 	splitted = NULL;
 	while (args)
 	{
@@ -122,11 +92,10 @@ t_tokens	*expand_values(t_list *old_args)
 		}
 		quote_split(str_aux, &splitted);
 		parse_phrase(&splitted);
-		args->content = join_phrases(splitted);
+		args->content = join_phrases(splitted); // TODO: Modify so that redirects are not joined
 		(free_lists(&splitted), splitted = NULL);
-		ft_printf("%s\n", args->content);
-		if (args->next)
-			args = args->next;
+		ft_printf("%s\n", args->content); // TODO: remove
+		args = args->next;
 	}
 	return (aux);
 }

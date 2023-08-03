@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 18:35:58 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:01:33 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int				check_builtin_str(char *str);
 int				check_path(char *str, char **paths);
 char			**get_path(void);
 /* Parsing functions */
+t_tokens		*list_to_token(t_list *lst);
 t_list			*split_words(char *str);
 enum e_quotes	check_flag(char *str, int n);
 int				check_unclosed_quotes(char *input);

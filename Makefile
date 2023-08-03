@@ -15,6 +15,7 @@ SHELL_SRC	=	src/utils.c \
 				src/exec/exec_utils.c \
 				src/exec/exec_one_builtin.c \
 				src/parsing/parsing.c \
+				src/parsing/t_tokens.c \
 				src/parsing/handle_args.c \
 				src/parsing/split_words.c \
 				src/parsing/handle_dollar.c \

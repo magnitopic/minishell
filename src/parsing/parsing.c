@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 18:46:30 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:19:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static t_command	*structure(t_list *tokens)
 	t_command	*new_list;
 	int			i;
 	char		*str;
-	t_list		*aux;
+	t_list	*aux;
 
 	i = 0;
 	aux = tokens;
