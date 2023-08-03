@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirects.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 16:42:37 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:59:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,33 @@ static enum e_redirect	flag_redi(char *str)
 		return (APPEND);
 	else
 		return (BAD_INPUT);
+}
+
+int	check_redis(t_list *com)
+{
+	t_list	*commands;
+	t_redi	*redis;
+
+	commands = com;
+	while(commands)
+	{
+		redis = ((t_command *)commands->content)->redi;
+		while((t_command *)redis)
+		{
+			if (redis->type == 0
+				|| redis->type == 2)
+			{
+				if (open(redis->content, O_RDONLY) < 0)
+				{
+					g_shell->exit_stat = 1;
+					return (ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2), 0);
+				}
+			}
+		redis = redis->next;
+		}
+	commands = commands->next;
+	}
+	return (1);
 }
 
 int	handle_redirects(char *str, t_redi **redi, t_tokens **tokens)

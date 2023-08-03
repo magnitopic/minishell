@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 17:50:27 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:37:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,20 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 	{
 		if (access(name, F_OK))
 			open(name, O_CREAT, 0644);
+		if (files->write->content)
+			free(files->write->content);
 		files->write->content = ft_substr(name, 0, ft_strlen(name));
 		files->write->type = flag;
 	}
 	else if (flag == 0 || flag == 2)
 	{
+		if (open(name, O_RDONLY) < 0)
+		{
+			g_shell->exit_stat = 1;
+			return (ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2), files);
+		}
+		if (files->read->content)
+			free(files->read->content);
 		files->read->content = ft_substr(name, 0, ft_strlen(name));
 		files->read->type = flag;
 	}
@@ -103,10 +112,12 @@ char	*find_command(char *argv)
 	if (paths == NULL)
 		return (NULL);
 	if (access(argv, F_OK) == 0 && !check_builtin_str(argv)
-		&& !check_path(argv, paths))
+		&& check_path(argv, paths))
 		return (argv);
 	while (*paths != NULL)
 	{
+		if (access(argv, F_OK) == 0 && argv[0] == '/')
+			return (argv);
 		aux = ft_strjoin(*paths, "/");
 		temp = ft_strjoin(aux, argv);
 		if (access(temp, F_OK) == 0)

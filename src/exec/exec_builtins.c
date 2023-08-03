@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:27:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 17:37:38 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:22:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@ int	check_path(char *str, char **paths)
 	char	*aux;
 
 	n = 0;
-	str = NULL;
 	while (paths[n])
 	{
-		if (access(aux, F_OK) == 0)
-			return (0);
 		temp = ft_strjoin(paths[n], "/");
 		aux =  ft_strjoin(temp, str);
 		if (access(aux, F_OK) == 0)
