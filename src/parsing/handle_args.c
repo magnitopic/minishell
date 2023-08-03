@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 15:10:00 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:10:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,55 +37,50 @@ static void	quote_split(char *str, t_list **splitted)
 	free(str);
 }
 
-static t_tokens	*parse_phrase(t_list *list)
+static t_tokens	*parse_phrase(t_list **list) // Lista con quotes spliteados
 {
-	char		*str_aux;
 	t_list		*aux;
 	t_tokens	*tokens;
 
-	aux = list;
+	aux = *list;
+	tokens = NULL;
 	while (aux)
 	{
-		str_aux = aux->content;
-		ft_lstadd_tokens(&tokens, split_quotes(aux->content));
-		free(str_aux);
+		ft_addnew_token(&tokens, split_quotes(aux->content));
 		aux = aux->next;
 	}
+	free_lists(list);
 	return (tokens);
 }
 
-static t_tokens	*join_phrases(t_list *list)
+static char	*join_phrases(t_list *list)
 {
-	char		*str;
-	char		*aux;
-	t_tokens	*tok;
+	char	*str;
+	char	*aux;
 
-	//str = ft_strtrim(list->content, " 	");
 	str = list->content;
 	while (list->next)
 	{
 		list = list->next;
 		aux = str;
 		if (list->content && ft_strtrim(list->content, " 	") != NULL)
-			//str = ft_strjoin(str, ft_strtrim(list->content, " 	"));	// ! Si hay segfault, seguramente sea porque hemos cambiado esto recientemente
 			str = ft_strjoin(str, list->content);
 		free(aux);
 	}
 	return (str);
 }
 
-t_tokens	*expand_values(t_list *old_args)
+t_list	*expand_values(t_list *args)
 {
 	t_list		*splitted;
-	t_tokens	*aux;
-	t_tokens	*args;
+	t_list		*aux;
 	char		*str_aux;
 
-	args = list_to_token(old_args);
 	aux = args;
 	splitted = NULL;
 	while (args)
 	{
+		ft_printf("value: |%s|\n", args->content);
 		str_aux = ft_strtrim(args->content, " 	");
 		while (!args->content || ft_strlen(str_aux) < 1)
 		{
@@ -94,9 +89,8 @@ t_tokens	*expand_values(t_list *old_args)
 			str_aux = ft_strtrim(args->content, " 	");
 		}
 		quote_split(str_aux, &splitted);
-		args = parse_phrase(splitted);
-		ft_printf("ey: %s\n", args->content); // TODO: remove
-		args = join_phrases(args); // TODO: Modify so that redirects are not joined
+		aux->content = parse_phrase(&splitted);
+		aux->content = join_phrases(aux->content);
 		(free_lists(&splitted), splitted = NULL);
 		args = args->next;
 	}

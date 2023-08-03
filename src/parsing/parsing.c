@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 14:40:25 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:09:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,9 @@ static t_command	*structure(t_list *tokens)
 	new_list = ft_calloc(1, sizeof(t_command));
 	while (tokens)
 	{
-		str = tokens->content;
-		if (ft_strchr(str, '<') || ft_strchr(str, '>'))
+		str = ((t_tokens *)tokens->content)->content;
+		if ((ft_strchr(str, '<') || ft_strchr(str, '>'))
+			&& ((t_tokens *)tokens->content)->flag == 0)
 			handle_redirects(str, &(new_list->redi), &tokens);
 		else if (i++ == 0)
 			new_list->comm = str;

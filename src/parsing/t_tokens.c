@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_tokens.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 11:50:58 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 14:58:06 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:23:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_tokens	*ft_token_new(char *str, int flag)
 	return (node);
 }
 
-void	ft_lstadd_tokens(t_tokens **tokens, t_tokens *token)
+void	ft_addnew_token(t_tokens **tokens, t_tokens *token)
 {
 	t_tokens	*new_node;
 

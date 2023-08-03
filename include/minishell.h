@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 15:00:23 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:49:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int				find_dollar_pos(char *str, int pos);
 char			*add_values(char *command);
 t_tokens		*split_quotes(char *input);
 void			ft_lstadd_token(t_tokens **token, char *str);
-void			ft_lstadd_tokens(t_tokens **tokens, t_tokens *token);
+void			ft_addnew_token(t_tokens **tokens, t_tokens *token);
 t_tokens		*ft_token_new(char *str, int flag);
-t_tokens		*expand_values(t_list *old_args);
+t_list			*expand_values(t_list *old_args);
 void			parsing(char *input);
 int				handle_redirects(char *str, t_redi **redi, t_list **tokens);
 /* BuiltIn Functions */
