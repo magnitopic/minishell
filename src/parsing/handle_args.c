@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 16:46:32 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:35:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ static char	*join_phrases(t_tokens *list)
 	char	*str;
 	char	*aux;
 
-	str = ft_strtrim(list->content, " 	");
+	str = list->content;
 	while (list->next)
 	{
 		list = list->next;
 		aux = str;
 		if (list->content && ft_strtrim(list->content, " 	") != NULL)
-			str = ft_strjoin(str, ft_strtrim(list->content, " 	"));
+			str = ft_strjoin(str, list->content);
 		free(aux);
 	}
 	return (str);
