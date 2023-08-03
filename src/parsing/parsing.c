@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 16:43:24 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 17:03:14 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,10 @@ void	parsing(char *input)
 	if (check_unclosed_quotes(input))
 		return (ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2));
 	if (!check_invalid_redirects(input))
+	{
+		g_shell->exit_stat = 258;
 		return (ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2));
+	}
 	if (split_commands(input, &commands))
 		return (ft_putstr_fd("\033[0;31mError: Syntax error '|'\033[0;\n", 2));
 	aux = commands;
