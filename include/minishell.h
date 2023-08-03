@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 15:49:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:43:04 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ int				check_unclosed_quotes(char *input);
 char			*get_var_value(char *name);
 int				find_dollar_pos(char *str, int pos);
 char			*add_values(char *command);
-t_tokens		*split_quotes(char *input);
+char			*split_quotes(char *input);
 void			ft_lstadd_token(t_tokens **token, char *str);
 void			ft_addnew_token(t_tokens **tokens, t_tokens *token);
 t_tokens		*ft_token_new(char *str, int flag);
-t_list			*expand_values(t_list *old_args);
+t_tokens		*expand_values(t_list *old_args);
 void			parsing(char *input);
-int				handle_redirects(char *str, t_redi **redi, t_list **tokens);
+int				handle_redirects(char *str, t_redi **redi, t_tokens **tokens);
 /* BuiltIn Functions */
 void			bi_echo(t_command *com, int flag);
 void			bi_exit(t_command *com, int num);

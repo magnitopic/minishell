@@ -6,7 +6,7 @@
 /*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 16:28:10 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:42:37 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static enum e_redirect	flag_redi(char *str)
 		return (BAD_INPUT);
 }
 
-int	handle_redirects(char *str, t_redi **redi, t_list **tokens)
+int	handle_redirects(char *str, t_redi **redi, t_tokens **tokens)
 {
 	enum e_redirect	flag;
 

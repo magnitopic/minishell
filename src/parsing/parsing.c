@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 16:09:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:43:24 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,21 @@ static int	split_commands(char *input, t_list **com)
  * The command elements are split into the actual command, it's arguments and
  * the redirects to and from files
 */
-static t_command	*structure(t_list *tokens)
+static t_command	*structure(t_tokens *tokens)
 {
 	t_command	*new_list;
 	int			i;
 	char		*str;
-	t_list	*aux;
+	t_tokens	*aux;
 
 	i = 0;
 	aux = tokens;
 	new_list = ft_calloc(1, sizeof(t_command));
 	while (tokens)
 	{
-		str = ((t_tokens *)tokens->content)->content;
+		str = tokens->content;
 		if ((ft_strchr(str, '<') || ft_strchr(str, '>'))
-			&& ((t_tokens *)tokens->content)->flag == 0)
+			&& tokens->flag == 0)
 			handle_redirects(str, &(new_list->redi), &tokens);
 		else if (i++ == 0)
 			new_list->comm = str;
@@ -104,7 +104,7 @@ static t_command	*structure(t_list *tokens)
 			ft_lstadd_new(&new_list->args, str);
 		tokens = tokens->next;
 	}
-	free_lists(&aux);
+	//free_lists(&aux); // TODO: funcion free tokens
 	return (new_list);
 }
 

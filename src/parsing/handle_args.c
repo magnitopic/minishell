@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 16:10:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:46:32 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	quote_split(char *str, t_list **splitted)
+static void	quote_split(char *str, t_tokens **splitted)
 {
 	char			len;
 	int				i;
@@ -30,69 +30,73 @@ static void	quote_split(char *str, t_list **splitted)
 			flag = check_flag(str, i + ++len);
 		if (old_flag != NONE)
 			flag = check_flag(str, i + ++len);
-		ft_lstadd_new(splitted, ft_substr(str, i, len));
+		ft_lstadd_token(splitted, ft_substr(str, i, len));
 		i = i + len;
 		old_flag = flag;
 	}
 	free(str);
 }
 
-static t_tokens	*parse_phrase(t_list **list) // Lista con quotes spliteados
+static void	parse_phrase(t_tokens **list)
 {
-	t_list		*aux;
-	t_tokens	*tokens;
+	t_tokens	*aux;
+	char		*str_aux;
 
 	aux = *list;
-	tokens = NULL;
 	while (aux)
 	{
-		ft_addnew_token(&tokens, split_quotes(aux->content));
+		str_aux = aux->content;
+		if (ft_strchr(str_aux, '\'') || ft_strchr(str_aux, '"'))
+			aux->flag = 1;
+		aux->content = split_quotes(aux->content);
+		free(str_aux);
 		aux = aux->next;
 	}
-	free_lists(list);
-	return (tokens);
 }
 
-static char	*join_phrases(t_list *list)
+static char	*join_phrases(t_tokens *list)
 {
 	char	*str;
 	char	*aux;
 
-	str = list->content;
+	str = ft_strtrim(list->content, " 	");
 	while (list->next)
 	{
 		list = list->next;
 		aux = str;
 		if (list->content && ft_strtrim(list->content, " 	") != NULL)
-			str = ft_strjoin(str, list->content);
+			str = ft_strjoin(str, ft_strtrim(list->content, " 	"));
 		free(aux);
 	}
 	return (str);
 }
 
-t_list	*expand_values(t_list *args)
+t_tokens	*expand_values(t_list *args)
 {
-	t_list		*splitted;
-	t_list		*aux;
+	t_tokens	*splitted;
+	t_tokens	*aux;
+	t_tokens	*tok;
 	char		*str_aux;
 
-	aux = args;
+	tok = list_to_token(args);
+	aux = tok;
 	splitted = NULL;
-	while (args)
+	while (aux)
 	{
-		ft_printf("value: |%s|\n", args->content);
-		str_aux = ft_strtrim(args->content, " 	");
-		while (!args->content || ft_strlen(str_aux) < 1)
+		str_aux = ft_strtrim(aux->content, " 	");
+		while (!aux->content || ft_strlen(str_aux) < 1)
 		{
 			free(str_aux);
-			args = args->next;
-			str_aux = ft_strtrim(args->content, " 	");
+			aux = aux->next;
+			str_aux = ft_strtrim(aux->content, " 	");
 		}
 		quote_split(str_aux, &splitted);
-		aux->content = parse_phrase(&splitted);
-		aux->content = join_phrases(aux->content);
-		(free_lists(&splitted), splitted = NULL);
-		args = args->next;
+		parse_phrase(&splitted);
+		aux->flag = splitted->flag;
+		aux->content = join_phrases(splitted);
+		//(free_lists(&splitted), splitted = NULL); // TODO: funcion de free tokens
+		splitted = NULL;
+		aux = aux->next;
 	}
-	return (aux);
+	return (tok);
 }
