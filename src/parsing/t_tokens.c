@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_tokens.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 11:50:58 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 12:02:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/03 14:58:06 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_tokenadd_back(t_tokens **lst, t_tokens *new)
 	}
 }
 
-static t_tokens	*ft_token_new(char *str)
+t_tokens	*ft_token_new(char *str, int flag)
 {
 	t_tokens	*node;
 
@@ -32,16 +32,27 @@ static t_tokens	*ft_token_new(char *str)
 	if (!node)
 		return (NULL);
 	node->content = str;
-	node->flag = 0;
+	node->flag = flag;
 	node->next = NULL;
 	return (node);
+}
+
+void	ft_lstadd_tokens(t_tokens **tokens, t_tokens *token)
+{
+	t_tokens	*new_node;
+
+	new_node = token;
+	if (!*tokens)
+		*tokens = new_node;
+	else
+		ft_tokenadd_back(tokens, new_node);
 }
 
 void	ft_lstadd_token(t_tokens **token, char *str)
 {
 	t_tokens	*new_node;
 
-	new_node = ft_token_new(str);
+	new_node = ft_token_new(str, 0);
 	if (!*token)
 		*token = new_node;
 	else

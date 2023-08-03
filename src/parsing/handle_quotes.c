@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 12:20:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/03 14:59:40 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ static char	*count_quotes(char c, int n, int j, char *input)
 	return (ft_calloc(sizeof(char), (j + 1)));
 }
 
-char	*split_quotes(char *input)
+t_tokens	*split_quotes(char *input)
 {
-	char	c;
-	t_vars	v;
+	char		c;
+	t_vars		v;
+	t_tokens	*args;
 
 	c = 1;
 	v.n = 0;
@@ -65,7 +66,12 @@ char	*split_quotes(char *input)
 	{
 		printf("%c\n", input[v.n]);
 		if ((input[v.n] == '\'' || input[v.n] == '"') && c == 1)
+		{
 			c = input[v.n];
+			args = ft_token_new("", 1);
+		}
+		else
+			args = ft_token_new("", 0);
 		if (input[v.n] != c)
 			v.parsed[v.st++] = input[v.n]; // TODO Fix leak
 		v.n++;
@@ -81,7 +87,9 @@ char	*split_quotes(char *input)
 			|| v.parsed[find_dollar_pos(v.parsed, 0) + 1] == '?')
 		&& c != '\'')
 		v.parsed = add_values(v.parsed);
-	return (v.parsed);
+	args->content = ft_substr(v.parsed, 0, ft_strlen(v.parsed));
+	free(v.parsed);
+	return (args);
 }
 
 enum e_quotes	check_flag(char *str, int pos)

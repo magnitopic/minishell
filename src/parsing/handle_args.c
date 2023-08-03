@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 13:05:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:10:00 by jsarabia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,28 @@ static void	quote_split(char *str, t_list **splitted)
 	free(str);
 }
 
-static void	parse_phrase(t_list **list)
+static t_tokens	*parse_phrase(t_list *list)
 {
-	t_list	*aux;
-	char	*str_aux;
+	char		*str_aux;
+	t_list		*aux;
+	t_tokens	*tokens;
 
-	aux = *list;
+	aux = list;
 	while (aux)
 	{
 		str_aux = aux->content;
-		aux->content = split_quotes(aux->content);
+		ft_lstadd_tokens(&tokens, split_quotes(aux->content));
 		free(str_aux);
 		aux = aux->next;
 	}
+	return (tokens);
 }
 
-static char	*join_phrases(t_list *list)
+static t_tokens	*join_phrases(t_list *list)
 {
-	char	*str;
-	char	*aux;
+	char		*str;
+	char		*aux;
+	t_tokens	*tok;
 
 	//str = ft_strtrim(list->content, " 	");
 	str = list->content;
@@ -91,10 +94,10 @@ t_tokens	*expand_values(t_list *old_args)
 			str_aux = ft_strtrim(args->content, " 	");
 		}
 		quote_split(str_aux, &splitted);
-		parse_phrase(&splitted);
-		args->content = join_phrases(splitted); // TODO: Modify so that redirects are not joined
+		args = parse_phrase(splitted);
+		ft_printf("ey: %s\n", args->content); // TODO: remove
+		args = join_phrases(args); // TODO: Modify so that redirects are not joined
 		(free_lists(&splitted), splitted = NULL);
-		ft_printf("%s\n", args->content); // TODO: remove
 		args = args->next;
 	}
 	return (aux);
