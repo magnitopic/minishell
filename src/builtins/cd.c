@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/04 13:20:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/04 16:16:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static void	update_pwd(void)
 {
 	char	path[PATH_MAX];
 
-	g_shell->pwd = ft_strdup(getcwd(path, sizeof(path)));
+	if (getcwd(path, sizeof(path)) != NULL)
+		g_shell->pwd = ft_strdup(getcwd(path, sizeof(path)));
 }
 
 void	go_home(t_vars v, int num)
