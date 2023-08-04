@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 18:40:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:12:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,8 @@ static t_command	*structure(t_tokens *tokens)
 	t_command	*new_list;
 	int			i;
 	char		*str;
-	t_tokens	*aux;
 
 	i = 0;
-	aux = tokens;
 	new_list = ft_calloc(1, sizeof(t_command));
 	while (tokens)
 	{

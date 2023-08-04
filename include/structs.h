@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:36:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 18:20:07 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:19:50 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_shell
 	char	*prompt;
 	int		exit_stat;
 	char	**env;
+	char	*pwd;
 }	t_shell;
 
 /**

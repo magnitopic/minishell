@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 11:49:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/04 13:19:00 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ void	ft_perror(char *message)
 void	set_prompt(void)
 {
 	char	*aux;
-	char	path[PATH_MAX];
 
-	g_shell->prompt = ft_strjoin(PROMPT1, getcwd(path, sizeof(path)));
+	g_shell->prompt = ft_strjoin(PROMPT1, g_shell->pwd);
 	aux = g_shell->prompt;
 	g_shell->prompt = ft_strjoin(aux, PROMPT2);
 	free(aux);

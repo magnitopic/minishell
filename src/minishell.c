@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 17:27:04 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/04 13:17:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+/**
+ * This function will be called all throughout the lifetime of the program.
+ * It will set the prompt, read the user's input and call the rest of the
+ * program's functions.
+*/
 static void	user_input(int in, int out)
 {
 	char	*input;
@@ -39,12 +44,14 @@ int	main(int argc, char **argv, char **env)
 {
 	int		input;
 	int		output;
+	char	path[PATH_MAX];
 
 	((void)argv, (void)argc);
 	input = dup(STDIN_FILENO);
 	output = dup(STDOUT_FILENO);
 	g_shell = malloc(sizeof(t_shell));
 	g_shell->env = cpy_env(env);
+	g_shell->pwd = ft_strdup(getcwd(path, sizeof(path)));
 	g_shell->exit_stat = 0;
 	if (!g_shell->env[0])
 	{
