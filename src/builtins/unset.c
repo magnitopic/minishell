@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:36 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 11:49:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:39:48 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ static void	find_in_env(char **env, char ***env_cpy, char *str)
 		else
 			substr = ft_strdup(env[i]);
 		if (ft_strcmp(str, substr) != 0)
-		{
-			(*env_cpy)[j] = env[i];
-			j++;
-		}
+			(*env_cpy)[j++] = env[i];
 		i++;
 		free(substr);
 	}
@@ -48,10 +45,13 @@ void	bi_unset(t_command *input, int num)
 	env = cpy_env(g_shell->env);
 	while (args)
 	{
-		env_cpy = ft_calloc(ft_get_matrix_size(env), sizeof(char *));
-		find_in_env(env, &env_cpy, args->content);
-		free(env);
-		env = env_cpy;
+		if (ft_strlen(args->content) != 0)
+		{
+			env_cpy = ft_calloc(ft_get_matrix_size(env) + 1, sizeof(char *));
+			find_in_env(env, &env_cpy, args->content);
+			free(env);
+			env = env_cpy;
+		}
 		args = args->next;
 	}
 	free(g_shell->env);
