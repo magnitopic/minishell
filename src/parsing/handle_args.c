@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 15:29:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:14:56 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,17 @@ static char	*join_phrases(t_tokens *list)
 {
 	char	*str;
 	char	*aux;
+	char	*trim;
 
 	str = list->content;
 	while (list->next)
 	{
 		list = list->next;
 		aux = str;
-		if (list->content && ft_strtrim(list->content, " 	") != NULL)
+		trim = ft_strtrim(list->content, " 	");
+		if (list->content && trim != NULL)
 			str = ft_strjoin(str, list->content);
+		free(trim);
 		free(aux);
 	}
 	return (str);
@@ -93,6 +96,7 @@ t_tokens	*expand_values(t_list *args)
 		quote_split(str_aux, &splitted);
 		parse_phrase(&splitted);
 		aux->flag = splitted->flag;
+		free(aux->content);
 		aux->content = join_phrases(splitted);
 		(free_tokens(&splitted), splitted = NULL);
 		aux = aux->next;

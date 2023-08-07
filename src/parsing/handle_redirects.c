@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 18:59:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:23:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_invalid_redirects(char *str)
 			{
 				if (flag == NO)
 					flag = INPUT;
-				else if (flag == INPUT)
+				else if (flag == INPUT && str[n - 1] == '>')
 					flag = HEREDOC;
 				else
 					return (0);
@@ -38,7 +38,7 @@ int	check_invalid_redirects(char *str)
 			{
 				if (flag == NO)
 					flag = OUTPUT;
-				else if (flag == OUTPUT)
+				else if (flag == OUTPUT && str[n - 1] == '<')
 					flag = APPEND;
 				else
 					return (0);
@@ -74,7 +74,7 @@ int	check_redis(t_list *com)
 	t_redi	*redis;
 
 	commands = com;
-	while(commands)
+	while (commands)
 	{
 		redis = ((t_command *)commands->content)->redi;
 		while((t_command *)redis)
