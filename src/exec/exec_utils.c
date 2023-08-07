@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 18:37:37 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 13:52:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 	{
 		if (access(name, F_OK))
 			open(name, O_CREAT, 0644);
+		if (flag == 1)
+			open(name, O_TRUNC);
 		if (files->write->content)
 			free(files->write->content);
 		files->write->content = ft_substr(name, 0, ft_strlen(name));
