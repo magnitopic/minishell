@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 16:14:56 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:59:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,20 @@ static void	parse_phrase(t_tokens **list)
 
 static char	*join_phrases(t_tokens *list)
 {
-	char	*str;
-	char	*aux;
-	char	*trim;
+	char		*str;
+	char		*aux;
+	char		*trim;
+	t_tokens	*temp;
 
 	str = list->content;
-	while (list->next)
+	temp = list;
+	while (temp->next)
 	{
-		list = list->next;
+		temp = temp->next;
 		aux = str;
-		trim = ft_strtrim(list->content, " 	");
-		if (list->content && trim != NULL)
-			str = ft_strjoin(str, list->content);
+		trim = ft_strtrim(temp->content, " 	");
+		if (temp->content && trim != NULL)
+			str = ft_strjoin(str, temp->content);
 		free(trim);
 		free(aux);
 	}
@@ -96,8 +98,9 @@ t_tokens	*expand_values(t_list *args)
 		quote_split(str_aux, &splitted);
 		parse_phrase(&splitted);
 		aux->flag = splitted->flag;
-		free(aux->content);
+		//free(aux->content);
 		aux->content = join_phrases(splitted);
+		ft_printf("splitted: %s\n", splitted->content);
 		(free_tokens(&splitted), splitted = NULL);
 		aux = aux->next;
 	}

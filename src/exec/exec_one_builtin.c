@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:39:49 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/02 15:41:08 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:55:33 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	exec_one_builtin(t_command *input, t_files *files)
 {
 	int	num;
 
-	num =  1;
+	num = 1;
 	if (input->redi != NULL
 		&& input->redi->type != 4)
 	files = create_files(input, files);

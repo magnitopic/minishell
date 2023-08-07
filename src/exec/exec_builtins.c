@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:27:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 18:22:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:00:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	exec_cmd(t_command *input, t_files *files, int flag)
 		ft_putstr_fd("\033[0;31mCommand not found\033[0m\n", STDERR_FILENO);
 		exit(127);
 	}
+	g_shell->exit_stat = 0;
 	return (0);
 }
 

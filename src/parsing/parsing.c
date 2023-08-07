@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 16:28:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 19:20:22 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
  * The birds had all gone to their nests,
  * And there remained but few of my comrades.
  * I went along the river—alone in the moonlight.
+ * 
+ * FUNCIÓN IMPORTANTE NO BORRAR
 */
-/* static t_list	*delete_emptiness(t_list *list)
+static t_list	*delete_emptiness(t_list *list)
 {
 	t_list	*aux;
 	t_list	*list_cpy;
@@ -43,7 +45,7 @@
 	}
 	free_lists(&aux);
 	return (list_cpy);
-} */
+}
 
 /**
  * This function separates the raw user input onto a list where each element is
@@ -87,11 +89,11 @@ static t_command	*structure(t_tokens *tokens)
 	t_command	*new_list;
 	int			i;
 	char		*str;
-	t_tokens	*aux;
+	//t_tokens	*aux;
 
 	i = 0;
 	new_list = ft_calloc(1, sizeof(t_command));
-	aux = tokens;
+	//aux = tokens;
 	while (tokens)
 	{
 		str = tokens->content;
@@ -104,7 +106,7 @@ static t_command	*structure(t_tokens *tokens)
 			ft_lstadd_new(&new_list->args, str);
 		tokens = tokens->next;
 	}
-	free_tokens(&aux);
+	//free_tokens(&aux);
 	return (new_list);
 }
 
@@ -139,11 +141,13 @@ void	parsing(char *input)
 	while (aux)
 	{
 		aux->content = split_words(aux->content);
-		//aux->content = delete_emptiness(aux->content);
+		aux->content = delete_emptiness(aux->content);
 		aux->content = expand_values(aux->content);
 		aux->content = structure(aux->content);
 		aux = aux->next;
 	}
 	if (check_redis(commands))
 		exec(commands, files);
+	/*else
+		free_commands(commands);*/
 }
