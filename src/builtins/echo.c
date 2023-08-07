@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:01 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/25 18:25:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:05:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ void	bi_echo(t_command *com, int num)
 	t_list	*args;
 	int		flag;
 
-	flag = 0;
-	if (com->comm)
-		flag = 1;
+	flag = 1;
 	if (com->args && com->comm)
 	{
 		args = com->args;
