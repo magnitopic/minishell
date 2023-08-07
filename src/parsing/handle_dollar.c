@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 16:55:17 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/07 14:19:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static t_list	*find_name_vars(char *var)
 	vars = NULL;
 	while (var[n])
 	{
-		if (var[n] == '$' && var[n + 1] && (ft_isalpha(var[n + 1]) || var[n + 1] == '?'))
+		if (var[n] == '$' && var[n + 1] && (ft_isalpha(var[n + 1])
+				|| var[n + 1] == '?' || var[n + 1] == '_'))
 		{
 			if (!var[n + 1])
 			{
@@ -33,7 +34,8 @@ static t_list	*find_name_vars(char *var)
 				break ;
 			}
 			i.st = n + 1;
-			while (var[++n + 1] && (ft_isalpha(var[n + 1]) || var[n + 1] == '?'))
+			while (var[++n + 1] && (ft_isalpha(var[n + 1])
+					|| var[n + 1] == '?' || var[n + 1] == '_'))
 				i.len++;
 			ft_lstadd_new(&vars, ft_substr(var, i.st, ++i.len));
 			i.len = 0;
@@ -89,6 +91,7 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 		if (!ft_strcmp(vars->content, "?"))
 		{
 			v.path = ft_itoa(g_shell->exit_stat);
+			free(command);
 			return (v.path);
 		}
 		v.path = get_var_value(vars->content);
@@ -100,6 +103,7 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 				ft_strlen(command) - ft_strlen(vars->content) \
 				+ ft_strlen(v.path));
 			v.temp = ft_strjoin(v.temp, v.other_aux);
+			free(command);
 			return (v.temp);
 		}
 		else
