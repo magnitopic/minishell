@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 11:50:58 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 15:23:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 14:43:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,14 @@ void	ft_lstadd_token(t_tokens **token, char *str)
 t_tokens	*list_to_token(t_list *lst)
 {
 	t_tokens	*tok;
+	t_list		*aux;
 
 	tok = NULL;
-	while (lst)
+	aux = lst;
+	while (aux)
 	{
-		ft_lstadd_token(&tok, lst->content);
-		lst = lst->next;
+		ft_lstadd_token(&tok, aux->content);
+		aux = aux->next;
 	}
 	return (tok);
 }

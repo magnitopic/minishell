@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:19:36 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/28 15:51:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 15:09:43 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	free_commands(t_list *cmd)
 	while (input)
 	{
 		command = input->content;
-		if (command == NULL)
-			return ;
 		if (command->args != NULL)
 			free_lists(&(command->args));
 		if (command->redi != NULL)
 			free_redi(&command->redi);
+		if (command->comm != NULL)
+			free(command->comm);
 		free(command);
 		input = input->next;
 	}
@@ -62,3 +62,11 @@ void	free_lists(t_list **list)
 	(free(*list), *list = NULL);
 }
 
+void	free_tokens(t_tokens **list)
+{
+	if (*list == NULL)
+		return ;
+	if ((*list)->next != NULL)
+		free_tokens(&(*list)->next);
+	(free(*list), *list = NULL);
+}

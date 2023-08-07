@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarabia <jsarabia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/03 16:56:19 by jsarabia         ###   ########.fr       */
+/*   Updated: 2023/08/07 15:15:04 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ int	check_unclosed_quotes(char *input)
 
 static char	*count_quotes(char c, int n, int j, char *input)
 {
+	char	*str;
+
+	str = NULL;
 	while (input[n])
 	{
 		if ((input[n] == '\'' || input[n] == '"') && c == 1)
@@ -48,7 +51,8 @@ static char	*count_quotes(char c, int n, int j, char *input)
 			c = 1;
 		n++;
 	}
-	return (ft_calloc(sizeof(char), (j + 1)));
+	str = ft_calloc(sizeof(char), (j + 1));
+	return (str);
 }
 
 char	*split_quotes(char *input)

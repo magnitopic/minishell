@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/04 18:58:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 13:06:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,38 @@
 
 /**
  * This functions updates the value on the env but only if it exists.
- * Used in the `cd` builtin to update `PWD` and `OLDPWD` values. When one of
- * these variables are removed 
+ * Used in the `cd` builtin to update `PWD` and `OLDPWD` values. If one of the
+ * variables is unset, it's value in not updated.
 */
 static void	mini_export(char *var, char *value)
 {
-	char	*aux;
-	char	*aux_str;
 	char	*substr;
 	char	**env;
+	char	**aux;
 
-	aux_str = ft_strjoin(var, value);
+	value = ft_strjoin(var, value);
 	env = cpy_env(g_shell->env);
+	aux = env;
+	printf("%s -  %s\n", var, value);
 	while (*env)
 	{
-		aux = ft_strchr(*env, '=');
-		if (aux)
-			substr = ft_substr(*env, 0, ft_strlen(*env) - ft_strlen(aux));
+		substr = ft_strchr(*env, '=');
+		if (substr)
+			substr = ft_substr(*env, 0, ft_strlen(*env) - ft_strlen(substr));
 		else
 			substr = ft_strdup(*env);
-		printf("%s -  %s\n", var, substr);
-		if (ft_strcmp(var, substr) != 0)
+		printf("yes: %s\n", substr);
+		printf("value: %d\n", ft_strcmp(var, substr) != 0);
+		if (ft_strcmp(var, substr) == 0)
 		{
-			*env = aux_str;
+			*env = value;
 			break ;
 		}
 		env++;
 	}
-	free(g_shell->env);
-	g_shell->env = env;
-	free(aux_str);
+	//free(g_shell->env);
+	g_shell->env = aux;
+	free(substr);
 }
 
 static void	update_pwd(void)
@@ -58,53 +60,26 @@ static void	update_pwd(void)
 	}
 }
 
-static void	go_back(t_vars v, int num)
-{
-	v.len = ft_strlen(ft_strrchr(v.pwd, '/'));
-	(free(v.pwd), v.pwd = NULL);
-	v.pwd = ft_substr(v.pwd, 0, ft_strlen(v.pwd) - v.len);
-	chdir(v.pwd);
-	update_pwd();
-	if (num != 0)
-		exit(EXIT_SUCCESS);
-}
-
-static void	final_step(t_list *args, t_vars v, int num)
-{
-	v.aux = ft_strjoin(v.pwd, "/");
-	v.pwd = ft_strjoin(v.aux, args->content);
-	if (access(v.pwd, F_OK) == 0)
-	{
-		chdir(v.pwd);
-		update_pwd();
-		free(v.aux);
-		free(v.pwd);
-	}
-	else
-		perror("cd");
-	if (num != 0)
-		exit(EXIT_SUCCESS);
-}
-
 void	bi_cd(t_command *com, int num)
 {
 	t_list	*args;
-	t_vars	v;
+	char	*pwd;
+	char	*aux;
+	int		stat;
 
 	args = com->args;
-	v.pwd = g_shell->pwd;
+	pwd = g_shell->pwd;
 	if (!args)
 		return ;
-	else if (access(args->content, F_OK) == 0)
-	{
-		chdir(args->content);
+	aux = ft_strjoin(pwd, "/");
+	pwd = ft_strjoin(aux, args->content);
+	stat = chdir(pwd);
+	if (!stat)
 		update_pwd();
-	}
-	else if (args && ft_strncmp(args->content, "..", 2) == 0)
-	{
-		go_back(v, num);
-		if (ft_strlen(args->content) == 2)
-			return ;
-	}
-	final_step(args, v, num);
+	else
+		perror("cd");
+	free(aux);
+	free(pwd);
+	if (num != 0)
+		exit(EXIT_SUCCESS);
 }
