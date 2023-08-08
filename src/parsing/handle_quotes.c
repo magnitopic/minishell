@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:44:40 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/08 11:32:53 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:25:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ char	*split_quotes(char *input)
 			c = input[v.n];
 		if (input[v.n] != c)
 			v.parsed[v.st++] = input[v.n];
-		v.n++;
-		if (input[v.n] == c)
+		if (input[++v.n] == c)
 		{
 			if (c == '"')
 				v.parsed = add_values(v.parsed);

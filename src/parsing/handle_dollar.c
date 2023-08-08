@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 18:12:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:09:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,8 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 	char	*aux;
 
 	i = 0;
-	ft_printf("%s\n", command);
 	while (vars)
 	{
-		ft_printf("%s\n", vars->content);
 		if (!ft_strcmp(vars->content, "?"))
 		{
 			v.path = ft_itoa(g_shell->exit_stat);
@@ -140,6 +138,5 @@ char	*add_values(char *command)
 	vars = find_name_vars(command);
 	v.str = get_string(command, v, vars);
 	free_lists(&vars);
-	printf("Result : |%s|\n", v.str);
 	return (v.str);
 }

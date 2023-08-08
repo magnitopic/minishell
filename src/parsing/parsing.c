@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/08 12:25:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:34:44 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	split_commands(char *input, t_list **com)
 			str = ft_substr(input, old_i, i - old_i);
 			str_trim = ft_strtrim(str, "| ");
 			if ((ft_strlen(str_trim) < 1) || (input[i] == '|' && !input[i + 1]))
-				return (1);
+				return (free(str), free(str_trim), 1);
 			(ft_lstadd_new(com, str_trim), free(str));
 			old_i = i;
 		}
@@ -97,6 +97,7 @@ static t_command	*structure(t_tokens *tokens)
 	while (tokens)
 	{
 		str = tokens->content;
+		//printf("Str: %s\n", str);
 		if ((ft_strchr(str, '<') || ft_strchr(str, '>'))
 			&& tokens->flag == 0)
 			handle_redirects(str, &(new_list->redi), &tokens);
@@ -125,16 +126,19 @@ void	parsing(char *input)
 	if (check_unclosed_quotes(input))
 	{
 		g_shell->exit_stat = 1;
+		free_files(files);
 		return (ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2));
 	}
 	if (!check_invalid_redirects(input))
 	{
 		g_shell->exit_stat = 258;
+		free_files(files);
 		return (ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2));
 	}
 	if (split_commands(input, &commands))
 	{
 		g_shell->exit_stat = 258;
+		free_files(files);
 		return (ft_putstr_fd("\033[0;31mError: Syntax error '|'\033[0;\n", 2));
 	}
 	aux = commands;

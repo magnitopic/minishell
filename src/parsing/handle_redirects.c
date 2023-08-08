@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 16:23:45 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:12:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	check_redis(t_list *com)
 	while (commands)
 	{
 		redis = ((t_command *)commands->content)->redi;
-		while((t_command *)redis)
+		while ((t_command *)redis)
 		{
 			if (redis->type == 0
 				|| redis->type == 2)
@@ -85,7 +85,8 @@ int	check_redis(t_list *com)
 				if (open(redis->content, O_RDONLY) < 0)
 				{
 					g_shell->exit_stat = 1;
-					return (ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2), 0);
+					ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2);
+					return (0);
 				}
 			}
 		redis = redis->next;
