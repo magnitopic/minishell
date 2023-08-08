@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 14:19:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:12:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,17 @@ int	find_dollar_pos(char *str, int pos)
 
 static char	*get_string(char *command, t_vars v, t_list *vars)
 {
-	int	i;
+	int		i;
+	char	*aux;
 
 	i = 0;
+	ft_printf("%s\n", command);
 	while (vars)
 	{
+		ft_printf("%s\n", vars->content);
 		if (!ft_strcmp(vars->content, "?"))
 		{
 			v.path = ft_itoa(g_shell->exit_stat);
-			free(command);
 			return (v.path);
 		}
 		v.path = get_var_value(vars->content);
@@ -102,9 +104,10 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 			v.other_aux = ft_substr(command, i + 1 + ft_strlen(vars->content), \
 				ft_strlen(command) - ft_strlen(vars->content) \
 				+ ft_strlen(v.path));
-			v.temp = ft_strjoin(v.temp, v.other_aux);
-			free(command);
-			return (v.temp);
+			aux = ft_strjoin(v.temp, v.other_aux);
+			free(v.temp);
+			free(v.other_aux);
+			return (aux);
 		}
 		else
 		{
@@ -132,13 +135,11 @@ char	*add_values(char *command)
 	t_list	*vars;
 
 	v.path = NULL;
+	if (ft_strchr(command, '$') == NULL)
+		return (command);
 	vars = find_name_vars(command);
-	if (!vars)
-	{
-		v.str = ft_substr(command, 0, ft_strlen(command));
-		free(command);
-		return (v.str);
-	}
 	v.str = get_string(command, v, vars);
+	free_lists(&vars);
+	printf("Result : |%s|\n", v.str);
 	return (v.str);
 }

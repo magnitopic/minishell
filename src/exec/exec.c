@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/07 19:16:17 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:54:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ void	exec(t_list *com, t_files *files)
 	}
 	if (!check_builtin(com->content))
 		wait_function(files);
-	ft_printf("javi\n");
 	there_doc();
 	free_commands(aux);
 	free_files(files);
