@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:35:51 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 11:32:44 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 19:53:14 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,4 @@ void	ft_newcommand(t_redi **list, void *cont, enum e_redirect type)
 		*list = new_redirect;
 	else
 		ft_add_back_command(list, new_redirect);
-}
-
-void	ft_new_arg()
-{
-	
 }

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 15:00:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/07 19:59:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 		if (open(name, O_RDONLY) < 0)
 		{
 			g_shell->exit_stat = 1;
-			return (ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2), files);
+			ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2);
+			return (files);
 		}
 		if (files->read->content)
 			free(files->read->content);
