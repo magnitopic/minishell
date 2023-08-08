@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/08 16:34:44 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:40:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,33 @@ static t_command	*structure(t_tokens *tokens)
 	return (new_list);
 }
 
+static int	error_handling(char *input, t_files *files, t_list **commands)
+{
+	if (check_unclosed_quotes(input))
+	{
+		g_shell->exit_stat = 1;
+		free_files(files);
+		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
+		return (1);
+	}
+	if (!check_invalid_redirects(input))
+	{
+		g_shell->exit_stat = 258;
+		free_files(files);
+		ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2);
+		return (1);
+	}
+	if (split_commands(input, commands))
+	{
+		g_shell->exit_stat = 258;
+		free(*commands);
+		free_files(files);
+		ft_putstr_fd("\033[0;31mError: Syntax error '|'\033[0;\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
 /**
  * Main parsing function which will call all other functions needed for parsing.
  * Once finished, the parsed input will be passed on to the `exec` function.
@@ -123,24 +150,8 @@ void	parsing(char *input)
 
 	files = ft_calloc(1, sizeof(t_files));
 	commands = NULL;
-	if (check_unclosed_quotes(input))
-	{
-		g_shell->exit_stat = 1;
-		free_files(files);
-		return (ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2));
-	}
-	if (!check_invalid_redirects(input))
-	{
-		g_shell->exit_stat = 258;
-		free_files(files);
-		return (ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2));
-	}
-	if (split_commands(input, &commands))
-	{
-		g_shell->exit_stat = 258;
-		free_files(files);
-		return (ft_putstr_fd("\033[0;31mError: Syntax error '|'\033[0;\n", 2));
-	}
+	if (error_handling(input, files, &commands))
+		return ;
 	aux = commands;
 	while (aux)
 	{
