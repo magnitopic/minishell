@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/04 13:17:36 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 11:54:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ static void	user_input(int in, int out)
 	free(input);
 	free(g_shell->prompt);
 }
+
+/* void	ft_leaks(void)
+{
+	system("Leaks minishell");
+} */
 
 int	main(int argc, char **argv, char **env)
 {

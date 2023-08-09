@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 19:53:35 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/08 12:03:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:56:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	free_files(t_files *file)
 	free_redi(&file->read);
 	//free_matrix(file->arr);
 	free(file->command);
-	free_lists(&(file->file_d));
 	free(file->fd);
 	free(file);
 }
@@ -64,11 +63,11 @@ void	free_commands(t_list *cmd)
 	{
 		command = input->content;
 		if (command->args != NULL)
-			free_lists(&(command->args));
+			(free_lists(&(command->args)), command->args = NULL);
 		if (command->redi != NULL)
-			free_redi(&command->redi);
+			(free_redi(&command->redi), command->redi = NULL);
 		if (command->comm != NULL)
-			free(command->comm);
+			(free(command->comm), command->comm = NULL);
 		free(command);
 		input = input->next;
 	}

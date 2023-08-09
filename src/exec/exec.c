@@ -6,31 +6,30 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/08 11:54:47 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:00:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_files	*execute_first(t_command *input, t_files *files)
+t_files	*execute_first(t_command *input, t_files *files, t_list *com)
 {
 	pipe(files->fd);
-	ft_lstadd_new(&files->file_d, files->fd);
 	files->id[0] = fork();
 	if (files->id[0] == 0)
 	{
 		close(files->fd[0]);
 		if (input->redi && input->redi->type != 4)
-			files = create_files(input, files);
+			files = create_files(input, files, com);
 		if (!files)
 			return (files);
 		files->command = find_command(input->comm);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
-			read_infile(files->read, 1);
+			read_infile(files->read, 1, files, com);
 		files->read->content = NULL;
 		if (files->write->content)
-			write_outfile(files->write, 1);
+			write_outfile(files->write, 1, files, com);
 		else
 			(dup2(files->fd[1], STDOUT_FILENO), close(files->fd[1]));
 		exec_cmd(input, files, 1);
@@ -39,13 +38,13 @@ t_files	*execute_first(t_command *input, t_files *files)
 	return (files);
 }
 
-t_files	*execute_final(t_command *input, t_files *files)
+t_files	*execute_final(t_command *input, t_files *files, t_list *com)
 {
 	files->id[files->count - 1] = fork();
 	if (files->id[files->count - 1] == 0)
 	{
 		if (input->redi && input->redi->type != 4)
-			files = create_files(input, files);
+			files = create_files(input, files, com);
 		if (!files)
 			return (NULL);
 		if (files->fd[0] != 0 && files->fd)
@@ -53,10 +52,10 @@ t_files	*execute_final(t_command *input, t_files *files)
 		files->command = find_command(input->comm);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
-			read_infile(files->read, 1);
+			read_infile(files->read, 1, files, com);
 		files->read->content = NULL;
 		if (files->write->content)
-			write_outfile(files->write, 1);
+			write_outfile(files->write, 1, files, com);
 		exec_cmd(input, files, 1);
 	}
 	close(files->fd[0]);
@@ -64,7 +63,7 @@ t_files	*execute_final(t_command *input, t_files *files)
 	return (files);
 }
 
-t_files	*execute_pipes(t_command *input, t_files *files, int i)
+t_files	*execute_pipes(t_command *input, t_files *files, int i, t_list *com)
 {
 	int			*fd;
 
@@ -75,7 +74,7 @@ t_files	*execute_pipes(t_command *input, t_files *files, int i)
 	{
 		close(fd[0]);
 		if (input->redi && input->redi->type != 4)
-			files = create_files(input, files);
+			files = create_files(input, files, com);
 		if (!files)
 			return (files);
 		if (files->fd[0] != 0)
@@ -83,10 +82,10 @@ t_files	*execute_pipes(t_command *input, t_files *files, int i)
 		files->command = find_command(input->comm);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
-			read_infile(files->read, 1);
+			read_infile(files->read, 1, files, com);
 		files->read->content = NULL;
 		if (files->write->content)
-			write_outfile(files->write, 1);
+			write_outfile(files->write, 1, files, com);
 		else
 			(dup2(fd[1], STDOUT_FILENO), close(fd[1]));
 		exec_cmd(input, files, 1);
@@ -137,26 +136,26 @@ void	exec(t_list *com, t_files *files)
 	files->read = ft_calloc(1, sizeof(t_redi));
 	files->count = ft_lstsize(com);
 	if ((!com->next && check_builtin(com->content)) || !com->content)
-		exec_one_builtin(com->content, files);
+		exec_one_builtin(com->content, files, aux);
 	else if (files->count == 1)
-		execute_final(com->content, files);
+		execute_final(com->content, files, aux);
 	else if (files->count == 2)
 	{
-		files = execute_first(com->content, files);
+		files = execute_first(com->content, files, aux);
 		com = com->next;
-		execute_final(com->content, files);
+		execute_final(com->content, files, aux);
 	}
 	else if (files->count > 2)
 	{
-		files = execute_first(com->content, files);
+		files = execute_first(com->content, files, aux);
 		com = com->next;
 		while (com->next)
 		{
-			files = execute_pipes(com->content, files, i);
+			files = execute_pipes(com->content, files, i, aux);
 			i++;
 			com = com->next;
 		}
-		execute_final(com->content, files);
+		execute_final(com->content, files, aux);
 	}
 	if (!check_builtin(com->content))
 		wait_function(files);

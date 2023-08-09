@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/08 17:40:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 14:48:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static int	error_handling(char *input, t_files *files, t_list **commands)
 	if (split_commands(input, commands))
 	{
 		g_shell->exit_stat = 258;
-		free(*commands);
+		free_lists(commands);
 		free_files(files);
 		ft_putstr_fd("\033[0;31mError: Syntax error '|'\033[0;\n", 2);
 		return (1);
@@ -163,6 +163,6 @@ void	parsing(char *input)
 	}
 	if (check_redis(commands))
 		exec(commands, files);
-	/*else
-		free_commands(commands);*/
+	else
+		(free_commands(commands), free_files(files));
 }

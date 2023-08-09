@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/08 16:12:37 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:02:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_invalid_redirects(char *str)
 			{
 				if (flag == NO)
 					flag = INPUT;
-				else if (flag == INPUT && str[n - 1] == '>')
+				else if (flag == INPUT && str[n - 1] == '<')
 					flag = HEREDOC;
 				else
 					return (0);
@@ -38,7 +38,7 @@ int	check_invalid_redirects(char *str)
 			{
 				if (flag == NO)
 					flag = OUTPUT;
-				else if (flag == OUTPUT && str[n - 1] == '<')
+				else if (flag == OUTPUT && str[n - 1] == '>')
 					flag = APPEND;
 				else
 					return (0);
@@ -104,6 +104,7 @@ int	handle_redirects(char *str, t_redi **redi, t_tokens **tokens)
 	flag = flag_redi(str);
 	if ((*tokens)->next != NULL)
 	{
+		free(str);
 		str = (*tokens)->next->content;
 		*tokens = (*tokens)->next;
 	}

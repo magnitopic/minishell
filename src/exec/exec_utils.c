@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 19:59:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:52:48 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**set_for_execve(t_files *files, t_command *input)
 	return (com_args);
 }
 
-t_files	*handle_file(char *name, int flag, t_files *files)
+t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 {
 	if (flag == 1 || flag == 3)
 	{
@@ -51,6 +51,8 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 		if (open(name, O_RDONLY) < 0)
 		{
 			g_shell->exit_stat = 1;
+			free_files(files);
+			free_commands(com);
 			ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2);
 			return (files);
 		}
@@ -62,14 +64,14 @@ t_files	*handle_file(char *name, int flag, t_files *files)
 	return (files);
 }
 
-t_files	*create_files(t_command *input, t_files *files)
+t_files	*create_files(t_command *input, t_files *files, t_list *com)
 {
 	char	*filename;
 
 	while (input->redi)
 	{
 		filename = input->redi->content;
-		files = handle_file(filename, input->redi->type, files);
+		files = handle_file(filename, input->redi->type, files, com);
 		if (files == NULL)
 			return (NULL);
 		if (input->redi->next)
@@ -109,9 +111,11 @@ char	*find_command(char *argv)
 	char	*str;
 	char	*temp;
 	char	*aux;
+	char	**paths_aux;
 	char	**paths;
 
 	paths = get_paths();
+	paths_aux = paths;
 	if (paths == NULL)
 		return (NULL);
 	if (access(argv, F_OK) == 0 && !check_builtin_str(argv)
@@ -120,7 +124,7 @@ char	*find_command(char *argv)
 	while (*paths != NULL)
 	{
 		if (access(argv, F_OK) == 0 && argv[0] == '/')
-			return (argv);
+			return (free_matrix(paths_aux) ,argv);
 		aux = ft_strjoin(*paths, "/");
 		temp = ft_strjoin(aux, argv);
 		if (access(temp, F_OK) == 0)
@@ -128,13 +132,13 @@ char	*find_command(char *argv)
 			str = ft_substr(temp, 0, ft_strlen(temp));
 			free(temp);
 			free(aux);
-			free(argv);
+			free_matrix(paths_aux);
 			return (str);
 		}
 		paths++;
 		free(temp);
 		free(aux);
 	}
-	free(argv);
+	free_matrix(paths_aux);
 	return (NULL);
 }
