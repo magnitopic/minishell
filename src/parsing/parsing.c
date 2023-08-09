@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 14:48:24 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:38:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,19 +120,19 @@ static int	error_handling(char *input, t_files *files, t_list **commands)
 		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
 		return (1);
 	}
-	if (!check_invalid_redirects(input))
-	{
-		g_shell->exit_stat = 258;
-		free_files(files);
-		ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2);
-		return (1);
-	}
 	if (split_commands(input, commands))
 	{
 		g_shell->exit_stat = 258;
 		free_lists(commands);
 		free_files(files);
 		ft_putstr_fd("\033[0;31mError: Syntax error '|'\033[0;\n", 2);
+		return (1);
+	}
+	if (!check_invalid_redirects(input))
+	{
+		g_shell->exit_stat = 258;
+		free_files(files);
+		ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2);
 		return (1);
 	}
 	return (0);

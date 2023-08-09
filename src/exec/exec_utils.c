@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 15:52:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:14:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,23 @@ char	**set_for_execve(t_files *files, t_command *input)
 
 t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 {
+	int	check;
+
+	check = 1;
 	if (flag == 1 || flag == 3)
 	{
 		if (access(name, F_OK))
 			open(name, O_CREAT, 0644);
 		if (flag == 1)
-			open(name, O_TRUNC);
+			check = open(name, O_TRUNC);
+		if (check < 0)
+		{
+			g_shell->exit_stat = 1;
+			free_files(files);
+			free_commands(com);
+			ft_putstr_fd("\033[0;31mPermission denied\033[0m\n", 2);
+			return (files);
+		}
 		if (files->write->content)
 			free(files->write->content);
 		files->write->content = ft_substr(name, 0, ft_strlen(name));

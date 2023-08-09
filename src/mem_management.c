@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 19:53:35 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 15:56:37 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:15:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,6 @@ void	free_files(t_files *file)
 	free(file->fd);
 	free(file);
 }
-
-/* void	free_redi(t_redi **redi)
-{
-	t_redi	*aux;
-	t_redi	*del;
-
-	aux = *redi;
-	if (*redi == NULL)
-		return ;
-	while (aux != NULL)
-	{
-		del = aux;
-		//ft_printf("del->content: %s\n", aux->content);
-		aux = aux->next;
-		if (del->content)
-			(free(del->content), del->content = NULL);
-		free(del);
-	}
-} */
 
 void	free_redi(t_redi **redi)
 {
@@ -74,23 +55,6 @@ void	free_commands(t_list *cmd)
 	free(cmd);
 }
 
-/* void	free_lists(t_list **list)
-{
-	t_list	*aux;
-	t_list	*del;
-
-	aux = *list;
-	if (*list == NULL)
-		return ;
-	while (aux != NULL)
-	{
-		del = aux;
-		aux = aux->next;
-		free(del->content);
-		free(del);
-	}
-} */
-
 void	free_lists(t_list **list)
 {
 	if (*list == NULL)
@@ -100,25 +64,6 @@ void	free_lists(t_list **list)
 	free((*list)->content);
 	(free(*list), *list = NULL);
 }
-
-/* void	free_tokens(t_tokens **list)
-{
-	t_tokens	*aux;
-	t_tokens	*del;
-
-	aux = *list;
-	if (*list == NULL)
-		return ;
-	while (aux != NULL)
-	{
-		del = aux;
-		//ft_printf("del->content: %s\n", aux->content);
-		aux = aux->next;
-		if (del->content)
-			(free(del->content), del->content = NULL);
-		free(del);
-	}
-} */
 
 void	free_tokens(t_tokens **list)
 {

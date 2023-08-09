@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:39:49 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 15:19:49 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:06:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	exec_one_builtin(t_command *input, t_files *files, t_list *com)
 	if (files->read->content)
 		num = read_infile(files->read, 0, files, com);
 	if (files->write->content)
-		fd = write_outfile(files->write, 0, files);
+		fd = write_outfile(files->write, 0, files, com);
 	if (num != 0 && fd != -1)
 		exec_cmd(input, files, 0);
 }
