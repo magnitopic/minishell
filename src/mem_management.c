@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 19:53:35 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 16:15:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:21:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_commands(t_list *cmd)
 		free(command);
 		input = input->next;
 	}
-	free(cmd);
+	(free(cmd), cmd = NULL);
 }
 
 void	free_lists(t_list **list)

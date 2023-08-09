@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 16:14:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:31:53 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ char	**set_for_execve(t_files *files, t_command *input)
 	return (com_args);
 }
 
-t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
+static t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 {
 	int	check;
 
 	check = 1;
+	(void)com;
 	if (flag == 1 || flag == 3)
 	{
 		if (access(name, F_OK))
@@ -47,10 +48,10 @@ t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 		if (check < 0)
 		{
 			g_shell->exit_stat = 1;
-			free_files(files);
-			free_commands(com);
+			//free_files(files);
+			//free_commands(com);
 			ft_putstr_fd("\033[0;31mPermission denied\033[0m\n", 2);
-			return (files);
+			return (NULL);
 		}
 		if (files->write->content)
 			free(files->write->content);
@@ -62,10 +63,10 @@ t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 		if (open(name, O_RDONLY) < 0)
 		{
 			g_shell->exit_stat = 1;
-			free_files(files);
-			free_commands(com);
+			//free_files(files);
+			//free_commands(com);
 			ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2);
-			return (files);
+			return (NULL);
 		}
 		if (files->read->content)
 			free(files->read->content);
@@ -135,7 +136,7 @@ char	*find_command(char *argv)
 	while (*paths != NULL)
 	{
 		if (access(argv, F_OK) == 0 && argv[0] == '/')
-			return (free_matrix(paths_aux) ,argv);
+			return (free_matrix(paths_aux), argv);
 		aux = ft_strjoin(*paths, "/");
 		temp = ft_strjoin(aux, argv);
 		if (access(temp, F_OK) == 0)

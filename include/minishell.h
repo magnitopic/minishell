@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 15:40:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:28:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,12 @@ void			ft_newcommand(t_redi **list, void *cont, enum e_redirect type);
 void			free_tokens(t_tokens **list);
 /* Execution */
 void			exec(t_list *com, t_files *files);
-t_files			*handle_file(char *name, int flag, t_files *files, t_list *com);
 t_files			*create_files(t_command *input, t_files *files, t_list *com);
 char			*check_param(char *argv);
 char			*find_command(char *argv);
 void			exec_one_builtin(t_command *input, t_files *files, t_list *com);
-int				read_infile(t_redi *read, int num, t_files *files, t_list *command);
-int				write_outfile(t_redi *write, int num, t_files *files, t_list *command);
+int				read_infile(t_redi *read, int num, t_files *files, t_list *com);
+int				write_outfile(t_redi *write, int num, t_files *files, t_list *com);
 int				exec_cmd(t_command *input, t_files *files, int flag);
 int				check_builtin(t_command *input);
 int				check_builtin_str(char *str);

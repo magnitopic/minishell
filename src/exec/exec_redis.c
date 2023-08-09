@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:20:15 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 16:17:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:28:05 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	read_infile(t_redi *read, int num, t_files *files, t_list *command)
+int	read_infile(t_redi *read, int num, t_files *files, t_list *com)
 {
 	int	fd;
 
@@ -25,7 +25,7 @@ int	read_infile(t_redi *read, int num, t_files *files, t_list *command)
 		if (num != 0)
 		{
 			free_files(files);
-			free_commands(command);
+			free_commands(com);
 			exit(EXIT_FAILURE);
 		}
 		return (0);
@@ -35,7 +35,7 @@ int	read_infile(t_redi *read, int num, t_files *files, t_list *command)
 	return (fd);
 }
 
-int	write_outfile(t_redi *write, int num, t_files *files, t_list *command)
+int	write_outfile(t_redi *write, int num, t_files *files, t_list *com)
 {
 	int	fd;
 
@@ -50,7 +50,7 @@ int	write_outfile(t_redi *write, int num, t_files *files, t_list *command)
 		if (num != 0)
 		{
 			close(files->fd[1]);
-			free_commands(command);
+			free_commands(com);
 			free_files(files);
 			exit(EXIT_FAILURE);
 		}

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 16:38:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:38:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	parsing(char *input)
 		aux->content = structure(aux->content);
 		aux = aux->next;
 	}
-	if (check_redis(commands))
+	if (check_redis(commands) && check_invalid_redirects(input))
 		exec(commands, files);
 	else
 		(free_commands(commands), free_files(files));
