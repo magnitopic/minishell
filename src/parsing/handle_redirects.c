@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 17:49:25 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 20:05:18 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	check_redis(t_list *com)
 			}
 			if ((redis->type == 1 || redis->type == 3)
 				&& (!access(redis->content, F_OK) 
-				&& open(redis->content, O_WRONLY) < 0))
+					&& open(redis->content, O_WRONLY) < 0))
 			{
 				ft_putstr_fd("\033[0;31mPermission denied\033[0m\n", 2);
 				return (0);
