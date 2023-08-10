@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 16:52:44 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:57:05 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ void	bi_export(t_command *input, int num)
 	char			**env;
 
 	args = input->args;
-	env = cpy_env(g_shell->env);
 	if (ft_lstsize(input->args) == 0)
-		return (print_export(env));
+		return (print_export(g_shell->env));
 	while (args)
 	{
+		env = cpy_env(g_shell->env);
 		result = validate(args->content);
 		if (result == INVALID)
 		{
