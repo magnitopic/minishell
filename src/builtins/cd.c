@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 16:15:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:53:07 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	mini_export(char *var, char *value)
 	value = ft_strjoin(var, value);
 	env = cpy_env(g_shell->env);
 	aux = env;
+	subst = "";
 	while (*env)
 	{
 		if (ft_strchr(*env, '='))
@@ -67,16 +68,21 @@ void	bi_cd(t_command *com, int num)
 	int		stat;
 
 	args = com->args;
-	pwd = g_shell->pwd;
 	if (!args)
 		return ;
-	aux = ft_strjoin(pwd, "/");
+	aux = ft_strjoin(g_shell->pwd, "/");
 	pwd = ft_strjoin(aux, args->content);
 	stat = chdir(pwd);
 	if (!stat)
+	{
+		g_shell->exit_stat = 0;
 		update_pwd();
+	}
 	else
+	{
+		g_shell->exit_stat = 1;
 		perror("cd");
+	}
 	free(aux);
 	free(pwd);
 	if (num != 0)

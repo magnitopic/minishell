@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:36 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 16:09:21 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:57:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	bi_unset(t_command *input, int num)
 	}
 	free_matrix(g_shell->env);
 	g_shell->env = env;
+	g_shell->exit_stat = 0;
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }

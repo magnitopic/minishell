@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 12:20:21 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:04:00 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 	{
 		if (!ft_strcmp(vars->content, "?"))
 		{
+			free(command);
 			v.path = ft_itoa(g_shell->exit_stat);
 			return (v.path);
 		}

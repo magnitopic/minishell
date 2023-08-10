@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 16:57:05 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:10:16 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ static enum e_export	validate(char *str)
 	return (NEW_VALUE);
 }
 
+// TODO: Fix when multiple vars with same name
 void	bi_export(t_command *input, int num)
 {
 	t_list			*args;
@@ -113,6 +114,7 @@ void	bi_export(t_command *input, int num)
 		g_shell->env = change_env(env, args->content, result);
 		args = args->next;
 	}
+	g_shell->exit_stat = 0;
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }
