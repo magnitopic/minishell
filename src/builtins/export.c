@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 16:24:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:29:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,10 @@ void	bi_export(t_command *input, int num)
 	{
 		result = validate(args->content);
 		if (result == INVALID)
+		{
+			free_matrix(env);
 			return (ft_putstr_fd("\033[0;31mInvalid identifier\n\033[0m", 0));
+		}
 		free_matrix(g_shell->env);
 		g_shell->env = change_env(env, args->content, result);
 		args = args->next;
