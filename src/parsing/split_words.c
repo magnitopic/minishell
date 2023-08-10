@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 16:10:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:25:03 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ t_list	*split_words(char *str)
 		}
 		pos++;
 	}
+	free(str);
 	return (list);
 }

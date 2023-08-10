@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 17:28:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:41:25 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void			free_redi(t_redi **redi);
 char			*heredoc(char *key_word);
 void			there_doc(void);
 void			free_stacks(t_list **list);
-void			free_files(t_files *file);
+void			free_files(t_files **file);
 void			free_lists(t_list **list);
 void			exit_program(char *message);
-void			free_commands(t_list *input);
+void			free_commands(t_list **cmd);
 int				check_invalid_redirects(char *str);
 char			*expand_vars(char *var);
 char			*create_vars(char *origin);

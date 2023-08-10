@@ -6,22 +6,23 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 19:53:35 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 17:21:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 19:40:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	free_files(t_files *file)
+void	free_files(t_files **file)
 {
-	if (file == NULL)
+	if (*file == NULL)
 		return ;
-	free_redi(&file->write);
-	free_redi(&file->read);
-	//free_matrix(file->arr);
-	free(file->command);
-	free(file->fd);
-	free(file);
+	free_redi(&(*file)->write);
+	free_redi(&(*file)->read);
+	//free_matrix(*file->arr);
+	free((*file)->command);
+	free((*file)->fd);
+	free(*file);
+	*file = NULL;
 }
 
 void	free_redi(t_redi **redi)
@@ -34,12 +35,12 @@ void	free_redi(t_redi **redi)
 	(free(*redi), *redi = NULL);
 }
 
-void	free_commands(t_list *cmd)
+void	free_commands(t_list **cmd)
 {
 	t_list		*input;
 	t_command	*command;
 
-	input = cmd;
+	input = *cmd;
 	while (input)
 	{
 		command = input->content;
@@ -52,7 +53,7 @@ void	free_commands(t_list *cmd)
 		free(command);
 		input = input->next;
 	}
-	(free(cmd), cmd = NULL);
+	(free(*cmd), *cmd = NULL);
 }
 
 void	free_lists(t_list **list)
@@ -71,6 +72,6 @@ void	free_tokens(t_tokens **list)
 		return ;
 	if ((*list)->next != NULL)
 		free_tokens(&(*list)->next);
-	//free((*list)->content);
+	free((*list)->content);
 	(free(*list), *list = NULL);
 }

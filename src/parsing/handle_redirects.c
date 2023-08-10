@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 20:05:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:21:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	handle_redirects(char *str, t_redi **redi, t_tokens **tokens)
 	flag = flag_redi(str);
 	if ((*tokens)->next != NULL)
 	{
-		free(str);
+		//free(str);
 		str = (*tokens)->next->content;
 		*tokens = (*tokens)->next;
 	}
@@ -125,6 +125,6 @@ int	handle_redirects(char *str, t_redi **redi, t_tokens **tokens)
 	if (flag == HEREDOC)
 		str = heredoc(str);
 	if (flag != 5)
-		ft_newcommand(redi, str, flag);
+		ft_newcommand(redi, ft_strdup(str), flag);
 	return (0);
 }

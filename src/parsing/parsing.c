@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:31:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	split_commands(char *input, t_list **com)
 		i++;
 	}
 	if (!*com)
-		ft_lstadd_new(com, input + old_i);
+		ft_lstadd_new(com, ft_strdup(input + old_i));
 	else
 		ft_lstadd_new(com, ft_strtrim(input + old_i + 1, "| "));
 	return (0);
@@ -97,14 +97,14 @@ static t_command	*structure(t_tokens *tokens)
 	while (tokens)
 	{
 		str = tokens->content;
-		//printf("Str: %s\n", str);
+		printf("%s\n", str);
 		if ((ft_strchr(str, '<') || ft_strchr(str, '>'))
 			&& tokens->flag == 0)
 			handle_redirects(str, &(new_list->redi), &tokens);
 		else if (i++ == 0)
-			new_list->comm = str;
+			new_list->comm = ft_strdup(str);
 		else
-			ft_lstadd_new(&new_list->args, str);
+			ft_lstadd_new(&new_list->args, ft_strdup(str));
 		tokens = tokens->next;
 	}
 	free_tokens(&aux);
@@ -116,23 +116,23 @@ static int	error_handling(char *input, t_files *files, t_list **commands)
 	if (check_unclosed_quotes(input))
 	{
 		g_shell->exit_stat = 1;
-		free_files(files);
+		free_files(&files);
 		ft_putstr_fd("\033[0;31mError: Unclosed quotes\033[0;\n", 2);
+		return (1);
+	}
+	if (!check_invalid_redirects(input))
+	{
+		g_shell->exit_stat = 258;
+		free_files(&files);
+		ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2);
 		return (1);
 	}
 	if (split_commands(input, commands))
 	{
 		g_shell->exit_stat = 258;
 		free_lists(commands);
-		free_files(files);
+		free_files(&files);
 		ft_putstr_fd("\033[0;31mError: Syntax error '|'\033[0;\n", 2);
-		return (1);
-	}
-	if (!check_invalid_redirects(input))
-	{
-		g_shell->exit_stat = 258;
-		free_files(files);
-		ft_putstr_fd("\033[0;31mBad redirect\033[0m\n", 2);
 		return (1);
 	}
 	return (0);
@@ -164,5 +164,5 @@ void	parsing(char *input)
 	if (check_redis(commands) && check_invalid_redirects(input))
 		exec(commands, files);
 	else
-		(free_commands(commands), free_files(files));
+		(free_commands(&commands), free_files(&files));
 }

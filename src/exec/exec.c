@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/09 18:24:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:44:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,8 @@ void	exec(t_list *com, t_files *files)
 	if (!check_builtin(com->content) || files->count > 1)
 		wait_function(files);
 	there_doc();
-	free_commands(aux);
-	free_files(files);
+	free_commands(&aux);
+	free_files(&files);
 }
 
 /* static void	print_commands(t_command *input)
