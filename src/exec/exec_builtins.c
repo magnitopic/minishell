@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:27:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 14:45:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:28:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	check_path(char *str, char **paths)
 	char	*aux;
 
 	n = 0;
+	if (!paths)
+		return (1);
 	while (paths[n])
 	{
 		temp = ft_strjoin(paths[n], "/");

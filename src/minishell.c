@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 12:56:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:11:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,6 @@ int	main(int argc, char **argv, char **env)
 	g_shell->env = cpy_env(env);
 	g_shell->pwd = ft_strdup(getcwd(path, sizeof(path)));
 	g_shell->exit_stat = 0;
-	if (!g_shell->env[0])
-	{
-		ft_putstr_fd("\033[0;31mError: No environment provided\033[0;\n", 2);
-		exit(EXIT_FAILURE);
-	}
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
