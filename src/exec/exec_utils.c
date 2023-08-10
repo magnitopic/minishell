@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 17:31:53 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:17:48 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,20 @@ char	**set_for_execve(t_files *files, t_command *input)
 
 static t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 {
-	int	check;
 
-	check = 1;
 	(void)com;
 	if (flag == 1 || flag == 3)
 	{
 		if (access(name, F_OK))
 			open(name, O_CREAT, 0644);
 		if (flag == 1)
-			check = open(name, O_TRUNC);
-		if (check < 0)
+			open(name, O_TRUNC);
+		if (open(name, O_WRONLY) < 0)
 		{
 			g_shell->exit_stat = 1;
 			//free_files(files);
 			//free_commands(com);
-			ft_putstr_fd("\033[0;31mPermission denied\033[0m\n", 2);
+			ft_putstr_fd("\033[0;31maaPermission denied\033[0m\n", 2);
 			return (NULL);
 		}
 		if (files->write->content)
@@ -79,7 +77,9 @@ static t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 t_files	*create_files(t_command *input, t_files *files, t_list *com)
 {
 	char	*filename;
+	t_redi	*aux;
 
+	aux = input->redi;
 	while (input->redi)
 	{
 		filename = input->redi->content;
@@ -91,6 +91,7 @@ t_files	*create_files(t_command *input, t_files *files, t_list *com)
 		else
 			break ;
 	}
+	input->redi = aux;
 	return (files);
 }
 

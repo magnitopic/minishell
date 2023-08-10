@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/10 13:09:19 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:21:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_files	*execute_pipes(t_command *input, t_files *files, int i, t_list *com)
 	}
 	close(fd[1]);
 	close(files->fd[0]);
+	free(files->fd);
 	files->fd = fd;
 	return (files);
 }
