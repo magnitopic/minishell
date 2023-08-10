@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:01 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 18:05:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:04:53 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,3 @@ void	bi_echo(t_command *com, int num)
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }
-
-/* int	main(int argc, char **argv)
-{
-	t_command *test = malloc(sizeof(t_command));
-
-	ft_lstadd_new(&test->args, "-n");
-	ft_lstadd_new(&test->args, "Hello");
-	ft_lstadd_new(&test->args, "There");
-	bi_echo(test);
-	return (0);
-} */

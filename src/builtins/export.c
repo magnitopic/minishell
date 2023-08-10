@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/07/31 11:49:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:24:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static char	**change_env(char **env, char *str, enum e_export flag)
 	if (exists == -1)
 	{
 		new_env[ft_get_matrix_size(env)] = str;
+		free_matrix(env);
 		env = new_env;
 	}
 	else if (flag == NEW_VALUE)
