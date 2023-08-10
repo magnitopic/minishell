@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 11:34:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 13:15:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,6 @@ void	parsing(char *input)
 	}
 	if (check_redis(commands) && check_invalid_redirects(input))
 		exec(commands, files);
-	else
-		(free_commands(&commands), free_files(&files));
+	free_commands(&commands);
+	free_files(&files);
 }

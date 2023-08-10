@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:27:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/07 18:00:34 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 12:54:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_path(char *str, char **paths)
 int	exec_cmd(t_command *input, t_files *files, int flag)
 {
 	if (!input->comm)
-		bi_echo(input, flag);
+		exit(127);
 	else if (ft_strcmp(input->comm, "cd") == 0)
 		bi_cd(input, flag);
 	else if (ft_strcmp(input->comm, "echo") == 0)

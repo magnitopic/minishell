@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 19:53:35 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 19:40:37 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 13:04:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_files(t_files **file)
 		return ;
 	free_redi(&(*file)->write);
 	free_redi(&(*file)->read);
-	//free_matrix(*file->arr);
+	//free_matrix((*file)->arr);
 	free((*file)->command);
 	free((*file)->fd);
 	free(*file);

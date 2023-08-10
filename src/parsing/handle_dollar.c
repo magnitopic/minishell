@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 11:54:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 12:20:21 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 				+ ft_strlen(v.path));
 			aux = ft_strjoin(v.temp, v.other_aux);
 			free(v.temp);
+			free(command);
 			free(v.other_aux);
 			return (aux);
 		}
@@ -116,6 +117,7 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 					+ ft_strlen(v.path));
 			v.str = ft_strjoin(v.other_aux, v.temp);
 			free(v.other_aux);
+			free(command);
 			command = v.str;
 			i += ft_strlen(vars->content);
 			free(v.temp);
@@ -137,6 +139,5 @@ char	*add_values(char *command)
 	vars = find_name_vars(command);
 	v.str = get_string(command, v, vars);
 	free_lists(&vars);
-	free(command);
 	return (v.str);
 }
