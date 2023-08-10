@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 12:21:13 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 11:31:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:34:58 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ static t_command	*structure(t_tokens *tokens)
 	while (tokens)
 	{
 		str = tokens->content;
-		printf("%s\n", str);
 		if ((ft_strchr(str, '<') || ft_strchr(str, '>'))
 			&& tokens->flag == 0)
 			handle_redirects(str, &(new_list->redi), &tokens);
