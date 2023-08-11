@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 19:11:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/11 12:50:43 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,12 @@ static void	user_input(int in, int out)
 	free(g_shell->prompt);
 }
 
-void	ft_leaks(void)
-{
-	system("Leaks minishell");
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	int		input;
 	int		output;
 	char	path[PATH_MAX];
 
-	//atexit(ft_leaks);
 	((void)argv, (void)argc);
 	input = dup(STDIN_FILENO);
 	output = dup(STDOUT_FILENO);

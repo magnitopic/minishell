@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 19:10:16 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:38:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,14 @@ static enum e_export	validate(char *str)
 	return (NEW_VALUE);
 }
 
-// TODO: Fix when multiple vars with same name
 void	bi_export(t_command *input, int num)
 {
 	t_list			*args;
 	enum e_export	result;
 	char			**env;
+	int				flag;
 
+	flag = 0;
 	args = input->args;
 	if (ft_lstsize(input->args) == 0)
 		return (print_export(g_shell->env));
@@ -108,13 +109,17 @@ void	bi_export(t_command *input, int num)
 		if (result == INVALID)
 		{
 			free_matrix(env);
-			return (ft_putstr_fd("\033[0;31mInvalid identifier\n\033[0m", 0));
+			ft_putstr_fd("\033[0;31mInvalid identifier\n\033[0m", 2);
+			flag = 1;
 		}
-		free_matrix(g_shell->env);
-		g_shell->env = change_env(env, args->content, result);
+		else
+		{
+			free_matrix(g_shell->env);
+			g_shell->env = change_env(env, args->content, result);
+		}
 		args = args->next;
 	}
-	g_shell->exit_stat = 0;
+	g_shell->exit_stat = flag;
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }

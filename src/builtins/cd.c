@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 18:53:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/11 12:09:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ static void	mini_export(char *var, char *value)
 		free(subst);
 		env++;
 	}
-	free(value);
-	free_matrix(g_shell->env);
+	(free(value), free_matrix(g_shell->env));
 	g_shell->env = aux;
 }
 
