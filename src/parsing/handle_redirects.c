@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 15:50:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:24:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,21 +111,26 @@ int	check_redis(t_list *com)
 int	handle_redirects(char *str, t_redi **redi, t_tokens **tokens)
 {
 	enum e_redirect	flag;
+	int				heredoc_flag;
 
+	heredoc_flag = 0;
 	flag = NO;
 	flag = flag_redi(str);
 	if ((*tokens)->next != NULL)
 	{
-		//free(str);
 		str = (*tokens)->next->content;
 		*tokens = (*tokens)->next;
 	}
 	else
 		flag = 5;
 	if (flag == HEREDOC)
+	{
 		str = heredoc(str);
+		heredoc_flag = 1;
+	}
 	if (flag != 5)
 		ft_newcommand(redi, ft_strdup(str), flag);
-	free(str);
+	if (heredoc_flag)
+		free(str);
 	return (0);
 }
