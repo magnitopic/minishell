@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/11 12:50:43 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:13:22 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	user_input(int in, int out)
 	input = ft_strtrim(input, " \n\t\r\v\f");
 	free(aux);
 	if (input == 0)
-		exit_program("exit\n", 0);
+		exit_program(EXIT_SUCCESS);
 	if (ft_strlen(input) != 0)
 	{
 		add_history(input);

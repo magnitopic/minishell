@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/14 15:30:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:21:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ t_files	*execute_first(t_command *input, t_files *files, t_list *com)
 		files->command = find_command(input->comm);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
+		{
 			read_infile(files->read, 1, files, com);
+			free(files->read->content);
+		}
 		files->read->content = NULL;
 		if (files->write->content)
 			write_outfile(files->write, 1, files, com);
@@ -52,7 +55,10 @@ t_files	*execute_final(t_command *input, t_files *files, t_list *com)
 		files->command = find_command(input->comm);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
+		{
 			read_infile(files->read, 1, files, com);
+			free(files->read->content);
+		}
 		files->read->content = NULL;
 		if (files->write->content)
 			write_outfile(files->write, 1, files, com);
@@ -82,7 +88,10 @@ t_files	*execute_pipes(t_command *input, t_files *files, int i, t_list *com)
 		files->command = find_command(input->comm);
 		files->arr = set_for_execve(files, input);
 		if (files->read->content)
+		{
 			read_infile(files->read, 1, files, com);
+			free(files->write->content);
+		}
 		files->read->content = NULL;
 		if (files->write->content)
 			write_outfile(files->write, 1, files, com);

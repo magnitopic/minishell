@@ -6,15 +6,15 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 18:41:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:09:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	exit_program(char *message, int err_code)
+void	exit_program(int err_code)
 {
-	ft_putstr_fd(message, 2);
+	ft_putstr_fd("exit\n", 2);
 	exit(err_code);
 }
 

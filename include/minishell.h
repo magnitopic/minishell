@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 14:45:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:13:42 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			free_commands(t_list **cmd);
 int				check_invalid_redirects(char *str);
 char			*expand_vars(char *var);
 char			*create_vars(char *origin);
-void			exit_program(char *message, int err_code);
+void			exit_program(int err_code);
 char			**create_arrays(char **comms, char *name);
 char			**set_for_execve(t_files *files, t_command *input);
 void			ft_newcommand(t_redi **list, void *cont, enum e_redirect type);

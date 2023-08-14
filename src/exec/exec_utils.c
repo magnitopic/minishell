@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 15:34:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 20:13:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char	**get_paths(void)
 	char	**env;
 	char	**paths;
 
+	// TODO: Fix leaks
 	y = 0;
 	env = g_shell->env;
 	while (env[y] != NULL && ft_strncmp("PATH=", env[y], 5) != 0)
