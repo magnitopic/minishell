@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/11 12:09:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 12:06:58 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static void	mini_export(char *var, char *value)
 	subst = "";
 	while (*env)
 	{
-		if (ft_strchr(*env, '='))
+		subst = ft_strchr(*env, '=');
+		if (subst)
 			subst = ft_substr(*env, 0, ft_strlen(*env) - ft_strlen(subst) + 1);
 		else
 			subst = ft_strdup(*env);
@@ -37,7 +38,6 @@ static void	mini_export(char *var, char *value)
 		{
 			free(*env);
 			*env = ft_strdup(value);
-			break ;
 		}
 		free(subst);
 		env++;
