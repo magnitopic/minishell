@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 17:26:33 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:34:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ char	**set_for_execve(t_files *files, t_command *input)
 	return (com_args);
 }
 
-static t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
+static t_files	*handle_file(char *name, int flag, t_files *files)
 {
-
-	(void)com;
 	if (flag == 1 || flag == 3)
 	{
 		if (access(name, F_OK))
@@ -46,9 +44,7 @@ static t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 		if (open(name, O_WRONLY) < 0)
 		{
 			g_shell->exit_stat = 1;
-			//free_files(files);
-			//free_commands(com);
-			ft_putstr_fd("\033[0;31maaPermission denied\033[0m\n", 2);
+			perror("MiniShell:");
 			return (NULL);
 		}
 		if (files->write->content)
@@ -61,9 +57,7 @@ static t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 		if (open(name, O_RDONLY) < 0)
 		{
 			g_shell->exit_stat = 1;
-			//free_files(files);
-			//free_commands(com);
-			ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2);
+			perror("MiniShell");
 			return (NULL);
 		}
 		if (files->read->content)
@@ -74,7 +68,7 @@ static t_files	*handle_file(char *name, int flag, t_files *files, t_list *com)
 	return (files);
 }
 
-t_files	*create_files(t_command *input, t_files *files, t_list *com)
+t_files	*create_files(t_command *input, t_files *files)
 {
 	char	*filename;
 	t_redi	*aux;
@@ -83,7 +77,7 @@ t_files	*create_files(t_command *input, t_files *files, t_list *com)
 	while (input->redi)
 	{
 		filename = input->redi->content;
-		files = handle_file(filename, input->redi->type, files, com);
+		files = handle_file(filename, input->redi->type, files);
 		if (files == NULL)
 			return (NULL);
 		if (input->redi->next)

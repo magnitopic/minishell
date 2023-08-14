@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 11:21:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:50:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	check_redis(t_list *com)
 				if (open(redis->content, O_RDONLY) < 0)
 				{
 					g_shell->exit_stat = 1;
-					ft_putstr_fd("\033[0;31mUnable to read file\033[0m\n", 2);
+					perror("MiniShell");
 					return (0);
 				}
 			}
@@ -126,5 +126,6 @@ int	handle_redirects(char *str, t_redi **redi, t_tokens **tokens)
 		str = heredoc(str);
 	if (flag != 5)
 		ft_newcommand(redi, ft_strdup(str), flag);
+	free(str);
 	return (0);
 }

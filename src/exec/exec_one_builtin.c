@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 15:39:49 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 17:18:57 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:45:48 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	exec_one_builtin(t_command *input, t_files *files, t_list *com)
 	num = 1;
 	if (input->redi != NULL
 		&& input->redi->type != 4)
-	files = create_files(input, files, com);
+	files = create_files(input, files);
 	if (files == NULL)
 		return ;
 	if (files->read->content)

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/01 11:40:33 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:00:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,25 @@ char	*heredoc(char *key_word)
 	char	*input;
 	char	*str;
 	char	*change;
+	char	*aux;
 
-	str = "\0";
+	str = ft_calloc(1, 1);
 	while (1)
 	{
 		ft_printf("\033[0;34m→ heredoc\033[0m:\033[0;33m%s\033[0m$ ", key_word);
 		input = get_next_line(STDIN_FILENO);
-		if (!input)
-			break ;
 		change = ft_strtrim(input, "\n");
-		if (ft_strcmp(change, key_word) == 0)
+		if (change == NULL || ft_strcmp(change, key_word) == 0)
+		{
+			(free(change), free(input));
 			break ;
+		}
+		aux = str;
 		str = ft_strjoin(str, input);
-		free(change);
-		free(input);
+		(free(aux), free(change), free(input));
 	}
-	free(input);
+	aux = str;
 	str = create_file(str);
+	free(aux);
 	return (str);
 }

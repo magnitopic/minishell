@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:20:15 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 19:19:01 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:24:58 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	read_infile(t_redi *read, int num, t_files *files, t_list *com)
 	fd = open(read->content, O_RDONLY);
 	if ((read->type == 0 && access(read->content, R_OK) != 0) || fd < 0)
 	{
-		ft_printf("\033[0;31mUnable to read file\033[0m\n");
+		perror("MiniShell");
 		close(fd);
 		free_files(&files);
 		if (num != 0)

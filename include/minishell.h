@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 18:23:36 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:45:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void			ft_newcommand(t_redi **list, void *cont, enum e_redirect type);
 void			free_tokens(t_tokens **list);
 /* Execution */
 void			exec(t_list *com, t_files *files);
-t_files			*create_files(t_command *input, t_files *files, t_list *com);
+t_files			*create_files(t_command *input, t_files *files);
 char			*check_param(char *argv);
 char			*find_command(char *argv);
 void			exec_one_builtin(t_command *input, t_files *files, t_list *com);

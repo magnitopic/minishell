@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/10 17:26:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:30:07 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_files	*execute_first(t_command *input, t_files *files, t_list *com)
 	{
 		close(files->fd[0]);
 		if (input->redi && input->redi->type != 4)
-			files = create_files(input, files, com);
+			files = create_files(input, files);
 		if (!files)
 			return (files);
 		files->command = find_command(input->comm);
@@ -44,7 +44,7 @@ t_files	*execute_final(t_command *input, t_files *files, t_list *com)
 	if (files->id[files->count - 1] == 0)
 	{
 		if (input->redi && input->redi->type != 4)
-			files = create_files(input, files, com);
+			files = create_files(input, files);
 		if (!files)
 			return (NULL);
 		if (files->fd[0] != 0 && files->fd)
@@ -74,7 +74,7 @@ t_files	*execute_pipes(t_command *input, t_files *files, int i, t_list *com)
 	{
 		close(fd[0]);
 		if (input->redi && input->redi->type != 4)
-			files = create_files(input, files, com);
+			files = create_files(input, files);
 		if (!files)
 			return (files);
 		if (files->fd[0] != 0)
