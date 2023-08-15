@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/11 13:38:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:13:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ static char	**change_env(char **env, char *str, enum e_export flag)
 		env = new_env;
 	}
 	else if (flag == NEW_VALUE)
-		env[exists] = str;
+	{
+		(free(env[exists]), free(new_env));
+		env[exists] = ft_strdup(str);
+	}
 	return (env);
 }
 
