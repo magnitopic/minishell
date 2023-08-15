@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 15:24:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:53:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	quote_split(char *str, t_tokens **splitted)
+void	quote_split(char *str, t_tokens **splitted)
 {
 	char			len;
 	int				i;
@@ -37,7 +37,22 @@ static void	quote_split(char *str, t_tokens **splitted)
 	free(str);
 }
 
-static void	parse_phrase(t_tokens **list)
+int	ft_tokens_size(t_tokens *tokens)
+{
+	t_tokens	*aux;
+	int			n;
+
+	n = 0;
+	aux = tokens;
+	while (aux)
+	{
+		n++;
+		aux = aux->next;
+	}
+	return (n);
+}
+
+int	*parse_phrase(t_tokens **list, int *flags, int i)
 {
 	t_tokens	*aux;
 	char		*str_aux;
@@ -47,14 +62,17 @@ static void	parse_phrase(t_tokens **list)
 	{
 		str_aux = aux->content;
 		if (ft_strchr(str_aux, '\'') || ft_strchr(str_aux, '"'))
-			aux->flag = 1;
+			flags[i] = 1;
+		else
+			flags[i] = 0;
 		aux->content = split_quotes(aux->content);
 		free(str_aux);
 		aux = aux->next;
 	}
+	return (flags);
 }
 
-static char	*join_phrases(t_tokens *list)
+char	*join_phrases(t_tokens *list)
 {
 	char		*str;
 	char		*aux;
@@ -81,26 +99,13 @@ t_tokens	*expand_values(t_list *args)
 	t_tokens	*splitted;
 	t_tokens	*aux;
 	t_tokens	*tok;
-	char		*str_aux;
+	t_vars		v;
 
 	tok = list_to_token(args);
 	aux = tok;
 	splitted = NULL;
-	while (aux)
-	{
-		str_aux = ft_strtrim(aux->content, " 	");
-		while (!aux->content || ft_strlen(str_aux) < 1)
-		{
-			free(str_aux);
-			aux = aux->next;
-			str_aux = ft_strtrim(aux->content, " 	");
-		}
-		(quote_split(str_aux, &splitted), parse_phrase(&splitted));
-		aux->flag = splitted->flag;
-		aux->content = join_phrases(splitted);
-		free_tokens(&splitted);
-		aux = aux->next;
-	}
+	v.i = 0;
+	aux = help_parsing(v, aux, splitted);
 	free_lists(&args);
 	return (tok);
 }

@@ -23,6 +23,7 @@ SHELL_SRC	=	src/utils.c \
 				src/parsing/handle_dollar.c \
 				src/parsing/handle_quotes.c \
 				src/parsing/handle_redirects.c \
+				src/parsing/handle_args_utils.c \
 				src/parsing/handle_dollar_utils.c \
 				src/parsing/check_invalid_redirects.c \
 				src/builtins/cd.c \

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:36:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/04 12:19:50 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:17:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_vars
 	int		i;
 	int		index;
 	int		j;
+	int		*flags;
 	char	*home;
 	char	*pwd;
 	char	*parsed;

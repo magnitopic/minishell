@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 16:43:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:56:11 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	*heredoc(char *key_word)
 	}
 	aux = str;
 	str = create_file(str);
-	free(aux);
-	signal(SIGINT, signal_handler);
+	(free(aux), signal(SIGINT, signal_handler));
 	return (str);
 }
