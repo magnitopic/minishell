@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 18:13:42 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:32:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,18 @@ char			*check_param(char *argv);
 char			*find_command(char *argv);
 void			exec_one_builtin(t_command *input, t_files *files, t_list *com);
 int				read_infile(t_redi *read, int num, t_files *files, t_list *com);
-int				write_outfile(t_redi *write, int num, t_files *files, t_list *com);
+int				write_outfile(t_redi *wr, int num, t_files *files, t_list *com);
 int				exec_cmd(t_command *input, t_files *files, int flag);
 int				check_builtin(t_command *input);
 int				check_builtin_str(char *str);
 int				check_path(char *str, char **paths);
 char			**get_path(void);
+t_files			*execute_first(t_command *input, t_files *files, t_list *com);
+t_files			*execute_final(t_command *input, t_files *files, t_list *com);
+int				exec_child(t_command *in, t_files *fil, t_list *com, int *fd);
+t_files			*execute_pipes(t_command *in, t_files *fil, int i, t_list *com);
+t_files			*check_files(t_files *files, char *name, int flag);
+char			*find_name_com(char **paths, char **paux, char *au, char *argv);
 /* Parsing functions */
 t_tokens		*list_to_token(t_list *lst);
 t_list			*split_words(char *str);
@@ -89,5 +95,8 @@ void			bi_cd(t_command *com, int num);
 void			bi_env(t_command *com, int num);
 void			bi_export(t_command *input, int num);
 void			bi_unset(t_command *input, int num);
+void			print_export(char **env);
+int				invalid_value(char **env);
+char			*get_value_for_var(char *str);
 
 #endif

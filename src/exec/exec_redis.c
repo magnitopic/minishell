@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:20:15 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 15:24:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:21:07 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ int	read_infile(t_redi *read, int num, t_files *files, t_list *com)
 	return (fd);
 }
 
-int	write_outfile(t_redi *write, int num, t_files *files, t_list *com)
+int	write_outfile(t_redi *wr, int num, t_files *files, t_list *com)
 {
 	int	fd;
 
-	if (write->type == 1)
-		fd = open(write->content, O_TRUNC | O_WRONLY);
+	if (wr->type == 1)
+		fd = open(wr->content, O_TRUNC | O_WRONLY);
 	else
-		fd = open(write->content, O_APPEND | O_WRONLY);
+		fd = open(wr->content, O_APPEND | O_WRONLY);
 	if (fd < 0)
 	{
 		ft_printf("\033[0;31mPermission denied\033[0m\n");

@@ -6,22 +6,11 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 13:13:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:39:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static void	print_export(char **env)
-{
-	int		i;
-	char	**sort_env;
-
-	i = 0;
-	sort_env = ft_sort_matrix(env);
-	while (sort_env[i])
-		ft_printf("declare -x %s\n", sort_env[i++]);
-}
 
 static int	find_in_env(char **env, char ***env_cpy, char *str)
 {
@@ -52,17 +41,11 @@ static char	**change_env(char **env, char *str, enum e_export flag)
 	char	**new_env;
 	char	*var;
 	int		exists;
-	char	*aux;
 
 	new_env = ft_calloc(ft_get_matrix_size(env) + 2, sizeof(char *));
-	aux = ft_strchr(str, '=');
-	if (aux != 0)
-		var = ft_substr(str, 0, ft_strlen(str) - ft_strlen(aux));
-	else
-		var = str;
+	var = get_value_for_var(str);
 	exists = find_in_env(env, &new_env, var);
-	if (aux != 0)
-		free(var);
+	free(var);
 	if (exists == -1)
 	{
 		new_env[ft_get_matrix_size(env)] = ft_strdup(str);
@@ -110,11 +93,7 @@ void	bi_export(t_command *input, int num)
 		env = cpy_env(g_shell->env);
 		result = validate(args->content);
 		if (result == INVALID)
-		{
-			free_matrix(env);
-			ft_putstr_fd("\033[0;31mInvalid identifier\n\033[0m", 2);
-			flag = 1;
-		}
+			flag = invalid_value(env);
 		else
 		{
 			free_matrix(g_shell->env);

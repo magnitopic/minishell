@@ -6,21 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:58:31 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 15:29:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:44:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_list	*split_words(char *str)
-{
-	t_list	*list;
-	int		pos;
-	int		last_pos;
-
-	pos = 0;
-	last_pos = 0;
-	list = NULL;
+t_list	*add_to_list(t_list *list, char *str, int pos, int last_pos)
+{	
 	while (str[pos] != '\0')
 	{
 		if ((str[pos] == '>' || str[pos] == '<') && !check_flag(str, pos))
@@ -43,6 +36,19 @@ t_list	*split_words(char *str)
 		}
 		pos++;
 	}
+	return (list);
+}
+
+t_list	*split_words(char *str)
+{
+	t_list	*list;
+	int		pos;
+	int		last_pos;
+
+	pos = 0;
+	last_pos = 0;
+	list = NULL;
+	list = add_to_list(list, str, pos, last_pos);
 	(free(str), str = NULL);
 	return (list);
 }

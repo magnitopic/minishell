@@ -6,105 +6,11 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:27:28 by jsarabia          #+#    #+#             */
-/*   Updated: 2023/08/14 17:21:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:07:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-t_files	*execute_first(t_command *input, t_files *files, t_list *com)
-{
-	pipe(files->fd);
-	files->id[0] = fork();
-	if (files->id[0] == 0)
-	{
-		close(files->fd[0]);
-		if (input->redi && input->redi->type != 4)
-			files = create_files(input, files);
-		if (!files)
-			return (files);
-		files->command = find_command(input->comm);
-		files->arr = set_for_execve(files, input);
-		if (files->read->content)
-		{
-			read_infile(files->read, 1, files, com);
-			free(files->read->content);
-		}
-		files->read->content = NULL;
-		if (files->write->content)
-			write_outfile(files->write, 1, files, com);
-		else
-			(dup2(files->fd[1], STDOUT_FILENO), close(files->fd[1]));
-		exec_cmd(input, files, 1);
-	}
-	close(files->fd[1]);
-	return (files);
-}
-
-t_files	*execute_final(t_command *input, t_files *files, t_list *com)
-{
-	files->id[files->count - 1] = fork();
-	if (files->id[files->count - 1] == 0)
-	{
-		if (input->redi && input->redi->type != 4)
-			files = create_files(input, files);
-		if (!files)
-			return (NULL);
-		if (files->fd[0] != 0 && files->fd)
-			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
-		files->command = find_command(input->comm);
-		files->arr = set_for_execve(files, input);
-		if (files->read->content)
-		{
-			read_infile(files->read, 1, files, com);
-			free(files->read->content);
-		}
-		files->read->content = NULL;
-		if (files->write->content)
-			write_outfile(files->write, 1, files, com);
-		exec_cmd(input, files, 1);
-	}
-	close(files->fd[0]);
-	close(files->fd[1]);
-	return (files);
-}
-
-t_files	*execute_pipes(t_command *input, t_files *files, int i, t_list *com)
-{
-	int			*fd;
-
-	fd = ft_calloc(2, sizeof(int));
-	pipe(fd);
-	files->id[i] = fork();
-	if (files->id[i++] == 0)
-	{
-		close(fd[0]);
-		if (input->redi && input->redi->type != 4)
-			files = create_files(input, files);
-		if (!files)
-			return (files);
-		if (files->fd[0] != 0)
-			(dup2(files->fd[0], STDIN_FILENO), close(files->fd[0]));
-		files->command = find_command(input->comm);
-		files->arr = set_for_execve(files, input);
-		if (files->read->content)
-		{
-			read_infile(files->read, 1, files, com);
-			free(files->write->content);
-		}
-		files->read->content = NULL;
-		if (files->write->content)
-			write_outfile(files->write, 1, files, com);
-		else
-			(dup2(fd[1], STDOUT_FILENO), close(fd[1]));
-		exec_cmd(input, files, 1);
-	}
-	close(fd[1]);
-	close(files->fd[0]);
-	free(files->fd);
-	files->fd = fd;
-	return (files);
-}
 
 void	wait_function(t_files *files)
 {
@@ -134,17 +40,11 @@ void	wait_function(t_files *files)
 	signal(SIGINT, signal_handler);
 }
 
-void	exec(t_list *com, t_files *files)
+static void	exec_command_pipes(t_list *com, t_files *files, t_list *aux)
 {
-	t_list	*aux;
 	int		i;
 
 	i = 1;
-	aux = com;
-	files->fd = ft_calloc(2, sizeof(int));
-	files->write = ft_calloc(1, sizeof(t_redi));
-	files->read = ft_calloc(1, sizeof(t_redi));
-	files->count = ft_lstsize(com);
 	if ((!com->next && check_builtin(com->content)) || !com->content)
 		exec_one_builtin(com->content, files, aux);
 	else if (files->count == 1)
@@ -167,6 +67,18 @@ void	exec(t_list *com, t_files *files)
 		}
 		execute_final(com->content, files, aux);
 	}
+}
+
+void	exec(t_list *com, t_files *files)
+{
+	t_list	*aux;
+
+	aux = com;
+	files->fd = ft_calloc(2, sizeof(int));
+	files->write = ft_calloc(1, sizeof(t_redi));
+	files->read = ft_calloc(1, sizeof(t_redi));
+	files->count = ft_lstsize(com);
+	exec_command_pipes(com, files, aux);
 	if (!check_builtin(com->content) || files->count > 1)
 		wait_function(files);
 	there_doc();

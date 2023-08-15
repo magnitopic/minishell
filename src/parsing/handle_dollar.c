@@ -6,23 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 13:40:45 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/10 19:04:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:11:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-#include "../../include/minishell.h"
-
-static t_list	*find_name_vars(char *var)
+static t_list	*name_vars(char *var, int n, t_vars i, t_list *vars)
 {
-	t_vars	i;
-	int		n;
-	t_list	*vars;
-
-	n = 0;
-	i.len = 0;
-	vars = NULL;
 	while (var[n])
 	{
 		if (var[n] == '$' && var[n + 1] && (ft_isalpha(var[n + 1])
@@ -45,48 +36,51 @@ static t_list	*find_name_vars(char *var)
 	return (vars);
 }
 
-char	*get_var_value(char *name)
+static t_list	*find_name_vars(char *var)
 {
-	char	*line;
-	char	*temp;
-	char	**env;
-	int		y;
+	t_vars	i;
+	int		n;
+	t_list	*vars;
 
-	y = 0;
-	env = g_shell->env;
-	temp = ft_strjoin(name, "=");
-	while (env[y] != NULL && ft_strncmp(temp, env[y], ft_strlen(temp)) != 0)
-		y++;
-	free(temp);
-	if (!env[y])
-		return ("");
-	line = ft_calloc(ft_strlen(env[y]) - ft_strlen(name), sizeof(char));
-	if (!line)
-		ft_perror("malloc");
-	ft_strlcpy(line, env[y] + ft_strlen(name) + 1, \
-		ft_strlen(env[y]) - ft_strlen(name));
-	return (line);
+	n = 0;
+	i.len = 0;
+	vars = NULL;
+	vars = name_vars(var, n, i, vars);
+	return (vars);
 }
 
-int	find_dollar_pos(char *str, int pos)
+int	check_path_status(t_vars v, char **command, t_list *vars, char **aux)
 {
-	if (!pos)
-		pos = 0;
-	while (str[pos])
+	if (ft_strlen(v.path) < 1)
 	{
-		if (str[pos] == '$')
-			return (pos);
-		pos++;
+		v.other_aux = ft_substr(*command, v.i + 1 + ft_strlen(vars->content), \
+			ft_strlen(*command) - ft_strlen(vars->content) \
+			+ ft_strlen(v.path));
+		*aux = ft_strjoin(v.temp, v.other_aux);
+		free(v.temp);
+		free(*command);
+		free(v.other_aux);
+		return (1);
 	}
-	return (pos);
+	v.other_aux = ft_strjoin(v.temp, v.path);
+	free(v.temp);
+	v.temp = ft_substr(*command, v.i + 1 + ft_strlen(vars->content),
+			ft_strlen(*command) - ft_strlen(vars->content)
+			+ ft_strlen(v.path));
+	v.str = ft_strjoin(v.other_aux, v.temp);
+	free(v.other_aux);
+	free(*command);
+	*command = v.str;
+	v.i += ft_strlen(vars->content);
+	free(v.temp);
+	return (0);
 }
 
 static char	*get_string(char *command, t_vars v, t_list *vars)
 {
-	int		i;
 	char	*aux;
 
-	i = 0;
+	v.i = 0;
 	while (vars)
 	{
 		if (!ft_strcmp(vars->content, "?"))
@@ -96,37 +90,14 @@ static char	*get_string(char *command, t_vars v, t_list *vars)
 			return (v.path);
 		}
 		v.path = get_var_value(vars->content);
-		i = find_dollar_pos(command, i);
-		v.temp = ft_substr(command, 0, i);
-		if (ft_strlen(v.path) < 1)
-		{
-			v.other_aux = ft_substr(command, i + 1 + ft_strlen(vars->content), \
-				ft_strlen(command) - ft_strlen(vars->content) \
-				+ ft_strlen(v.path));
-			aux = ft_strjoin(v.temp, v.other_aux);
-			free(v.temp);
-			free(command);
-			free(v.other_aux);
+		v.i = find_dollar_pos(command, v.i);
+		v.temp = ft_substr(command, 0, v.i);
+		if (check_path_status(v, &command, vars, &aux))
 			return (aux);
-		}
-		else
-		{
-			v.other_aux = ft_strjoin(v.temp, v.path);
-			free(v.temp);
-			v.temp = ft_substr(command, i + 1 + ft_strlen(vars->content),
-					ft_strlen(command) - ft_strlen(vars->content)
-					+ ft_strlen(v.path));
-			v.str = ft_strjoin(v.other_aux, v.temp);
-			free(v.other_aux);
-			free(command);
-			command = v.str;
-			i += ft_strlen(vars->content);
-			free(v.temp);
-		}
-		vars = vars->next;
 		free(v.path);
+		vars = vars->next;
 	}
-	return (v.str);
+	return (command);
 }
 
 char	*add_values(char *command)

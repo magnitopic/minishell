@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/09 19:58:03 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:24:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ t_tokens	*expand_values(t_list *args)
 			aux = aux->next;
 			str_aux = ft_strtrim(aux->content, " 	");
 		}
-		quote_split(str_aux, &splitted);
-		parse_phrase(&splitted);
+		(quote_split(str_aux, &splitted), parse_phrase(&splitted));
 		aux->flag = splitted->flag;
 		aux->content = join_phrases(splitted);
 		free_tokens(&splitted);

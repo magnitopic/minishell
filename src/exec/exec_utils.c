@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 12:21:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:32:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,9 @@ static t_files	*handle_file(char *name, int flag, t_files *files)
 {
 	if (flag == 1 || flag == 3)
 	{
-		if (access(name, F_OK))
-			open(name, O_CREAT, 0644);
-		if (flag == 1)
-			open(name, O_TRUNC);
-		if (open(name, O_WRONLY) < 0)
-		{
-			g_shell->exit_stat = 1;
-			perror("MiniShell:");
+		files = check_files(files, name, flag);
+		if (!files)
 			return (NULL);
-		}
-		if (files->write->content)
-			free(files->write->content);
-		files->write->content = ft_substr(name, 0, ft_strlen(name));
-		files->write->type = flag;
 	}
 	else if (flag == 0 || flag == 2)
 	{
@@ -116,36 +105,18 @@ char	**get_paths(void)
 char	*find_command(char *argv)
 {
 	char	*str;
-	char	*temp;
 	char	*aux;
 	char	**paths_aux;
 	char	**paths;
 
 	paths = get_paths();
+	aux = NULL;
 	paths_aux = paths;
 	if (access(argv, F_OK) == 0 && !check_builtin_str(argv)
 		&& check_path(argv, paths))
 		return (argv);
 	if (paths == NULL)
 		return (NULL);
-	while (*paths != NULL)
-	{
-		if (access(argv, F_OK) == 0 && argv[0] == '/')
-			return (free_matrix(paths_aux), argv);
-		aux = ft_strjoin(*paths, "/");
-		temp = ft_strjoin(aux, argv);
-		if (access(temp, F_OK) == 0)
-		{
-			str = ft_substr(temp, 0, ft_strlen(temp));
-			free(temp);
-			free(aux);
-			free_matrix(paths_aux);
-			return (str);
-		}
-		paths++;
-		free(temp);
-		free(aux);
-	}
-	free_matrix(paths_aux);
-	return (NULL);
+	str = find_name_com(paths, paths_aux, aux, argv);
+	return (str);
 }
