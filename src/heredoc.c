@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 16:00:24 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:43:18 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	*heredoc(char *key_word)
 	char	*change;
 	char	*aux;
 
+	signal(SIGINT, SIG_IGN);
 	str = ft_calloc(1, 1);
 	while (1)
 	{
@@ -90,5 +91,6 @@ char	*heredoc(char *key_word)
 	aux = str;
 	str = create_file(str);
 	free(aux);
+	signal(SIGINT, signal_handler);
 	return (str);
 }
