@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:09 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 12:06:58 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:23:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,29 @@ static void	update_pwd(void)
 	}
 }
 
+char	*get_route(char *str)
+{
+	char	*aux;
+	char	*pwd;
+
+	if (!access(str, F_OK))
+		return (ft_strdup(str));
+	aux = ft_strjoin(g_shell->pwd, "/");
+	pwd = ft_strjoin(aux, str);
+	free(aux);
+	return (pwd);
+}
+
 void	bi_cd(t_command *com, int num)
 {
 	t_list	*args;
 	char	*pwd;
-	char	*aux;
 	int		stat;
 
 	args = com->args;
 	if (!args)
 		return ;
-	aux = ft_strjoin(g_shell->pwd, "/");
-	pwd = ft_strjoin(aux, args->content);
+	pwd = get_route(args->content);
 	stat = chdir(pwd);
 	if (!stat)
 	{
@@ -82,7 +93,6 @@ void	bi_cd(t_command *com, int num)
 		g_shell->exit_stat = 1;
 		perror("cd");
 	}
-	free(aux);
 	free(pwd);
 	if (num != 0)
 		exit(EXIT_SUCCESS);
