@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 13:24:36 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 13:39:01 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:48:36 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,18 @@ char	*get_value_for_var(char *str)
 	else
 		var = ft_strdup(str);
 	return (var);
+}
+
+int	check_empty(t_list *args)
+{
+	t_list	*aux;
+
+	aux = args;
+	while (aux)
+	{
+		if (ft_strlen(aux->content) > 0)
+			return (0);
+		aux = aux->next;
+	}
+	return (1);
 }

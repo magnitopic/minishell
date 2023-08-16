@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:33:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 13:39:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:53:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static char	**change_env(char **env, char *str, enum e_export flag)
 	char	*var;
 	int		exists;
 
+	if (ft_strlen(str) < 1)
+		return (env);
 	new_env = ft_calloc(ft_get_matrix_size(env) + 2, sizeof(char *));
 	var = get_value_for_var(str);
 	exists = find_in_env(env, &new_env, var);
@@ -86,7 +88,7 @@ void	bi_export(t_command *input, int num)
 
 	flag = 0;
 	args = input->args;
-	if (ft_lstsize(input->args) == 0)
+	if (ft_lstsize(input->args) == 0 || check_empty(args))
 		return (print_export(g_shell->env));
 	while (args)
 	{

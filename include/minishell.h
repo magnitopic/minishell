@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 15:32:19 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:47:03 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ t_tokens		*ft_token_new(char *str, int flag);
 t_tokens		*expand_values(t_list *old_args);
 void			parsing(char *input);
 int				check_redis(t_list *commands);
+int				check_empty(t_list *args);
 int				handle_redirects(char *str, t_redi **redi, t_tokens **tokens);
 /* BuiltIn Functions */
 void			bi_echo(t_command *com, int flag);
