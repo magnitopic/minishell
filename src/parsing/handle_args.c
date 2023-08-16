@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 15:24:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/16 13:40:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,24 @@ static void	quote_split(char *str, t_tokens **splitted)
 	free(str);
 }
 
-static void	parse_phrase(t_tokens **list)
+static int	parse_phrase(t_tokens **list)
 {
 	t_tokens	*aux;
+	int			flag;
 	char		*str_aux;
 
 	aux = *list;
+	flag = 0;
 	while (aux)
 	{
 		str_aux = aux->content;
 		if (ft_strchr(str_aux, '\'') || ft_strchr(str_aux, '"'))
-			aux->flag = 1;
+			flag = 1;
 		aux->content = split_quotes(aux->content);
 		free(str_aux);
 		aux = aux->next;
 	}
+	return (flag);
 }
 
 static char	*join_phrases(t_tokens *list)
@@ -95,8 +98,8 @@ t_tokens	*expand_values(t_list *args)
 			aux = aux->next;
 			str_aux = ft_strtrim(aux->content, " 	");
 		}
-		(quote_split(str_aux, &splitted), parse_phrase(&splitted));
-		aux->flag = splitted->flag;
+		quote_split(str_aux, &splitted);
+		aux->flag = parse_phrase(&splitted);
 		aux->content = join_phrases(splitted);
 		free_tokens(&splitted);
 		aux = aux->next;
