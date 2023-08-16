@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 18:13:02 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/16 12:26:14 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	bi_exit(t_command *com, int num)
 		g_shell->exit_stat = 1;
 	}
 	else if (com->args && ft_str_isdigit(com->args->content))
-		exit_program(ft_atoi(com->args->content));
+		exit_program((unsigned int)ft_atoi(com->args->content));
 	else
 		exit_program(EXIT_SUCCESS);
 	if (num != 0)
