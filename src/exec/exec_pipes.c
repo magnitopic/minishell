@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 15:07:47 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 15:14:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/17 16:19:43 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_files	*execute_first(t_command *in, t_files *fil, t_list *com)
 	fil->id[0] = fork();
 	if (fil->id[0] == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		close(fil->fd[0]);
 		if (in->redi && in->redi->type != 4)
 			fil = create_files(in, fil);
@@ -26,16 +27,14 @@ t_files	*execute_first(t_command *in, t_files *fil, t_list *com)
 		fil->command = find_command(in->comm);
 		fil->arr = set_for_execve(fil, in);
 		if (fil->read->content)
-		{
-			read_infile(fil->read, 1, fil, com);
-			free(fil->read->content);
-		}
+			(read_infile(fil->read, 1, fil, com), free(fil->read->content));
 		fil->read->content = NULL;
 		if (fil->write->content)
 			write_outfile(fil->write, 1, fil, com);
 		else
 			(dup2(fil->fd[1], STDOUT_FILENO), close(fil->fd[1]));
 		exec_cmd(in, fil, 1);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	close(fil->fd[1]);
 	return (fil);
@@ -46,6 +45,7 @@ t_files	*execute_final(t_command *in, t_files *fil, t_list *com)
 	fil->id[fil->count - 1] = fork();
 	if (fil->id[fil->count - 1] == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (in->redi && in->redi->type != 4)
 			fil = create_files(in, fil);
 		if (!fil)
@@ -55,14 +55,12 @@ t_files	*execute_final(t_command *in, t_files *fil, t_list *com)
 		fil->command = find_command(in->comm);
 		fil->arr = set_for_execve(fil, in);
 		if (fil->read->content)
-		{
-			read_infile(fil->read, 1, fil, com);
-			free(fil->read->content);
-		}
+			(read_infile(fil->read, 1, fil, com), free(fil->read->content));
 		fil->read->content = NULL;
 		if (fil->write->content)
 			write_outfile(fil->write, 1, fil, com);
 		exec_cmd(in, fil, 1);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	close(fil->fd[0]);
 	close(fil->fd[1]);
@@ -81,10 +79,7 @@ int	exec_pipes_child(t_command *in, t_files *fil, t_list *com, int *fd)
 	fil->command = find_command(in->comm);
 	fil->arr = set_for_execve(fil, in);
 	if (fil->read->content)
-	{
-		read_infile(fil->read, 1, fil, com);
-		free(fil->write->content);
-	}
+		(read_infile(fil->read, 1, fil, com), free(fil->write->content));
 	fil->read->content = NULL;
 	if (fil->write->content)
 		write_outfile(fil->write, 1, fil, com);
