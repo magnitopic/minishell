@@ -8,6 +8,15 @@ You will learn a lot about processes and file descriptors.
   <img width="324" alt="Screen Shot 2023-08-17 at 7 36 12 PM" src="https://github.com/magnitopic/minishell/assets/21156058/c24b7b53-724a-441e-bcb0-efebabc36b1c">
 </div>
 
+# Team work
+
+This project was done alongside `Javier Sarabia`(JaviBurn).
+Check him and his work out at these links:
+
+-  [Linkedin](https://www.linkedin.com/in/javier-sarabia-224580195)
+-  [GitHub](https://github.com/javiburn)
+-  [42Intra](https://profile.intra.42.fr/users/jsarabia)
+
 # Program
 
 ## Initial installation
