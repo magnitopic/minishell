@@ -25,13 +25,18 @@ make
 ./minishell
 ```
 
+## Execution with no env
+
+```bash
+env -i ./minishell
+```
+
 # Unsupported features
 
 The Minishell project attempts to function very similar to Bash but some features are not required or are from the bonus part.
 
-Unclosed quotes, or special characters that are not required like `\`(backslash) or `;`(semicolon).
+Unclosed quotes, or special characters that are not required like `\`(backslash), `;`(semicolon) or `!!`(bang bang).
 
-`&&` and `||` with parenthesis for priorities. `*`(wildcards)
+`&&` and `||` with parenthesis for priorities as well as `*`(wildcards) ar features from the bonus part.
 
 The only implemented builtins are `echo`, `cd`, `pwd`, `export`, `unset`, `env` and `exit`
-
