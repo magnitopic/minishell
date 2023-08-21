@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:36:00 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/16 13:40:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:07:25 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	quote_split(char *str, t_tokens **splitted)
 {
-	char			len;
+	int				len;
 	int				i;
 	enum e_quotes	flag;
 	enum e_quotes	old_flag;
