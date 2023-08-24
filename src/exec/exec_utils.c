@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:27:48 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 15:32:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:27:03 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ char	*find_command(char *argv)
 	paths = get_paths();
 	aux = NULL;
 	paths_aux = paths;
+	if (argv[0] == '.' && (argv[1] == '.' || argv[1] == '/'))
+		return (argv);
 	if (access(argv, F_OK) == 0 && !check_builtin_str(argv)
 		&& check_path(argv, paths))
 		return (argv);
