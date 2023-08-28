@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 18:09:15 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/28 20:01:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ void	ft_perror(char *message)
 	exit(EXIT_FAILURE);
 }
 
-void	set_prompt(void)
+char	*set_prompt(void)
 {
 	char	*aux;
+	char	*result;
 
-	g_shell->prompt = ft_strjoin(PROMPT1, g_shell->pwd);
-	aux = g_shell->prompt;
-	g_shell->prompt = ft_strjoin(aux, PROMPT2);
+	result = ft_strjoin(PROMPT1, g_shell->pwd);
+	aux = result;
+	result = ft_strjoin(result, PROMPT2);
 	free(aux);
+	return (result);
 }
 
 char	**cpy_env(char **env)

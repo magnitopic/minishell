@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/18 13:03:25 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/28 19:40:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_shell	*g_shell;
 
 /* Functions */
 
-void			set_prompt(void);
+char			*set_prompt(void);
 char			**cpy_env(char **env);
 void			signal_handler(int sig);
 void			ft_perror(char *message);

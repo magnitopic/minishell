@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/14 18:13:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/28 19:59:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ static void	user_input(int in, int out)
 {
 	char	*input;
 	char	*aux;
+	char	*prompt;
 
-	set_prompt();
+	prompt = set_prompt();
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
-	input = readline(g_shell->prompt);
+	input = readline(prompt);
 	aux = input;
 	input = ft_strtrim(input, " \n\t\r\v\f");
 	free(aux);
@@ -37,7 +38,7 @@ static void	user_input(int in, int out)
 		parsing(input);
 	}
 	free(input);
-	free(g_shell->prompt);
+	free(prompt);
 }
 
 int	main(int argc, char **argv, char **env)

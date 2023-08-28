@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:36:37 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/04 12:19:50 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/28 20:00:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
  */
 typedef struct s_shell
 {
-	char	*prompt;
 	int		exit_stat;
 	char	**env;
 	char	*pwd;
