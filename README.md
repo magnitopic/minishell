@@ -46,6 +46,6 @@ The Minishell project attempts to function very similar to Bash but some feature
 
 Unclosed quotes, or special characters that are not required like `\`(backslash), `;`(semicolon) or `!!`(bang bang).
 
-`&&` and `||` with parenthesis for priorities as well as `*`(wildcards) ar features from the bonus part.
+`&&` and `||` with parenthesis for priorities as well as `*`(wildcards) are features from the bonus part.
 
 The only implemented builtins are `echo`, `cd`, `pwd`, `export`, `unset`, `env` and `exit`
