@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/16 12:36:53 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/28 20:40:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ void	there_doc(void)
 	}
 }
 
+static char	*get_heredoc_prompt(char *key_word)
+{
+	char	*aux;
+	char	*result;
+
+	aux = ft_strjoin(HEREDOC_PROMPT1, key_word);
+	result = ft_strjoin(aux, HEREDOC_PROMPT2);
+	free(aux);
+	return (result);
+}
+
 /**
  * Creates the temp files that heredoc needs to function. /tmp/.heredoc_*
 */
@@ -65,31 +76,42 @@ static char	*create_file(char *str)
 	return (file_name);
 }
 
-char	*heredoc(char *key_word)
+static char	*exec_heredoc(char *key_word)
 {
 	char	*input;
 	char	*str;
-	char	*change;
 	char	*aux;
+	char	*prompt;
 
-	signal(SIGINT, SIG_IGN);
 	str = ft_calloc(1, 1);
+	prompt = get_heredoc_prompt(key_word);
 	while (1)
 	{
-		ft_printf("\033[0;34m→ heredoc\033[0m:\033[0;33m%s\033[0m$ ", key_word);
-		input = get_next_line(STDIN_FILENO);
-		change = ft_strtrim(input, "\n");
-		if (change == NULL || ft_strcmp(change, key_word) == 0)
-		{
-			(free(change), free(input));
+		input = readline(prompt);
+		if (input == NULL || ft_strcmp(input, key_word) == 0)
 			break ;
-		}
-		aux = str;
-		str = ft_strjoin(str, input);
-		(free(aux), free(change), free(input));
+		aux = ft_strjoin(str, input);
+		free(str);
+		str = ft_strjoin(aux, "\n");
+		(free(aux), free(input));
 	}
 	aux = str;
 	str = create_file(str);
-	(free(aux), signal(SIGINT, signal_handler));
+	free(prompt);
+	free(input);
+	free(aux);
+	return (str);
+}
+
+char	*heredoc(char *key_word)
+{
+	char	*str;
+	int		id[2];
+
+	id = fork();
+	if ()
+	//signal(SIGINT, SIG_DFL);
+	
+	//signal(SIGINT, signal_handler);
 	return (str);
 }
