@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:32:55 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/29 15:37:04 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:19:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,4 @@ char	**cpy_env(char **env)
 	while (++i < len)
 		new_env[i] = ft_strdup(env[i]);
 	return (new_env);
-}
-
-char	*get_heredoc_prompt(char *key_word)
-{
-	char	*aux;
-	char	*result;
-
-	aux = ft_strjoin(HEREDOC_PROMPT1, key_word);
-	result = ft_strjoin(aux, HEREDOC_PROMPT2);
-	free(aux);
-	return (result);
 }

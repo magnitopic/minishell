@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 18:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/29 15:39:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:20:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void			exit_program(int err_code);
 void			free_commands(t_list **cmd);
 void			free_tokens(t_tokens **list);
 int				check_invalid_redirects(char *str);
-char			*get_heredoc_prompt(char *key_word);
 char			**create_arrays(char **comms, char *name);
 char			**set_for_execve(t_files *files, t_command *input);
 void			ft_newcommand(t_redi **list, void *cont, enum e_redirect type);
