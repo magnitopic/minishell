@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:20:52 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/15 16:23:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:57:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	handle_redirects(char *str, t_redi **redi, t_tokens **tokens)
 		str = heredoc(str);
 		heredoc_flag = 1;
 	}
-	if (flag != 5)
+	if (flag != 5 && str)
 		ft_newcommand(redi, ft_strdup(str), flag);
 	if (heredoc_flag)
 		free(str);

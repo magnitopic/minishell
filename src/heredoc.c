@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 12:22:26 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/28 20:40:19 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:02:17 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,6 @@ void	there_doc(void)
 		if (i == -1)
 			break ;
 	}
-}
-
-static char	*get_heredoc_prompt(char *key_word)
-{
-	char	*aux;
-	char	*result;
-
-	aux = ft_strjoin(HEREDOC_PROMPT1, key_word);
-	result = ft_strjoin(aux, HEREDOC_PROMPT2);
-	free(aux);
-	return (result);
 }
 
 /**
@@ -106,12 +95,27 @@ static char	*exec_heredoc(char *key_word)
 char	*heredoc(char *key_word)
 {
 	char	*str;
-	int		id[2];
+	pid_t	id;
+	int		pipefd[2];
 
+	pipe(pipefd);
 	id = fork();
-	if ()
-	//signal(SIGINT, SIG_DFL);
-	
-	//signal(SIGINT, signal_handler);
+	if (id == 0)
+	{
+		close(pipefd[0]);
+		signal(SIGINT, SIG_DFL);
+		str = exec_heredoc(key_word);
+		ft_putstr_fd(str, pipefd[1]);
+		close(pipefd[1]);
+		exit(EXIT_SUCCESS);
+	}
+	close(pipefd[1]);
+	signal(SIGINT, SIG_IGN);
+	wait(NULL);
+	str = get_next_line(pipefd[0]);
+	close(pipefd[0]);
+	signal(SIGINT, signal_handler);
+	if (str == NULL)
+		str = ft_strdup("/dev/null");
 	return (str);
 }
