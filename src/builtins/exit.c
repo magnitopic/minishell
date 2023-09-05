@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:35:44 by alaparic          #+#    #+#             */
-/*   Updated: 2023/08/17 17:06:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:44:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	bi_exit(t_command *com, int num)
 		}
 	}
 	else
-		exit_program(EXIT_SUCCESS);
+		exit_program(g_shell->exit_stat);
 	if (num != 0)
 		exit(EXIT_SUCCESS);
 }
